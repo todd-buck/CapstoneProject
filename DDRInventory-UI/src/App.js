@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import NavBar from './components/navbar.js';
 
 export default class App extends Component {
     static displayName = App.name;
@@ -44,6 +45,7 @@ export default class App extends Component {
 
         return (
             <div>
+                <NavBar />
                 <h1 id="tabelLabel" >Weather forecast</h1>
                 <p>This component demonstrates fetching data from the server.</p>
                 {contents}

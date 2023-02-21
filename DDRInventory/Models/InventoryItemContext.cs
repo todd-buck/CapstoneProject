@@ -2,6 +2,7 @@
 using Microsoft.OpenApi.Writers;
 using System.Data.Common;
 using System.Data.SQLite;
+using System.Xml.Linq;
 
 namespace DDRInventory.Models
 {
@@ -11,7 +12,12 @@ namespace DDRInventory.Models
         {
             Database catalog = new Database();
             SQLiteCommand insertItemCommand = catalog._connection.CreateCommand();
-            insertItemCommand.CommandText = "INSERT INTO items (id, name, quantity, price, unit) VALUES(" + newItem.ToString() + "); ";
+            insertItemCommand.CommandText = "INSERT INTO items (id, name, quantity, price, unit) VALUES($id, $name, $quantity, $price, $unit); ";
+            insertItemCommand.Parameters.AddWithValue("$id", newItem.Id);
+            insertItemCommand.Parameters.AddWithValue("$name", newItem.Name);
+            insertItemCommand.Parameters.AddWithValue("$quantity", newItem.QuantityOnHand);
+            insertItemCommand.Parameters.AddWithValue("$price", newItem.Price);
+            insertItemCommand.Parameters.AddWithValue("$unit", newItem.Unit);
             Console.WriteLine($"Adding item '{newItem.Name}' to the database");
             insertItemCommand.ExecuteNonQuery();
             catalog.Close();
@@ -47,7 +53,8 @@ namespace DDRInventory.Models
             }
             Database catalog = new Database();
             SQLiteCommand insertItemCommand = catalog._connection.CreateCommand();
-            insertItemCommand.CommandText = $"UPDATE items SET {field} = '{value}' WHERE id = {id};";
+            insertItemCommand.CommandText = $"UPDATE items SET {field} = $value WHERE id = {id};";
+            insertItemCommand.Parameters.AddWithValue("$value", value);
             Console.WriteLine($"Updating item id {id}'s {field} to {value}");
             try
             {
@@ -56,6 +63,7 @@ namespace DDRInventory.Models
             }
             catch(SQLiteException e)
             {
+                Console.WriteLine(e.Message);
                 return false;
             }
         }

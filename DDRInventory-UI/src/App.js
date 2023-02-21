@@ -1,61 +1,35 @@
-import React, { Component } from 'react';
-import NavBar from './components/navbar.js';
+import { useState } from "react";
+import { Routes, Route } from 'react-router-dom';
 
-export default class App extends Component {
-    static displayName = App.name;
+import Topbar from './scenes/global/Topbar';
+import Sidebar from "./scenes/global/Sidebar";
 
-    constructor(props) {
-        super(props);
-        this.state = { forecasts: [], loading: true };
-    }
+import Dashboard from "./scenes/dashboard";
 
-    componentDidMount() {
-        this.populateWeatherData();
-    }
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { ColorModeContext, useMode } from './theme';
 
-    static renderForecastsTable(forecasts) {
-        return (
-            <table className='table table-striped' aria-labelledby="tabelLabel">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Temp. (C)</th>
-                        <th>Temp. (F)</th>
-                        <th>Summary</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {forecasts.map(forecast =>
-                        <tr key={forecast.date}>
-                            <td>{forecast.date}</td>
-                            <td>{forecast.temperatureC}</td>
-                            <td>{forecast.temperatureF}</td>
-                            <td>{forecast.summary}</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        );
-    }
 
-    render() {
-        let contents = this.state.loading
-            ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-            : App.renderForecastsTable(this.state.forecasts);
+function App() {
+    const [theme, colorMode] = useMode();
+    const [isSidebar, setIsSidebar] = useState(true);
 
-        return (
-            <div>
-                <NavBar />
-                <h1 id="tabelLabel" >Weather forecast</h1>
-                <p>This component demonstrates fetching data from the server.</p>
-                {contents}
-            </div>
-        );
-    }
-
-    async populateWeatherData() {
-        const response = await fetch('weatherforecast');
-        const data = await response.json();
-        this.setState({ forecasts: data, loading: false });
-    }
+    return (
+        <ColorModeContext.Provider value={colorMode}>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <div className="app">
+                    <Sidebar isSidebar={isSidebar} />
+                    <main className="content">
+                        <Topbar setIsSidebar={setIsSidebar} />
+                        <Routes>
+                            <Route path="/" element={ <Dashboard />} />
+                        </Routes>
+                    </main>
+                </div>
+            </ThemeProvider>
+        </ColorModeContext.Provider>
+    )
 }
+
+export default App;

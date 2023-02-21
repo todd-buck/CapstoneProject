@@ -4,6 +4,7 @@ Credits to Todd Buck, Patrick Vest, Caroline Lewis, Jared Patterson, and Wade
 Pelham for their work on the project.
 
 Github commit messages should follow the following format (roughly):
+	
 	Title
 	Brief Summary (15 words max)
 

@@ -1,0 +1,200 @@
+﻿Product Category,Product Subcategory,Product Name,Product ID,Units of Measure,Unit Price,Par Level,On Hand
+Drink,Non-Alcoholic,Tonic Water,1,case,$20.00 ,50,35
+Ingredient,Fruit,Green Olives,2,jar,$16.00 ,30,20
+Cleaning Product,Applicant,Towels,3,feet,$10.00 ,20,17
+Miscellaneous,Non-Food-Related,Straws,4,each,$1.00 ,1000,300
+Drink,Non-Alcoholic,Soda Ginger Ale,5,oz,$69.00,363,478
+Ingredient,Fruit,Cherries,6,lb,$10.00,30,59
+Ingredient,Condiment,Sriracha,7,bottle,$18.00,69,102
+Ingredient,Condiment,Hot Sauce,8,can,$54.00,487,33
+Miscellaneous,Food-Related,Balsamic Glaze,9,jug,$20.00,380,172
+Miscellaneous,Food-Related,Truffle Oil,10,bag,$68.00,136,317
+Ingredient,Fruit,Tabasco Peppers in Vinegar,11,roll,$55.00,366,401
+Drink,Alcoholic,Bloody Mary Mix,12,pack,$81.00,128,279
+Drink,Non-Alcoholic,Apple Juice,13,ml,$71.00,486,136
+Drink,Alcoholic,Apple Cider,14,liter,$65.00,143,117
+Drink,Non-Alcoholic,Cranberry Juice,15,case,$97.00,401,236
+Miscellaneous,Food-Related,Olive Oil,16,jar,$86.00,366,285
+Miscellaneous,Food-Related,Honey Clover Jug,17,feet,$63.00,305,195
+Miscellaneous,Non-Food-Related,Pan Coating Saute & Grill,18,each,$86.00,216,461
+Ingredient,Condiment,Dressing Balsamic,19,oz,$91.00,149,92
+Ingredient,Meat,Prime Ribeye Loin,20,lb,$93.00,353,101
+Ingredient,Condiment,Dressing Creamy Caesar,21,bottle,$91.00,139,119
+Ingredient,Condiment,Sauce Hot,22,can,$98.00,250,357
+Miscellaneous,Food-Related,Wine Cooking Sauterne,23,jug,$37.00,35,248
+Ingredient,Condiment,Worcestershire Sauce,24,bag,$89.00,139,153
+Miscellaneous,Food-Related,Distilled White Vinegar,25,roll,$85.00,273,324
+Miscellaneous,Food-Related,Champagne Vinegar,26,pack,$30.00,52,292
+Ingredient,Condiment,Dijon Mustard,27,ml,$61.00,97,331
+Miscellaneous,Food-Related,Pure Sesame Oil,28,liter,$88.00,423,7
+Ingredient,Condiment,Bbq Sauce,29,case,$11.00,141,253
+Ingredient,Condiment,Sauce Bbq Carolina Original,30,jar,$98.00,380,170
+Miscellaneous,Food-Related,Canola Oil,31,feet,$42.00,482,51
+Miscellaneous,Food-Related,Seasoning Montreal Steak No MSG,32,each,$19.00,278,38
+Ingredient,Spice,Parsley Flakes,33,oz,$40.00,320,7
+Ingredient,Vegetable,Potato Scalloped Casserole,34,lb,$57.00,5,447
+Miscellaneous,Food-Related,Crouton Cube Sm Seasoned,35,bottle,$36.00,85,330
+Ingredient,Spice,Blackened Seasoning (Magic),36,can,$59.00,384,451
+Ingredient,Spice,Cinnamon Ground,37,jug,$81.00,331,248
+Ingredient,Vegetable,Grits (Pouch),38,bag,$91.00,329,461
+Miscellaneous,Food-Related,Cornbread Mix,39,roll,$90.00,108,424
+Ingredient,Spice,Seasoning Taco Mix,40,pack,$39.00,281,277
+Ingredient,Spice,Ranch Dressing Mix,41,ml,$79.00,377,476
+Miscellaneous,Food-Related,Sugar (Light Brown),42,liter,$15.00,171,79
+Miscellaneous,Food-Related,Graham Cracker (Crumbs),43,case,$15.00,216,27
+Miscellaneous,Food-Related,Rice (Arborio),44,jar,$68.00,396,67
+Miscellaneous,Food-Related,White Pepper Gravy Mix,45,feet,$79.00,185,229
+Miscellaneous,Food-Related,Brown Country Gravy,46,each,$16.00,163,52
+Ingredient,Fruit,Red pepper (Strips),47,oz,$27.00,402,62
+Ingredient,Fruit,Pimiento (Diced),48,lb,$12.00,244,0
+Miscellaneous,Food-Related,Baking Soda,49,bottle,$41.00,420,339
+Miscellaneous,Food-Related,Baking Powder,50,can,$36.00,86,80
+Ingredient,Spice,Coarse Salt,51,jug,$40.00,132,167
+Miscellaneous,Food-Related,Cocoa Butterfat,52,bag,$10.00,60,278
+Miscellaneous,Food-Related,"Flour (H&R, Bleached)",53,roll,$70.00,197,376
+Ingredient,Fruit,Raisin (Seedless),54,pack,$44.00,45,423
+Miscellaneous,Food-Related,Tortilla (Flour),55,ml,$84.00,364,209
+Miscellaneous,Food-Related,Flour Tortilla 6,56,liter,$32.00,265,441
+Miscellaneous,Food-Related,Fettucini 10 (Assoluti),57,case,$15.00,449,232
+Miscellaneous,Food-Related,Cavatappi Pasta (Assoluti),58,jar,$46.00,80,431
+Miscellaneous,Food-Related,Gravy Mix Au Jus INST,59,feet,$3.00,427,18
+Ingredient,Vegetable,Black Eyed Peas,60,each,$38.00,315,143
+Miscellaneous,Food-Related,Cracker (Variety Pack),61,oz,$31.00,132,203
+Miscellaneous,Food-Related,Rice (Long Grain Parboiled Cube),62,lb,$82.00,33,169
+Miscellaneous,Food-Related,Chicken Breading,63,bottle,$8.00,35,333
+Miscellaneous,Food-Related,Seafood Breading,64,can,$87.00,464,316
+Miscellaneous,Non-Food-Related,Zatarains Fish Breeding 5lb Bag,65,jug,$59.00,376,477
+Ingredient,Spice,Oregano Leaves,66,bag,$36.00,484,275
+Miscellaneous,Food-Related,Saltine Cracker,67,roll,$67.00,3,418
+Miscellaneous,Non-Food-Related,Foil Sheet (12x10.75),68,pack,$82.00,71,358
+Miscellaneous,Non-Food-Related,Foil 18,69,ml,$64.00,279,198
+Miscellaneous,Non-Food-Related,Register Paper (Thermal),70,liter,$10.00,235,414
+Miscellaneous,Non-Food-Related,BOH 2 Ply Register Paper,71,case,$79.00,360,43
+Miscellaneous,Non-Food-Related,FOH Register Paper 1 Ply,72,jar,$7.00,216,233
+Miscellaneous,Non-Food-Related,Container (Foam 9x9x3),73,feet,$38.00,429,409
+Miscellaneous,Non-Food-Related,Container (Foam 9x6x3),74,each,$51.00,1,363
+Miscellaneous,Non-Food-Related,Straw 8.5,75,oz,$72.00,314,213
+Miscellaneous,Non-Food-Related,Straws (Unwrapped),76,lb,$82.00,219,467
+Miscellaneous,Non-Food-Related,Bev Napkins (Black),77,bottle,$16.00,240,318
+Miscellaneous,Non-Food-Related,Plastic Lid,78,can,$71.00,83,418
+Miscellaneous,Non-Food-Related,Ice Bags,79,jug,$33.00,46,127
+Miscellaneous,Non-Food-Related,"Cup (16oz, Foam)",80,bag,$50.00,453,225
+Ingredient,Condiment,Mayo (Packets),81,roll,$22.00,335,486
+Ingredient,Condiment,Dressing Honey Mustard Cup,82,pack,$71.00,54,346
+Ingredient,Condiment,Ketchup (Packets),83,ml,$19.00,105,165
+Ingredient,Condiment,Dressing Ranch Cup,84,liter,$92.00,48,266
+Miscellaneous,Non-Food-Related,Skewer Bamboo 6,85,case,$25.00,96,321
+Miscellaneous,Non-Food-Related,Latex Glove,86,jar,$45.00,378,409
+Cleaning Product,Chemical,"Rinse (Dish, Solid)",87,feet,$32.00,296,139
+Cleaning Product,Chemical,Bleach,88,each,$36.00,33,477
+Cleaning Product,Chemical,Cleaner (W Bleach),89,oz,$79.00,169,430
+Cleaning Product,Chemical,Super Trump (Dish Detergent),90,lb,$97.00,280,496
+Cleaning Product,Chemical,Grill Cleaner,91,bottle,$79.00,486,52
+Cleaning Product,Applicant,Scrubber,92,can,$100.00,183,434
+Drink,Alcoholic,Absolut Vanilla Vodka,93,jug,$81.00,87,42
+Drink,Alcoholic,Barton Gin 80 Proof,94,bag,$24.00,147,66
+Drink,Alcoholic,1800 Silver Tequila 80 Pr. 750 ML,95,roll,$56.00,245,188
+Drink,Alcoholic,Barton Light Rum 80 Proof,96,pack,$80.00,20,275
+Drink,Alcoholic,Jack Daniel Tennessee Honey Whiskey 70 PR.,97,ml,$15.00,280,232
+Drink,Alcoholic,Whistlepig Rye Whiskey 100 PR. 10 YR. 750 ML,98,liter,$19.00,86,104
+Ingredient,Meat,7 oz-Filets,99,case,$1.00,237,199
+Ingredient,Meat,Burger Patty,100,jar,$25.00,130,45
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,

@@ -40,7 +40,14 @@ namespace DDRInventory.Controllers
         [HttpGet("/api/catalog")]
         public InventoryItem[] getCatalog()
         {
-            return InventoryItemContext.getAllItems().ToArray();
+            InventoryItem[] returnValue = InventoryItemContext.getAllItems().ToArray();
+            if (returnValue.Length == 0) return new InventoryItem[]{
+                new InventoryItem()
+                {
+                    Id = -1,
+                }
+            };
+            return returnValue;
         }
 
         [HttpGet("/api/delete")]

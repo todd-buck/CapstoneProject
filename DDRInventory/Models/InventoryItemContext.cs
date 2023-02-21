@@ -1,4 +1,5 @@
 ﻿using DDRInventory.Objects;
+using Microsoft.OpenApi.Writers;
 using System.Data.Common;
 using System.Data.SQLite;
 
@@ -16,8 +17,7 @@ namespace DDRInventory.Models
             catalog.Close();
         }
 
-        public static InventoryItem getItem(long id) {
-            // invalid ids will throw an exception?? or just return an empty InventoryItem object?
+        public static InventoryItem getItem(int id) {
             Database catalog = new Database();
             SQLiteCommand allItemsQuery = catalog._connection.CreateCommand();
             allItemsQuery.CommandText = "SELECT * FROM items WHERE id = " + id.ToString() + ";";
@@ -35,13 +35,16 @@ namespace DDRInventory.Models
             }
             else
             {
-                throw new Exception(); //FIXME
+                throw new ItemNotFoundException(id);
             }
         }
 
-        public static bool UpdateItem(long id, string field, string value)
+        public static bool UpdateItem(int id, string field, string value)
         {
-            // should throw exception when trying to change id??? front end should never do this but we also don't control the front end... if (field == id)...
+            if (field.ToLower() == "id")
+            {
+                throw new OperationNotAllowedException("Updating an item's ID is disallowed. Please update another field.");
+            }
             Database catalog = new Database();
             SQLiteCommand insertItemCommand = catalog._connection.CreateCommand();
             insertItemCommand.CommandText = $"UPDATE items SET {field} = '{value}' WHERE id = {id};";
@@ -55,19 +58,27 @@ namespace DDRInventory.Models
             {
                 return false;
             }
-
         }
 
-        public static bool DeleteItem(long id)
+        public static bool DeleteItem(int id)
         {
-            //this should outright return false if that id does not exist.
+            Console.WriteLine($"Deleting item with ID {id}");
+            try
+            {
+                getItem(id);
+            }
+            catch (ItemNotFoundException e)
+            {
+                Console.WriteLine($"Item with id {e.Id} does not exists. Delete operation terminated.");
+                return false;
+            }
             Database catalog = new Database();
             SQLiteCommand insertItemCommand = catalog._connection.CreateCommand();
             insertItemCommand.CommandText = $"DELETE FROM items WHERE id = {id};";
-            Console.WriteLine($"Deleting item with id {id} from the database.");
             try
             {
                 insertItemCommand.ExecuteNonQuery();
+                Console.WriteLine($"Item with id {id} removed from the database.");
                 return true;
             }
             catch (SQLiteException e)

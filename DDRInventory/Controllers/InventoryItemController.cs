@@ -17,9 +17,9 @@ namespace DDRInventory.Controllers
     {
 
         [HttpPost("/api/add")]
-        public int Add(int id, string name, int quantity, Decimal price, string unit)
+        public int Add(string name, int quantity, Decimal price, string unit)
         {
-            //id should never be given by the user. I need a way to keep up with the next id to use...
+            int id = InventoryItem.GenerateId();
             InventoryItemContext.AddItem(new InventoryItem
             {
                 Id = id,
@@ -51,14 +51,14 @@ namespace DDRInventory.Controllers
         }
 
         [HttpGet("/api/delete")]
-        public bool deleteItem(long id)
+        public bool deleteItem(int id)
         {
-            //should eventualyl return specific code if success if failure and if item not exist
+            //should eventually return specific code if success if failure and if item not exist
             return InventoryItemContext.DeleteItem(id);
         }
 
         [HttpGet("/api/item/{id}")]
-        public InventoryItem getById(long id)
+        public InventoryItem getById(int id)
         {
             return InventoryItemContext.getItem(id);
         }

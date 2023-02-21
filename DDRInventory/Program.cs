@@ -1,5 +1,3 @@
-using DDRInventory.Models;
-
 var builder = WebApplication.CreateBuilder(args);
 
 //Database catalog = new Database();

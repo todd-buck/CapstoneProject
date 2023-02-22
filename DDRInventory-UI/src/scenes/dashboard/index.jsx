@@ -1,4 +1,4 @@
-import { useTheme} from "@mui/material";
+import { IconButton, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
 import Table from '@mui/material/Table';
@@ -10,12 +10,20 @@ import TableRow from '@mui/material/TableRow';
 
 import { mockDataCatalog } from '../../data/mockData'
 
+import useFetch from '../../hooks/useFetch.jsx'
+
 const Dashboard = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const { data: quote, loading, error } = useFetch('https://localhost:7105/catalog')
 
     return (
-        <TableContainer background={ colors.primary[500] }>
+        <TableContainer background={colors.primary[500]}>
+            <div>
+                {loading && <p>{loading}</p>}
+                {quote && <p>"{quote}"</p>}
+                {error && <p>{error}</p>}
+            </div>
             <h1 style={{paddingLeft: "10px"}}>Inventory Catalog</h1>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>

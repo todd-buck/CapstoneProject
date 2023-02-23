@@ -1,5 +1,6 @@
 using DDRInventory.Models;
 using DDRInventory.Objects;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 //IMPLIMENTED

@@ -13,6 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\components\" />
+    <Folder Include="src\data\" />
     <Folder Include="src\hooks\" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,6 @@
-import { IconButton, useTheme } from "@mui/material";
+import React, { useState, useEffect } from 'react'
+
+import { useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
 import Table from '@mui/material/Table';
@@ -8,22 +10,36 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import { mockDataCatalog } from '../../data/mockData'
-
-import useFetch from '../../hooks/useFetch.jsx'
-
 const Dashboard = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const { data: quote, loading, error } = useFetch('https://localhost:7105/catalog')
 
+
+    
+    const [inventoryCatalogList, setInventoryCatalogList] = useState(null)
+
+    useEffect(() => {
+        getInventoryCatalog()
+    }, [])
+
+    const getInventoryCatalog = () => {
+        fetch("https://localhost:3000/api/catalog")
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    setInventoryCatalogList(result)
+                },
+                (error) => {
+                    setInventoryCatalogList(null)
+                }
+            )
+    }
+
+
+    if (!inventoryCatalogList) return (<div>No Data Found.</div>)
+    
     return (
         <TableContainer background={colors.primary[500]}>
-            <div>
-                {loading && <p>{loading}</p>}
-                {quote && <p>"{quote}"</p>}
-                {error && <p>{error}</p>}
-            </div>
             <h1 style={{paddingLeft: "10px"}}>Inventory Catalog</h1>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
@@ -36,7 +52,7 @@ const Dashboard = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {mockDataCatalog.map((row) => (
+                    {inventoryCatalogList.map((row) => (
                         <TableRow
                             key={row.name}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

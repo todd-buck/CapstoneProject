@@ -3,7 +3,7 @@ using System.Data.SQLite;
 using System.Text;
 namespace DDRInventory.Models
 {
-    public class Database
+    public class Database : IDisposable
     {
         //CONSTANTS
 
@@ -23,7 +23,10 @@ namespace DDRInventory.Models
         public Database()
         {
             Open();
+        }
 
+        public void Init()
+        {
             List<string> tablesInDatabase = GetTableNames();
 
             foreach (string name in TABLES.Keys)
@@ -40,6 +43,7 @@ namespace DDRInventory.Models
                     Console.WriteLine("Table '" + name + "' created successfully.");
                 }
             }
+            Dispose();
         }
 
         // MEMBER FUNCTIONS
@@ -57,12 +61,14 @@ namespace DDRInventory.Models
             return tableNames;
         }
 
-        public void Close()
+        public void Dispose()
         {
-            _connection.Close();
+            _connection.Dispose();
+            Console.WriteLine($"Connection to {DATABASE_NAME} disposed");
         }
         void Open()
         {
+            Console.WriteLine($"Opening database {DATABASE_NAME} for read/write");
             // Create a new database connection:
             _connection = new SQLiteConnection("Data Source=" + DATABASE_NAME + "; Version = 3; New = True; Compress = True; ");
             // Open the connection:
@@ -74,7 +80,7 @@ namespace DDRInventory.Models
             {
 
             }
-            Console.WriteLine("Opened catalog.db for read/write.");
+            Console.WriteLine($"Opened {DATABASE_NAME} sucessfully");
         }
 
         void CreateTable(string name, string types)

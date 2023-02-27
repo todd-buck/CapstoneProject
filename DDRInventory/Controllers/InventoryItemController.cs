@@ -1,7 +1,14 @@
 using DDRInventory.Models;
 using DDRInventory.Objects;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.VisualBasic;
+using System.Linq.Expressions;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 //IMPLIMENTED
 // +CREATE ITEM
@@ -32,7 +39,7 @@ namespace DDRInventory.Controllers
             return id;
         }
 
-        [HttpPost("/api/update")]
+        [HttpPatch("/api/update")]
         public bool update(int id, string field, string value)
         {
             return InventoryItemContext.UpdateItem(id, field, value);
@@ -51,17 +58,51 @@ namespace DDRInventory.Controllers
             return returnValue;
         }
 
-        [HttpGet("/api/delete")]
+        [HttpDelete("/api/delete")]
         public bool deleteItem(int id)
         {
             //should eventually return specific code if success if failure and if item not exist
-            return InventoryItemContext.DeleteItem(id);
+            bool returnVal = false;
+            try
+            {
+                returnVal = InventoryItemContext.DeleteItem(id);
+            }
+            catch (ItemNotFoundException e)
+            {
+                Response.StatusCode = 451;
+                return returnVal;
+            }
+            return returnVal;
+        }
+
+        [HttpDelete("/api/deleteMany")]
+        public void deleteMany(int[] ids)
+        {
+            return;
         }
 
         [HttpGet("/api/item/{id}")]
         public InventoryItem getById(int id)
         {
-            return InventoryItemContext.getItem(id);
+            InventoryItem returnValue = new InventoryItem();
+            try
+            {
+                returnValue = InventoryItemContext.getItem(id);
+            }
+            catch (ItemNotFoundException e)
+            {
+                Response.StatusCode = 451;
+            }
+            return returnValue;
         }
     }
 }
+
+// REPONSE DEFINITIONS:
+//1xx: Informational – Communicates transfer protocol-level information.
+//2xx: Success – Indicates that the client’s request was accepted successfully.
+//3xx: Redirection – Indicates that the client must take some additional action in order to complete their request.
+//4xx: Client Error – This category of error status codes points the finger at clients. uSE (451 - 498)
+//5xx: Server Error – The server takes responsibility for these error status codes.
+
+//451: Item not found - Used when deleting an item that does not exist or querying the catalog for an item with an Id that does not exist

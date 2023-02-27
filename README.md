@@ -5,7 +5,7 @@ Pelham for their work on the project.
 
 Github commit messages should follow the following format (roughly):
 	
-	Title
+	Hi Wade is here
 	Brief Summary (15 words max)
 
 	Changes (3-4 items max, if mor split into separate commits)

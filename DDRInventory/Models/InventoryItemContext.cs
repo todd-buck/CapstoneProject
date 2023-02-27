@@ -1,8 +1,6 @@
 ﻿using DDRInventory.Objects;
-using Microsoft.OpenApi.Writers;
-using System.Data.Common;
 using System.Data.SQLite;
-using System.Xml.Linq;
+
 
 namespace DDRInventory.Models
 {
@@ -14,7 +12,7 @@ namespace DDRInventory.Models
             {
                 using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
                 {
-                    insertItemCommand.CommandText = "INSERT INTO items (id, name, quantity, price, unit, category, subcategory, par_level) VALUES($id, $name, $quantity, $price, $unit, $category, $subcategory, $par_level); ";
+                    insertItemCommand.CommandText = "INSERT INTO items (id, name, quantity, price, unit, category, subcategory, par_level) VALUES($id, $name, $quantity, $price, $unit, $category, $subcategory, $par_level); "; 
                     insertItemCommand.Parameters.AddWithValue("$id", newItem.Id);
                     insertItemCommand.Parameters.AddWithValue("$name", newItem.Name);
                     insertItemCommand.Parameters.AddWithValue("$quantity", newItem.QuantityOnHand);
@@ -65,19 +63,21 @@ namespace DDRInventory.Models
             }
         }
 
-        public static bool UpdateItem(int id, string field, string value)
+        public static bool UpdateItem(InventoryItem updatedItem)
         {
-            if (field.ToLower() == "id")
-            {
-                throw new OperationNotAllowedException("Updating an item's ID is disallowed. Please update another field.");
-            }
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand updateItemCommand = catalog._connection.CreateCommand())
                 {
-                    updateItemCommand.CommandText = $"UPDATE items SET {field} = $value WHERE id = {id};";
-                    updateItemCommand.Parameters.AddWithValue("$value", value);
-                    Console.WriteLine($"Updating item id {id}'s {field} to {value}");
+                    updateItemCommand.CommandText = $"UPDATE items SET name = $name, quantity = $quantity, price = $price, unit = $unit, category = $category, subcategory = $subcategory, par_level = $par_level WHERE id = {updatedItem.Id};"
+                    updateItemCommand.Parameters.AddWithValue("$name", updatedItem.Name);
+                    updateItemCommand.Parameters.AddWithValue("$quantity", updatedItem.QuantityOnHand);
+                    updateItemCommand.Parameters.AddWithValue("$price", updatedItem.Price);
+                    updateItemCommand.Parameters.AddWithValue("$unit", updatedItem.Unit);
+                    updateItemCommand.Parameters.AddWithValue("$category", updatedItem.Category);
+                    updateItemCommand.Parameters.AddWithValue("$subcategory", updatedItem.SubCategory);
+                    updateItemCommand.Parameters.AddWithValue("$par_level", updatedItem.ParLevel);
+                    Console.WriteLine($"Updating item id {updatedItem.Id}'s properties");
                     try
                     {
                         updateItemCommand.ExecuteNonQuery();

@@ -93,9 +93,4 @@ namespace DDRInventory.Models
             createTableCommand.ExecuteNonQuery();
         }
     }
-
-    public class OperationNotAllowedException : Exception
-    {
-        public OperationNotAllowedException(string message) : base(message) { }
-    }
 }

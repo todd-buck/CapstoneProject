@@ -28,21 +28,32 @@ namespace DDRInventory.Controllers
         }
 
         [HttpPatch("/api/update")]
-        public bool update(int id, string field, string value)
+        public bool update(InventoryItem updatedItem)
         {
-            return InventoryItemContext.UpdateItem(id, field, value);
+            if (!InventoryItemContext.UpdateItem(updatedItem))
+            {
+                Response.StatusCode = 512;
+                return false;
+            }
+            return true;
+        }
+
+        [HttpPatch("/api/update")]
+        public bool update(InventoryItem updatedItem)
+        {
+            if (!InventoryItemContext.UpdateItem(updatedItem))
+            {
+                Response.StatusCode = 512; 
+                return false;
+            }
+            return true;
         }
 
         [HttpGet("/api/catalog")]
         public InventoryItem[] getCatalog()
         {
             InventoryItem[] returnValue = InventoryItemContext.getAllItems().ToArray();
-            if (returnValue.Length == 0) return new InventoryItem[]{
-                new InventoryItem()
-                {
-                    Id = -1,
-                }
-            };
+            if (returnValue.Length == 0) Response.StatusCode = 104;
             return returnValue;
         }
 
@@ -92,5 +103,7 @@ namespace DDRInventory.Controllers
 //3xx: Redirection – Indicates that the client must take some additional action in order to complete their request.
 //4xx: Client Error – This category of error status codes points the finger at clients. uSE (451 - 498)
 //5xx: Server Error – The server takes responsibility for these error status codes.
-
+//For unused status codes, please reference the following link: https://restfulapi.net/http-status-codes/ 
+//104: Database empty - used when an API call to catalog returns an empty list.
 //451: Item not found - Used when deleting an item that does not exist or querying the catalog for an item with an Id that does not exist
+//512: General unspecified SQL error

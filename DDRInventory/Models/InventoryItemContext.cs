@@ -1,4 +1,5 @@
-﻿using DDRInventory.Objects;
+﻿using CsvHelper.Configuration;
+using DDRInventory.Objects;
 using System.Data.SQLite;
 
 
@@ -23,6 +24,31 @@ namespace DDRInventory.Models
                     insertItemCommand.Parameters.AddWithValue("$par_level", newItem.ParLevel);
                     Console.WriteLine($"Adding item '{newItem.Name}' to the database");
                     insertItemCommand.ExecuteNonQuery();
+                    catalog.Dispose();
+                }
+            }
+        }
+
+        public static void AddItems(List<InventoryItem> newItems)
+        {
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
+                {
+                    insertItemCommand.CommandText = "INSERT INTO items (id, name, quantity, price, unit, category, subcategory, par_level) VALUES($id, $name, $quantity, $price, $unit, $category, $subcategory, $par_level); ";
+                    foreach (InventoryItem newItem in newItems)
+                    { 
+                        insertItemCommand.Parameters.AddWithValue("$id", newItem.Id);
+                        insertItemCommand.Parameters.AddWithValue("$name", newItem.Name);
+                        insertItemCommand.Parameters.AddWithValue("$quantity", newItem.QuantityOnHand);
+                        insertItemCommand.Parameters.AddWithValue("$price", newItem.Price);
+                        insertItemCommand.Parameters.AddWithValue("$unit", newItem.Unit);
+                        insertItemCommand.Parameters.AddWithValue("$category", newItem.Category);
+                        insertItemCommand.Parameters.AddWithValue("$subcategory", newItem.SubCategory);
+                        insertItemCommand.Parameters.AddWithValue("$par_level", newItem.ParLevel);
+                        Console.WriteLine($"Adding item '{newItem.Name}' to the database");
+                        insertItemCommand.ExecuteNonQuery();
+                    }
                     catalog.Dispose();
                 }
             }
@@ -69,7 +95,7 @@ namespace DDRInventory.Models
             {
                 using (SQLiteCommand updateItemCommand = catalog._connection.CreateCommand())
                 {
-                    updateItemCommand.CommandText = $"UPDATE items SET name = $name, quantity = $quantity, price = $price, unit = $unit, category = $category, subcategory = $subcategory, par_level = $par_level WHERE id = {updatedItem.Id};"
+                    updateItemCommand.CommandText = $"UPDATE items SET name = $name, quantity = $quantity, price = $price, unit = $unit, category = $category, subcategory = $subcategory, par_level = $par_level WHERE id = {updatedItem.Id};";
                     updateItemCommand.Parameters.AddWithValue("$name", updatedItem.Name);
                     updateItemCommand.Parameters.AddWithValue("$quantity", updatedItem.QuantityOnHand);
                     updateItemCommand.Parameters.AddWithValue("$price", updatedItem.Price);
@@ -113,6 +139,29 @@ namespace DDRInventory.Models
                     {
                         insertItemCommand.ExecuteNonQuery();
                         Console.WriteLine($"Item with id {id} removed from the database.");
+                        return true;
+                    }
+                    catch (SQLiteException e)
+                    {
+                        Console.WriteLine($"Caught Exception {e.Message}");
+                        return false;
+                    }
+                }
+            }
+        }
+
+        public static bool DeleteAll()
+        {
+            Console.WriteLine($"Deleting all items from the database");
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
+                {
+                    insertItemCommand.CommandText = "DELETE FROM items;";
+                    try
+                    {
+                        insertItemCommand.ExecuteNonQuery();
+                        Console.WriteLine($"All items removes from the catalog");
                         return true;
                     }
                     catch (SQLiteException e)

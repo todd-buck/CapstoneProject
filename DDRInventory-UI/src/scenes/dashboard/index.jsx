@@ -10,7 +10,7 @@ const Dashboard = ({ selected }) => {
 
     return (
         <Box>
-            {selected === 'test' ? (
+            {selected === 'Dashboard' ? (
                 <InventoryCatalog />
             ) : (
                 <div>Welcome to the dashboard!</div>

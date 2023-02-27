@@ -7,11 +7,10 @@ namespace DDRInventory.Models
     {
         //CONSTANTS
 
-        Dictionary<string, string> TABLES = new Dictionary<string, string>
+        public static Dictionary<string, string> TABLES = new Dictionary<string, string>
         {
             { "items", "(id INT, name VARCHAR(20), quantity INT, price REAL, unit VARCHAR(10), category VARCHAR(15), subcategory VARCHAR(15), par_level INT)" },
             { "locations", "(id INT, location VARCHAR(20), quantity INT)" }
-
         };
      
         //Database version notes

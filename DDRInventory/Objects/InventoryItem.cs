@@ -11,6 +11,9 @@ namespace DDRInventory.Objects
         public int QuantityOnHand { get; set; }
         public decimal Price { get; set; }
         public string Unit { get; set; }
+        public string Category { get; set; }
+        public string SubCategory { get; set; }
+        public int ParLevel { get; set; }
 
         public override string ToString()
         {

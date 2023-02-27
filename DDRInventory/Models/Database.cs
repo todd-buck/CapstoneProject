@@ -3,18 +3,20 @@ using System.Data.SQLite;
 using System.Text;
 namespace DDRInventory.Models
 {
-    public class Database
+    public class Database : IDisposable
     {
         //CONSTANTS
 
         Dictionary<string, string> TABLES = new Dictionary<string, string>
         {
-            { "items", "(id INT, name VARCHAR(20), quantity INT, price REAL, unit VARCHAR(10))" },
+            { "items", "(id INT, name VARCHAR(20), quantity INT, price REAL, unit VARCHAR(10), category VARCHAR(15), subcategory VARCHAR(15), par_level INT)" },
             { "locations", "(id INT, location VARCHAR(20), quantity INT)" }
 
         };
-
-        const string DATABASE_NAME = "catalogV1.db";
+     
+        //Database version notes
+        //2. Added category, subcategory, par_level
+        const string DATABASE_NAME = "catalogV2.db";
 
         //MEMBER ATTRIBUTES
         public SQLiteConnection _connection;
@@ -23,7 +25,10 @@ namespace DDRInventory.Models
         public Database()
         {
             Open();
+        }
 
+        public void Init()
+        {
             List<string> tablesInDatabase = GetTableNames();
 
             foreach (string name in TABLES.Keys)
@@ -40,6 +45,7 @@ namespace DDRInventory.Models
                     Console.WriteLine("Table '" + name + "' created successfully.");
                 }
             }
+            Dispose();
         }
 
         // MEMBER FUNCTIONS
@@ -57,12 +63,14 @@ namespace DDRInventory.Models
             return tableNames;
         }
 
-        public void Close()
+        public void Dispose()
         {
-            _connection.Close();
+            _connection.Dispose();
+            Console.WriteLine($"Connection to {DATABASE_NAME} disposed");
         }
         void Open()
         {
+            Console.WriteLine($"Opening database {DATABASE_NAME} for read/write");
             // Create a new database connection:
             _connection = new SQLiteConnection("Data Source=" + DATABASE_NAME + "; Version = 3; New = True; Compress = True; ");
             // Open the connection:
@@ -74,7 +82,7 @@ namespace DDRInventory.Models
             {
 
             }
-            Console.WriteLine("Opened catalog.db for read/write.");
+            Console.WriteLine($"Opened {DATABASE_NAME} sucessfully");
         }
 
         void CreateTable(string name, string types)

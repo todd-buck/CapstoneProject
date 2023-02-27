@@ -1,3 +1,8 @@
+using DDRInventory.Models;
+
+Database initializer = new Database();
+initializer.Init();
+
 var builder = WebApplication.CreateBuilder(args);
 
 //Database catalog = new Database();

@@ -9,12 +9,14 @@ namespace DDRInventory.Models
 
         Dictionary<string, string> TABLES = new Dictionary<string, string>
         {
-            { "items", "(id INT, name VARCHAR(20), quantity INT, price REAL, unit VARCHAR(10))" },
+            { "items", "(id INT, name VARCHAR(20), quantity INT, price REAL, unit VARCHAR(10), category VARCHAR(15), subcategory VARCHAR(15), par_level INT)" },
             { "locations", "(id INT, location VARCHAR(20), quantity INT)" }
 
         };
-
-        const string DATABASE_NAME = "catalogV1.db";
+     
+        //Database version notes
+        //2. Added category, subcategory, par_level
+        const string DATABASE_NAME = "catalogV2.db";
 
         //MEMBER ATTRIBUTES
         public SQLiteConnection _connection;

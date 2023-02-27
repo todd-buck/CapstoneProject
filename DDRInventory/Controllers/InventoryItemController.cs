@@ -1,21 +1,6 @@
 using DDRInventory.Models;
 using DDRInventory.Objects;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.VisualBasic;
-using System.Linq.Expressions;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-
-//IMPLIMENTED
-// +CREATE ITEM
-// +READ ITEM
-// +READ ALL ITEMS
-// +UPDATE ITEM
-// +DELETE ITEM
 
 namespace DDRInventory.Controllers
 {
@@ -25,7 +10,7 @@ namespace DDRInventory.Controllers
     {
 
         [HttpPost("/api/add")]
-        public int Add(string name, int quantity, Decimal price, string unit)
+        public int Add(string name, int quantity, Decimal price, string unit, string category, string subCategory, int parLevel)
         {
             int id = InventoryItem.GenerateId();
             InventoryItemContext.AddItem(new InventoryItem
@@ -34,7 +19,10 @@ namespace DDRInventory.Controllers
                 Name = name,
                 Price = price,
                 Unit = unit,
-                QuantityOnHand = quantity
+                QuantityOnHand = quantity,
+                Category = category,
+                SubCategory = subCategory,
+                ParLevel = parLevel
             });
             return id;
         }

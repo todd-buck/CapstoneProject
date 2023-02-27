@@ -13,17 +13,18 @@ import { ColorModeContext, useMode } from './theme';
 function App() {
     const [theme, colorMode] = useMode();
     const [isSidebar, setIsSidebar] = useState(true);
+    const [selected, setSelected] = useState("Dashboard");
 
     return (
         <ColorModeContext.Provider value={colorMode}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <div className="app">
-                    <Sidebar isSidebar={isSidebar} />
+                    <Sidebar isSidebar={isSidebar} selected={selected} setSelected={setSelected} />
                     <main className="content">
                         <Topbar setIsSidebar={setIsSidebar} />
                         <Routes>
-                            <Route path="/" element={ <Dashboard />} />
+                            <Route path="/" element={<Dashboard selected={selected} />} />
                         </Routes>
                     </main>
                 </div>

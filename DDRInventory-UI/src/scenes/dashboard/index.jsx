@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react'
 
-import { useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 
 import InventoryCatalog from './inventoryCatalog';
 
-const Dashboard = () => {
+const Dashboard = ({ selected }) => {
     const theme = useTheme();
 
     return (
-        <InventoryCatalog /> 
+        <Box>
+            {selected === 'test' ? (
+                <InventoryCatalog />
+            ) : (
+                <div>Welcome to the dashboard!</div>
+            )}
+            
+        </Box>
     )
 }
 

@@ -20,6 +20,9 @@ import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 /*Reports Icon*/
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 
+/*CSV Import Icon*/
+import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined';
+
 /*Your Profile Icon*/
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 
@@ -170,6 +173,13 @@ const Sidebar = () => {
                             title="Reports"
                             to="/"
                             icon={<AssessmentOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                        <Item
+                            title="Import CSV"
+                            to="/"
+                            icon={<UploadFileOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />

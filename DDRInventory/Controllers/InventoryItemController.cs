@@ -38,17 +38,6 @@ namespace DDRInventory.Controllers
             return true;
         }
 
-        [HttpPatch("/api/update")]
-        public bool update(InventoryItem updatedItem)
-        {
-            if (!InventoryItemContext.UpdateItem(updatedItem))
-            {
-                Response.StatusCode = 512; 
-                return false;
-            }
-            return true;
-        }
-
         [HttpGet("/api/catalog")]
         public InventoryItem[] getCatalog()
         {

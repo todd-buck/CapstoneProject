@@ -3,8 +3,8 @@ using CsvHelper.Configuration;
 using DDRInventory.Models;
 using DDRInventory.Objects;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.SQLite;
 using System.Globalization;
-using System.Reflection;
 
 namespace DDRInventory.Controllers
 {
@@ -30,29 +30,32 @@ namespace DDRInventory.Controllers
                 {
                     try
                     {
-                        items.Add
-                        (
-                            new InventoryItem
-                            {
-                                Name = csv.GetField(csv.GetFieldIndex("name")),
-                                QuantityOnHand = csv.GetField<int>(csv.GetFieldIndex("quantity on hand")),
-                                Price = Decimal.Parse(csv.GetField<string>(csv.GetFieldIndex("price")).Replace("$", "")),
-                                Unit = csv.GetField(csv.GetFieldIndex("unit")),
-                                Category = csv.GetField(csv.GetFieldIndex("category")),
-                                SubCategory = csv.GetField(csv.GetFieldIndex("subcategory")),
-                                ParLevel = csv.GetField<int>(csv.GetFieldIndex("par level")),
-                                Id = csv.GetField<int>(csv.GetFieldIndex("id"))
-                            }
-                        );
+                        items.Add(new InventoryItem
+                        {
+                            Name = csv.GetField(csv.GetFieldIndex("name")),
+                            QuantityOnHand = csv.GetField<int>(csv.GetFieldIndex("quantity on hand")),
+                            Price = Decimal.Parse(csv.GetField(csv.GetFieldIndex("price")).Replace("$", "")),
+                            Unit = csv.GetField(csv.GetFieldIndex("unit")),
+                            Category = csv.GetField(csv.GetFieldIndex("category")),
+                            SubCategory = csv.GetField(csv.GetFieldIndex("subcategory")),
+                            ParLevel = csv.GetField<int>(csv.GetFieldIndex("par level")),
+                            Id = csv.GetField<int>(csv.GetFieldIndex("id"))
+                        });
+                        InventoryItemContext.AddItems(items);
                     }
-                    catch (Exception e)
+                    catch (SQLiteException e)
+                    {
+                        Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                        Response.StatusCode = 512;
+                        return false;
+                    }
+                    catch(CsvHelperException e)
                     {
                         Console.WriteLine($"Error when proccessing CSV file. Exception: {e.Message}");
                         Response.StatusCode = 400;
                         return false;
                     }
                 }
-                InventoryItemContext.AddItems(items);
             }
             return true;
         }
@@ -64,38 +67,60 @@ namespace DDRInventory.Controllers
             {
                 id = InventoryItem.GenerateId();
             }
-            InventoryItemContext.AddItem(new InventoryItem
+            try
             {
-                Id = id.Value,
-                Name = name,
-                Price = price,
-                Unit = unit,
-                QuantityOnHand = quantity,
-                Category = category,
-                SubCategory = subCategory,
-                ParLevel = parLevel
-            });
+                InventoryItemContext.AddItem(new InventoryItem
+                {
+                    Id = id.Value,
+                    Name = name,
+                    Price = price,
+                    Unit = unit,
+                    QuantityOnHand = quantity,
+                    Category = category,
+                    SubCategory = subCategory,
+                    ParLevel = parLevel
+                });
+            }
+            catch (SQLiteException e)
+            {
+                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Response.StatusCode = 512;
+                return id.Value;
+            }
             return id.Value;
         }
 
-        [HttpPatch("/api/update")]
+        [HttpPut("/api/update")]
         public bool update(InventoryItem updatedItem)
         {
-            if (!InventoryItemContext.UpdateItem(updatedItem))
+            try
             {
+                return InventoryItemContext.UpdateItem(updatedItem);
+            }
+            catch(SQLiteException e)
+            {
+                Console.WriteLine($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return false;
             }
-            return true;
         }
 
 
         [HttpGet("/api/catalog")]
         public InventoryItem[] getCatalog()
         {
-            InventoryItem[] returnValue = InventoryItemContext.getAllItems().ToArray();
-            if (returnValue.Length == 0) Response.StatusCode = 104;
-            return returnValue;
+            try
+            {
+                InventoryItem[] returnValue = InventoryItemContext.getAllItems().ToArray();
+                if (returnValue.Length == 0) Response.StatusCode = 204;
+                return returnValue;
+            }
+            catch (SQLiteException e)
+            {
+                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Response.StatusCode = 512;
+                return new InventoryItem[0];
+            }
         }
 
         [HttpGet("/api/item/{id}")]
@@ -110,13 +135,19 @@ namespace DDRInventory.Controllers
             {
                 Response.StatusCode = 451;
             }
+            catch (SQLiteException e)
+            {
+                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Response.StatusCode = 512;
+                return new InventoryItem();
+            }
             return returnValue;
         }
 
         [HttpDelete("/api/delete")]
         public bool deleteItem(int id)
         {
-            bool returnVal = false;
+            bool returnVal;
             try
             {
                 returnVal = InventoryItemContext.DeleteItem(id);
@@ -124,7 +155,13 @@ namespace DDRInventory.Controllers
             catch (ItemNotFoundException e)
             {
                 Response.StatusCode = 451;
-                return returnVal;
+                return false;
+            }
+            catch (SQLiteException e)
+            {
+                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Response.StatusCode = 512;
+                return false;
             }
             return returnVal;
         }
@@ -132,13 +169,22 @@ namespace DDRInventory.Controllers
         [HttpDelete("/api/deleteMany")]
         public void deleteMany(int[] ids)
         {
+            Response.StatusCode = 501;
             return;
         }
 
         [HttpDelete("/api/deleteAll")]
         public void deleteAll()
         {
-            InventoryItemContext.DeleteAll();
+            try
+            {
+                InventoryItemContext.DeleteAll();
+            }
+            catch (SQLiteException e)
+            {
+                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Response.StatusCode = 512;
+            }
         }
     }
 }
@@ -151,7 +197,7 @@ namespace DDRInventory.Controllers
 //5xx: Server Error – The server takes responsibility for these error status codes.
 
 //For unused status codes, please reference the following link: https://restfulapi.net/http-status-codes/ 
-//104: Database empty - used when an API call to catalog returns an empty list.
+//204 : No content- used when the catalog is empty
 //400: Bad Request
 //451: Item not found - Used when deleting an item that does not exist or querying the catalog for an item with an Id that does not exist
 //512: General unspecified SQL error

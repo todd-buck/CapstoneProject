@@ -104,16 +104,8 @@ namespace DDRInventory.Models
                     updateItemCommand.Parameters.AddWithValue("$subcategory", updatedItem.SubCategory);
                     updateItemCommand.Parameters.AddWithValue("$par_level", updatedItem.ParLevel);
                     Console.WriteLine($"Updating item id {updatedItem.Id}'s properties");
-                    try
-                    {
-                        updateItemCommand.ExecuteNonQuery();
-                        return true;
-                    }
-                    catch (SQLiteException e)
-                    {
-                        Console.WriteLine(e.Message);
-                        return false;
-                    }
+                    updateItemCommand.ExecuteNonQuery();
+                    return true;
                 }
             }
         }
@@ -135,17 +127,9 @@ namespace DDRInventory.Models
                 using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
                 {
                     insertItemCommand.CommandText = $"DELETE FROM items WHERE id = {id};";
-                    try
-                    {
-                        insertItemCommand.ExecuteNonQuery();
-                        Console.WriteLine($"Item with id {id} removed from the database.");
-                        return true;
-                    }
-                    catch (SQLiteException e)
-                    {
-                        Console.WriteLine($"Caught Exception {e.Message}");
-                        return false;
-                    }
+                    insertItemCommand.ExecuteNonQuery();
+                    Console.WriteLine($"Item with id {id} removed from the database.");
+                    return true;
                 }
             }
         }
@@ -158,17 +142,9 @@ namespace DDRInventory.Models
                 using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
                 {
                     insertItemCommand.CommandText = "DELETE FROM items;";
-                    try
-                    {
-                        insertItemCommand.ExecuteNonQuery();
-                        Console.WriteLine($"All items removes from the catalog");
-                        return true;
-                    }
-                    catch (SQLiteException e)
-                    {
-                        Console.WriteLine($"Caught Exception {e.Message}");
-                        return false;
-                    }
+                    insertItemCommand.ExecuteNonQuery();
+                    Console.WriteLine($"All items removes from the catalog");
+                    return true;
                 }
             }
         }

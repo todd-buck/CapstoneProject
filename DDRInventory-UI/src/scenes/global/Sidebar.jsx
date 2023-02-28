@@ -75,10 +75,12 @@ const Sidebar = ({selected, setSelected}) => {
                     padding: "5px 35px 5px 20px !important",
                 },
                 "& .pro-inner-item:hover": {
-                    color: "#868dfb !important",
+                    color: `${colors.redAccent[500]} !important`,
+                    backgroundColor: "transparent !important",
                 },
                 "& .pro-menu-item.active": {
-                    color: "#6870fa !important",
+                    color: `${colors.gray[100]} !important`,
+                    backgroundColor: `${colors.redAccent[900]} !important`
                 },
             }}
         >

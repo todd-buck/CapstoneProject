@@ -1,8 +1,7 @@
-﻿using DDRInventory.Objects;
-using Microsoft.OpenApi.Writers;
-using System.Data.Common;
+﻿using CsvHelper.Configuration;
+using DDRInventory.Objects;
 using System.Data.SQLite;
-using System.Xml.Linq;
+
 
 namespace DDRInventory.Models
 {
@@ -14,7 +13,7 @@ namespace DDRInventory.Models
             {
                 using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
                 {
-                    insertItemCommand.CommandText = "INSERT INTO items (id, name, quantity, price, unit, category, subcategory, par_level) VALUES($id, $name, $quantity, $price, $unit, $category, $subcategory, $par_level); ";
+                    insertItemCommand.CommandText = "INSERT INTO items (id, name, quantity, price, unit, category, subcategory, par_level) VALUES($id, $name, $quantity, $price, $unit, $category, $subcategory, $par_level); "; 
                     insertItemCommand.Parameters.AddWithValue("$id", newItem.Id);
                     insertItemCommand.Parameters.AddWithValue("$name", newItem.Name);
                     insertItemCommand.Parameters.AddWithValue("$quantity", newItem.QuantityOnHand);
@@ -25,6 +24,31 @@ namespace DDRInventory.Models
                     insertItemCommand.Parameters.AddWithValue("$par_level", newItem.ParLevel);
                     Console.WriteLine($"Adding item '{newItem.Name}' to the database");
                     insertItemCommand.ExecuteNonQuery();
+                    catalog.Dispose();
+                }
+            }
+        }
+
+        public static void AddItems(List<InventoryItem> newItems)
+        {
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
+                {
+                    insertItemCommand.CommandText = "INSERT INTO items (id, name, quantity, price, unit, category, subcategory, par_level) VALUES($id, $name, $quantity, $price, $unit, $category, $subcategory, $par_level); ";
+                    foreach (InventoryItem newItem in newItems)
+                    { 
+                        insertItemCommand.Parameters.AddWithValue("$id", newItem.Id);
+                        insertItemCommand.Parameters.AddWithValue("$name", newItem.Name);
+                        insertItemCommand.Parameters.AddWithValue("$quantity", newItem.QuantityOnHand);
+                        insertItemCommand.Parameters.AddWithValue("$price", newItem.Price);
+                        insertItemCommand.Parameters.AddWithValue("$unit", newItem.Unit);
+                        insertItemCommand.Parameters.AddWithValue("$category", newItem.Category);
+                        insertItemCommand.Parameters.AddWithValue("$subcategory", newItem.SubCategory);
+                        insertItemCommand.Parameters.AddWithValue("$par_level", newItem.ParLevel);
+                        Console.WriteLine($"Adding item '{newItem.Name}' to the database");
+                        insertItemCommand.ExecuteNonQuery();
+                    }
                     catalog.Dispose();
                 }
             }
@@ -65,29 +89,23 @@ namespace DDRInventory.Models
             }
         }
 
-        public static bool UpdateItem(int id, string field, string value)
+        public static bool UpdateItem(InventoryItem updatedItem)
         {
-            if (field.ToLower() == "id")
-            {
-                throw new OperationNotAllowedException("Updating an item's ID is disallowed. Please update another field.");
-            }
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand updateItemCommand = catalog._connection.CreateCommand())
                 {
-                    updateItemCommand.CommandText = $"UPDATE items SET {field} = $value WHERE id = {id};";
-                    updateItemCommand.Parameters.AddWithValue("$value", value);
-                    Console.WriteLine($"Updating item id {id}'s {field} to {value}");
-                    try
-                    {
-                        updateItemCommand.ExecuteNonQuery();
-                        return true;
-                    }
-                    catch (SQLiteException e)
-                    {
-                        Console.WriteLine(e.Message);
-                        return false;
-                    }
+                    updateItemCommand.CommandText = $"UPDATE items SET name = $name, quantity = $quantity, price = $price, unit = $unit, category = $category, subcategory = $subcategory, par_level = $par_level WHERE id = {updatedItem.Id};";
+                    updateItemCommand.Parameters.AddWithValue("$name", updatedItem.Name);
+                    updateItemCommand.Parameters.AddWithValue("$quantity", updatedItem.QuantityOnHand);
+                    updateItemCommand.Parameters.AddWithValue("$price", updatedItem.Price);
+                    updateItemCommand.Parameters.AddWithValue("$unit", updatedItem.Unit);
+                    updateItemCommand.Parameters.AddWithValue("$category", updatedItem.Category);
+                    updateItemCommand.Parameters.AddWithValue("$subcategory", updatedItem.SubCategory);
+                    updateItemCommand.Parameters.AddWithValue("$par_level", updatedItem.ParLevel);
+                    Console.WriteLine($"Updating item id {updatedItem.Id}'s properties");
+                    updateItemCommand.ExecuteNonQuery();
+                    return true;
                 }
             }
         }
@@ -109,17 +127,24 @@ namespace DDRInventory.Models
                 using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
                 {
                     insertItemCommand.CommandText = $"DELETE FROM items WHERE id = {id};";
-                    try
-                    {
-                        insertItemCommand.ExecuteNonQuery();
-                        Console.WriteLine($"Item with id {id} removed from the database.");
-                        return true;
-                    }
-                    catch (SQLiteException e)
-                    {
-                        Console.WriteLine($"Caught Exception {e.Message}");
-                        return false;
-                    }
+                    insertItemCommand.ExecuteNonQuery();
+                    Console.WriteLine($"Item with id {id} removed from the database.");
+                    return true;
+                }
+            }
+        }
+
+        public static bool DeleteAll()
+        {
+            Console.WriteLine($"Deleting all items from the database");
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
+                {
+                    insertItemCommand.CommandText = "DELETE FROM items;";
+                    insertItemCommand.ExecuteNonQuery();
+                    Console.WriteLine($"All items removes from the catalog");
+                    return true;
                 }
             }
         }

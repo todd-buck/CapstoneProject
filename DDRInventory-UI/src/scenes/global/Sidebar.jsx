@@ -116,7 +116,7 @@ const Sidebar = ({selected, setSelected}) => {
                                     alt="profile-user"
                                     width="100px"
                                     height="100px"
-                                    src={`../../logo512.png`}
+                                    src={`../../DillardsLogoV2.png`}
                                     style={{ cursor: "pointer", borderRadius: "50%" }}
                                 />
                             </Box>

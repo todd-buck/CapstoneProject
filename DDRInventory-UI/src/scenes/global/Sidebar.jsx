@@ -72,10 +72,12 @@ const Sidebar = ({selected, setSelected}) => {
                     padding: "5px 35px 5px 20px !important",
                 },
                 "& .pro-inner-item:hover": {
-                    color: "#868dfb !important",
+                    color: `${colors.redAccent[500]} !important`,
+                    backgroundColor: "transparent !important",
                 },
                 "& .pro-menu-item.active": {
-                    color: "#6870fa !important",
+                    color: `${colors.gray[100]} !important`,
+                    backgroundColor: `${colors.redAccent[900]} !important`
                 },
             }}
         >
@@ -114,7 +116,7 @@ const Sidebar = ({selected, setSelected}) => {
                                     alt="profile-user"
                                     width="100px"
                                     height="100px"
-                                    src={`../../logo512.png`}
+                                    src={`../../DillardsLogoV2.png`}
                                     style={{ cursor: "pointer", borderRadius: "50%" }}
                                 />
                             </Box>
@@ -127,7 +129,7 @@ const Sidebar = ({selected, setSelected}) => {
                                 >
                                     Todd Buck
                                 </Typography>
-                                <Typography variant="h5" color={colors.greenAccent[500]}>
+                                <Typography variant="h5" color={colors.redAccent[500]}>
                                     Front-End Dev
                                 </Typography>
                             </Box>

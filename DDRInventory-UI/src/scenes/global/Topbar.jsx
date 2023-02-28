@@ -1,4 +1,4 @@
-import { Box, IconButton, useTheme, InputBase } from "@mui/material";
+import { Box, IconButton, useTheme, Link, Typography } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
@@ -17,7 +17,7 @@ const Topbar = () => {
     return (
         <Box display="flex" justifyContent="space-between" p={2}>
             {/* Search Bar*/}
-            <Box
+            {/*<Box
                 display="flex"
                 backgroundColor={colors.primary[400]}
                 borderRadius="3px"
@@ -26,7 +26,18 @@ const Topbar = () => {
                 <IconButton type="button" sx={{ p:1 }}>
                     <SearchIcon />
                 </IconButton>
-            </Box>
+            </Box>*/}
+            <Link
+                href="/"
+                underline="none"
+            >
+                <Typography
+                    variant="logo_large"
+                    color={colors.gray[100]}
+                >
+                    Dillard's Dining Resources
+                </Typography>
+            </Link>
 
             {/* Icons */}
             <Box display="flex">

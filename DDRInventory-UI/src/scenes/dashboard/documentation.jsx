@@ -1,9 +1,8 @@
-import React from 'react';
+const DocumentationComponent = () => {
 
-function ReactComponent() {
-  return (
-    <p>Documentation page</p>
-  );
+    return (
+        <p>Welcome to the Documentation page!</p>
+    );
 }
 
-export default ReactComponent;
+export default DocumentationComponent;

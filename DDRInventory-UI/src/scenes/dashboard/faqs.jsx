@@ -1,9 +1,8 @@
-import React from 'react';
+const FAQsComponent = () => {
 
-function ReactComponent() {
-  return (
-    <p>FAQs page</p>
-  );
+    return (
+        <p>Welcome to the FAQ page!</p>
+    );
 }
 
-export default ReactComponent;
+export default FAQsComponent;

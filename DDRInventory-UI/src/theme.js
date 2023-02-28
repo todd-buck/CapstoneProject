@@ -189,6 +189,18 @@ export const themeSettings = (mode) => {
                 fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
                 fontSize: 14,
             },
+            logo_large: {
+                fontFamily: ["Damion", "sans-serif"].join(","),
+                fontSize: 40,
+            },
+            logo_medium: {
+                fontFamily: ["Damion", "sans-serif"].join(","),
+                fontSize: 24,
+            },
+            logo_small: {
+                fontFamily: ["Damion", "sans-serif"].join(","),
+                fontSize: 16,
+            },
         },
     };
 };

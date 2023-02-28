@@ -8,8 +8,11 @@ import { tokens } from "../../theme";
 /*Menu Collapse Icon*/
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
-/*Inventory Catalog Icon*/
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+/*Dashboard Icon*/
+import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
+
+/*Dashboard Icon*/
+import DvrOutlinedIcon from "@mui/icons-material/DvrOutlined";
 
 /*Add Inventory Icon*/
 import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
@@ -86,20 +89,17 @@ const Sidebar = ({selected, setSelected}) => {
                         onClick={() => setIsCollapsed(!isCollapsed)}
                         icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
                         style={{
-                            margin: "10px 0 20px 0",
+                            margin: "10px 0 10px 0",
                             color: colors.gray[100],
                         }}
                     >
                         {!isCollapsed && (
                             <Box
                                 display="flex"
-                                justifyContent="space-between"
+                                justifyContent="flex-end"
                                 alignItems="center"
                                 ml="15px"
                             >
-                                <Typography variant="h3" color={colors.gray[100]}>
-                                    DDRInventory
-                                </Typography>
                                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                                     <MenuOutlinedIcon />
                                 </IconButton>
@@ -108,43 +108,37 @@ const Sidebar = ({selected, setSelected}) => {
                     </MenuItem>
 
                     {!isCollapsed && (
-                        <Box mb="25px">
-                            <Box display="flex" justifyContent="center" alignItems="center">
-                                <img
-                                    alt="profile-user"
-                                    width="100px"
-                                    height="100px"
-                                    src={`../../logo512.png`}
-                                    style={{ cursor: "pointer", borderRadius: "50%" }}
-                                />
-                            </Box>
-                            <Box textAlign="center">
-                                <Typography
-                                    variant="h2"
-                                    color={colors.gray[100]}
-                                    fontWeight="bold"
-                                    sx={{ m: "10px 0 0 0" }}
-                                >
-                                    Todd Buck
-                                </Typography>
-                                <Typography variant="h5" color={colors.greenAccent[500]}>
-                                    Front-End Dev
-                                </Typography>
-                            </Box>
+                        <Box mb="3vh" ml="5vw" mr="5vw" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+                            <Typography variant="logo_large" color={colors.greenAccent[400]} align="center">
+                                DDR
+                            </Typography>
+                            <Typography variant="logo_medium" color={colors.gray[100]} align="center">
+                                Dillard's
+                                Dining
+                                Resources
+                            </Typography>
                         </Box>
                     )}
 
                     <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-                        {/* Home Screen (Inventory Catalog) */}
+                        {!isCollapsed && (
+                            <Typography
+                                variant="h6"
+                                color={colors.gray[300]}
+                                sx={{ m: "15px 0 5px 20px" }}
+                            >
+                                Home
+                            </Typography>
+                        )}
+
                         <Item
-                            title="Inventory Catalog"
+                            title="Dashboard"
                             to="/"
-                            icon={<HomeOutlinedIcon />}
+                            icon={<GridViewOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />
 
-                        {/* Inventory Manipulation (Add New Item)*/}
                         {!isCollapsed && (
                             <Typography
                                 variant="h6"
@@ -156,14 +150,22 @@ const Sidebar = ({selected, setSelected}) => {
                         )}
 
                         <Item
-                            title="Add Inventory (Invoices)"
+                            title="Product Catalog"
+                            to="/"
+                            icon={<DvrOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+
+                        <Item
+                            title="Update Inventory"
                             to="/"
                             icon={<PostAddOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />
                         <Item
-                            title="Add New Item"
+                            title="Add New Product"
                             to="/"
                             icon={<AddBoxOutlinedIcon />}
                             selected={selected}

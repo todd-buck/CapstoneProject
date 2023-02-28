@@ -1,9 +1,8 @@
-import React from 'react';
+const ReportsComponent = () => {
 
-function ReactComponent() {
-  return (
-    <p>Reports page</p>
-  );
+    return (
+        <p>Welcome to the Reports page!</p>
+    );
 }
 
-export default ReactComponent;
+export default ReportsComponent;

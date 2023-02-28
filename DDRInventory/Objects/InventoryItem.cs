@@ -26,7 +26,7 @@ namespace DDRInventory.Objects
             {
                 try
                 {
-                    InventoryItem idInUse = InventoryItemContext.getItem(generatedId);
+                    InventoryItem idInUse = InventoryItemContext.GetItem(generatedId);
                     Console.WriteLine($"Generated Id {generatedId} is in use by {idInUse.Name}. Generating new Id");
                     generatedId++;
                     continue;
@@ -43,7 +43,7 @@ namespace DDRInventory.Objects
     public class ItemNotFoundException : Exception
     {
         public int Id { get; }
-        public ItemNotFoundException(int id)
+        public ItemNotFoundException(string message, int id) : base(message)
         {
             Id = id;
         }

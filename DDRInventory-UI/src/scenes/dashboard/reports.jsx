@@ -4,5 +4,5 @@ const ReportsComponent = () => {
         <p>Welcome to the Reports page!</p>
     );
 }
-
+ 
 export default ReportsComponent;

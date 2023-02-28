@@ -4,5 +4,5 @@ const DocumentationComponent = () => {
         <p>Welcome to the Documentation page!</p>
     );
 }
-
+ 
 export default DocumentationComponent;

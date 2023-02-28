@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box } from '@mui/material';
-
+ 
 import DashboardComponent from './dashboard.jsx';
 import ProductCatalogCopmonent from './productcatalog.jsx';
 import UpdateInventoryComponent from './updateinventory.jsx';

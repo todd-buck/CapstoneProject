@@ -4,5 +4,5 @@ const UpdateInventoryComponent = () => {
         <p>Welcome to the UpdateInventory page!</p>
     );
 }
-
+ 
 export default UpdateInventoryComponent;

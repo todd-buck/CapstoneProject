@@ -1,8 +1,8 @@
-const AddNewItemComponent = () => {
+const AddNewProductComponent = () => {
 
     return (
         <p>Welcome to the AddNewItem page!</p>
     );
 }
 
-export default AddNewItemComponent;
+export default AddNewProductComponent;

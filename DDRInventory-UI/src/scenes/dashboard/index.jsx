@@ -2,16 +2,16 @@ import React from 'react';
 
 import { Box } from '@mui/material';
 
-import DashboardComponent from './Dashboard.jsx';
-import ProductCatalogCopmonent from './ProductCatalog.jsx';
-import UpdateInventoryComponent from './UpdateInventory.jsx';
-import AddNewProductComponent from './AddNewProduct.jsx';
-import ReportsComponent from './Reports.jsx';
-import ImportCSVComponent from './ImportCSV.jsx';
-import YourProfileComponent from './YourProfile.jsx';
-import DocumentationComponent from './Documentation.jsx';
-import AddNewUserComponent from './AddNewUser.jsx';
-import FAQsComponent from './FAQs.jsx';
+import DashboardComponent from './dashboard.jsx';
+import ProductCatalogCopmonent from './productcatalog.jsx';
+import UpdateInventoryComponent from './updateinventory.jsx';
+import AddNewProductComponent from './addnewproduct.jsx';
+import ReportsComponent from './reports.jsx';
+import ImportCSVComponent from './importcsv.jsx';
+import YourProfileComponent from './yourprofile.jsx';
+import DocumentationComponent from './documentation.jsx';
+import AddNewUserComponent from './addnewuser.jsx';
+import FAQsComponent from './faqs.jsx';
 
 const Dashboard = ({ selected }) => {
 

@@ -111,13 +111,8 @@ const Sidebar = ({selected, setSelected}) => {
 
                     {!isCollapsed && (
                         <Box mb="3vh" ml="5vw" mr="5vw" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-                            <Typography variant="logo_large" color={colors.greenAccent[400]} align="center">
+                            <Typography variant="logo_large" color={colors.redAccent[500]} align="center">
                                 DDR
-                            </Typography>
-                            <Typography variant="logo_medium" color={colors.gray[100]} align="center">
-                                Dillard's
-                                Dining
-                                Resources
                             </Typography>
                         </Box>
                     )}

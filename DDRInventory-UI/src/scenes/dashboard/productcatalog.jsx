@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import MaterialReactTable from 'material-react-table';
 
 import { Box, IconButton, useTheme, Button } from "@mui/material";
@@ -28,6 +28,33 @@ const DashboardComponent = () => {
         getData("/api/catalog");
     }, []);
 
+    const handleDeleteRow = useCallback(
+        (row) => {
+            if (!window.confirm(`Are you sure you want to delete ${row.getValue('name')}?`)) {
+                return;
+            }
+            console.log("Entering fetch post")
+            console.log(JSON.stringify({ id: 1 }))
+            const test = 1;
+
+            fetch("https://localhost:7105/api/delete?id=" + test.toString(), {
+                method: 'DELETE',
+                mode: 'cors',
+            }).then((response) => response.status)
+                .then((responseStatus) => {
+                    if (responseStatus != 200) {
+                        console.log("Exiting fetch post with error. Response: " + responseStatus.toString())
+                        window.location.reload()
+                    }
+                    console.log("Exiting fetch post without error. Response: " + responseStatus.toString())
+                })
+
+            //update local table
+            productCatalog.splice(row.index, 1);
+            setProductCatalog([...productCatalog]);
+        },
+        [productCatalog],
+    );
 
     if (!productCatalog) return (<div>Loading...</div>)
 
@@ -51,7 +78,7 @@ const DashboardComponent = () => {
             renderRowActions={({ row }) => (
                 <Box sx={{ display: 'flex', flexDirextion: 'row' }} >
                     <IconButton
-                        onClick={() => alert('Implement DeleteItem')}
+                        onClick={() => handleDeleteRow(row)}
                     >
                         <Delete />
                     </IconButton>

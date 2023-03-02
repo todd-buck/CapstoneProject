@@ -33,22 +33,16 @@ const DashboardComponent = () => {
             if (!window.confirm(`Are you sure you want to delete ${row.getValue('name')}?`)) {
                 return;
             }
-            console.log("Entering fetch post")
-            console.log(JSON.stringify({ id: 1 }))
-            const test = 1;
 
-            fetch("https://localhost:7105/api/delete?id=" + test.toString(), {
+            fetch("https://localhost:7105/api/delete?id=" + row.getValue('id').toString(), {
                 method: 'DELETE',
                 mode: 'cors',
             }).then((response) => response.status)
                 .then((responseStatus) => {
                     if (responseStatus != 200) {
-                        console.log("Exiting fetch post with error. Response: " + responseStatus.toString())
                         window.location.reload()
                     }
-                    console.log("Exiting fetch post without error. Response: " + responseStatus.toString())
                 })
-
             //update local table
             productCatalog.splice(row.index, 1);
             setProductCatalog([...productCatalog]);

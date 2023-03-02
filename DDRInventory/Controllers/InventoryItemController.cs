@@ -5,6 +5,7 @@ using DDRInventory.Objects;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SQLite;
 using System.Globalization;
+using System.Linq.Expressions;
 
 namespace DDRInventory.Controllers
 {
@@ -49,7 +50,7 @@ namespace DDRInventory.Controllers
                         Response.StatusCode = 512;
                         return false;
                     }
-                    catch(CsvHelperException e)
+                    catch (CsvHelperException e)
                     {
                         Console.WriteLine($"Error when proccessing CSV file. Exception: {e.Message}");
                         Response.StatusCode = 400;
@@ -97,10 +98,16 @@ namespace DDRInventory.Controllers
             {
                 return InventoryItemContext.UpdateItem(updatedItem);
             }
-            catch(SQLiteException e)
+            catch (SQLiteException e)
             {
                 Console.WriteLine($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
+                return false;
+            }
+            catch (ItemNotFoundException e)
+            {
+                Console.WriteLine($"Item not found. Exception: {e.Message}");
+                Response.StatusCode = 451;
                 return false;
             }
         }
@@ -111,8 +118,8 @@ namespace DDRInventory.Controllers
         {
             try
             {
-                InventoryItem[] returnValue = InventoryItemContext.getAllItems().ToArray();
-                if (returnValue.Length == 0) Response.StatusCode = 204;
+                InventoryItem[] returnValue = InventoryItemContext.GetAllItems().ToArray();
+                if (returnValue.Length == 0) Response.StatusCode = 204; //if the list is empty throw http 204
                 return returnValue;
             }
             catch (SQLiteException e)
@@ -129,16 +136,18 @@ namespace DDRInventory.Controllers
             InventoryItem returnValue = new InventoryItem();
             try
             {
-                returnValue = InventoryItemContext.getItem(id);
-            }
-            catch (ItemNotFoundException e)
-            {
-                Response.StatusCode = 451;
+                returnValue = InventoryItemContext.GetItem(id);
             }
             catch (SQLiteException e)
             {
                 Console.WriteLine($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
+                return new InventoryItem();
+            }
+            catch (ItemNotFoundException e)
+            {
+                Console.WriteLine($"Item not found. Exception: {e.Message}");
+                Response.StatusCode = 451;
                 return new InventoryItem();
             }
             return returnValue;
@@ -154,6 +163,7 @@ namespace DDRInventory.Controllers
             }
             catch (ItemNotFoundException e)
             {
+                Console.WriteLine($"Item not found. Exception: {e.Message}");
                 Response.StatusCode = 451;
                 return false;
             }
@@ -170,7 +180,15 @@ namespace DDRInventory.Controllers
         public void deleteMany(int[] ids)
         {
             Response.StatusCode = 501;
-            return;
+            try
+            {
+                Response.StatusCode = 501; // not implemented
+            }
+            catch (ItemNotFoundException e)
+            {
+                Console.WriteLine($"Item not found. Exception: {e.Message}");
+                Response.StatusCode = 451;
+            }
         }
 
         [HttpDelete("/api/deleteAll")]
@@ -200,4 +218,5 @@ namespace DDRInventory.Controllers
 //204 : No content- used when the catalog is empty
 //400: Bad Request
 //451: Item not found - Used when deleting an item that does not exist or querying the catalog for an item with an Id that does not exist
+//501 Not Implemented (This means what you think it means)
 //512: General unspecified SQL error

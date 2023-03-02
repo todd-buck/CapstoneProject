@@ -6,11 +6,15 @@ import { Delete, Mode } from '@mui/icons-material';
 
 import { tokens } from "../../theme";
 
+import UpdateInventoryComponent from "./updateinventory.jsx"
+
 const DashboardComponent = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
     const [productCatalog, setProductCatalog] = useState(null)
+
+    const [updateInventoryWindow, setUpdateInventoryWindow] = useState(false);
 
     useEffect(() => {
         const base_url = "https://localhost:3000";
@@ -63,7 +67,20 @@ const DashboardComponent = () => {
         return { accessorKey: key, header: capitalize }
     })
 
+    function refreshPage() {
+        window.location.reload(false);
+    }
+
     return (
+        <Box>
+            {updateInventoryWindow ? (
+                <UpdateInventoryComponent item={updateInventoryWindow.original} setUpdateInventoryWindow={setUpdateInventoryWindow} productCatalog={productCatalog} setProductCatalog={setProductCatalog} />
+            ) : (
+                null
+            )}
+
+        {/*{updateInventoryWindow && <UpdateInventoryComponent item={updateInventoryWindow.original} setUpdateInventoryWindow={setUpdateInventoryWindow} />}*/}
+        
         <MaterialReactTable
             columns={stableColumns}
             data={productCatalog}
@@ -83,7 +100,9 @@ const DashboardComponent = () => {
                         <Delete />
                     </IconButton>
                     <IconButton
-                        onClick={() => alert('Implement UpdateItem')}
+                        onClick={() => {
+                            setUpdateInventoryWindow(row);
+                        }} 
                     >
                         <Mode />
                     </IconButton>
@@ -108,7 +127,8 @@ const DashboardComponent = () => {
                 );
             }}
 
-        />
+            />
+        </Box>
     )
 }
 

@@ -9,11 +9,15 @@ namespace DDRInventory.Models
     {
         public static void AddItem(InventoryItem newItem)
         {
+            if (GetAllIds().Contains(newItem.Id))
+            {
+                newItem.Id = InventoryItem.GenerateId();
+            }
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
                 {
-                    insertItemCommand.CommandText = "INSERT INTO items (id, name, quantity, price, unit, category, subcategory, par_level) VALUES($id, $name, $quantity, $price, $unit, $category, $subcategory, $par_level); "; 
+                    insertItemCommand.CommandText = "INSERT INTO items (id, name, quantity, price, unit, category, subcategory, par_level) VALUES($id, $name, $quantity, $price, $unit, $category, $subcategory, $par_level); ";
                     insertItemCommand.Parameters.AddWithValue("$id", newItem.Id);
                     insertItemCommand.Parameters.AddWithValue("$name", newItem.Name);
                     insertItemCommand.Parameters.AddWithValue("$quantity", newItem.QuantityOnHand);
@@ -37,7 +41,11 @@ namespace DDRInventory.Models
                 {
                     insertItemCommand.CommandText = "INSERT INTO items (id, name, quantity, price, unit, category, subcategory, par_level) VALUES($id, $name, $quantity, $price, $unit, $category, $subcategory, $par_level); ";
                     foreach (InventoryItem newItem in newItems)
-                    { 
+                    {
+                        if (GetAllIds().Contains(newItem.Id))
+                        {
+                            newItem.Id = InventoryItem.GenerateId();
+                        }
                         insertItemCommand.Parameters.AddWithValue("$id", newItem.Id);
                         insertItemCommand.Parameters.AddWithValue("$name", newItem.Name);
                         insertItemCommand.Parameters.AddWithValue("$quantity", newItem.QuantityOnHand);
@@ -54,7 +62,96 @@ namespace DDRInventory.Models
             }
         }
 
-        public static InventoryItem getItem(int id) {
+        public static bool DeleteAll()
+        {
+            Console.WriteLine($"Deleting all items from the database");
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
+                {
+                    insertItemCommand.CommandText = "DELETE FROM items;";
+                    insertItemCommand.ExecuteNonQuery();
+                    Console.WriteLine($"All items removes from the catalog");
+                    return true;
+                }
+            }
+        }
+
+        public static bool DeleteItem(int id)
+        {
+            Console.WriteLine($"Deleting item with ID {id}");
+            try
+            {
+                GetItem(id);
+            }
+            catch (ItemNotFoundException e)
+            {
+                Console.WriteLine($"Item with id {e.Id} does not exists. Delete operation terminated.");
+                return false;
+            }
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
+                {
+                    insertItemCommand.CommandText = $"DELETE FROM items WHERE id = {id};";
+                    insertItemCommand.ExecuteNonQuery();
+                    Console.WriteLine($"Item with id {id} removed from the database.");
+                    return true;
+                }
+            }
+        }
+        public static List<InventoryItem> GetAllItems()
+        {
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand allItemsQuery = catalog._connection.CreateCommand())
+                {
+                    Console.WriteLine("Retrieving all items from the database");
+                    List<InventoryItem> items = new List<InventoryItem>();
+                    allItemsQuery.CommandText = "SELECT * FROM items;";
+
+                    SQLiteDataReader reader = allItemsQuery.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        items.Add(new InventoryItem
+                        {
+                            Id = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            QuantityOnHand = reader.GetInt32(2),
+                            Price = reader.GetDecimal(3),
+                            Unit = reader.GetString(4),
+                            Category = reader.GetString(5),
+                            SubCategory = reader.GetString(6),
+                            ParLevel = reader.GetInt32(7)
+                        });
+                    }
+                    return items;
+                }
+            }
+        }
+
+        private static List<int> GetAllIds()
+        {
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand allItemsQuery = catalog._connection.CreateCommand())
+                {
+                    Console.WriteLine("Retrieving all items from the database");
+                    List<int> items = new List<int>();
+                    allItemsQuery.CommandText = "SELECT * FROM items;";
+
+                    SQLiteDataReader reader = allItemsQuery.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        items.Add(reader.GetInt32(0));
+                    }
+                    return items;
+                }
+            }
+        }
+
+        public static InventoryItem GetItem(int id)
+        {
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand itemQuery = catalog._connection.CreateCommand())
@@ -81,8 +178,7 @@ namespace DDRInventory.Models
                         }
                         else
                         {
-                            Console.Write($"Item {id} not found");
-                            throw new ItemNotFoundException(id);
+                            throw new ItemNotFoundException($"Item {id} not found", id);
                         }
                     }
                 }
@@ -91,6 +187,7 @@ namespace DDRInventory.Models
 
         public static bool UpdateItem(InventoryItem updatedItem)
         {
+            GetItem(updatedItem.Id); // this throw exception if the item does not exist.
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand updateItemCommand = catalog._connection.CreateCommand())
@@ -106,75 +203,6 @@ namespace DDRInventory.Models
                     Console.WriteLine($"Updating item id {updatedItem.Id}'s properties");
                     updateItemCommand.ExecuteNonQuery();
                     return true;
-                }
-            }
-        }
-
-        public static bool DeleteItem(int id)
-        {
-            Console.WriteLine($"Deleting item with ID {id}");
-            try
-            {
-                getItem(id);
-            }
-            catch (ItemNotFoundException e)
-            {
-                Console.WriteLine($"Item with id {e.Id} does not exists. Delete operation terminated.");
-                return false;
-            }
-            using (Database catalog = new Database())
-            {
-                using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
-                {
-                    insertItemCommand.CommandText = $"DELETE FROM items WHERE id = {id};";
-                    insertItemCommand.ExecuteNonQuery();
-                    Console.WriteLine($"Item with id {id} removed from the database.");
-                    return true;
-                }
-            }
-        }
-
-        public static bool DeleteAll()
-        {
-            Console.WriteLine($"Deleting all items from the database");
-            using (Database catalog = new Database())
-            {
-                using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
-                {
-                    insertItemCommand.CommandText = "DELETE FROM items;";
-                    insertItemCommand.ExecuteNonQuery();
-                    Console.WriteLine($"All items removes from the catalog");
-                    return true;
-                }
-            }
-        }
-
-        public static List<InventoryItem> getAllItems()
-        {
-            using (Database catalog = new Database())
-            {
-                using (SQLiteCommand allItemsQuery = catalog._connection.CreateCommand())
-                {
-                    Console.WriteLine("Retrieving all items from the database");
-                    List<InventoryItem> items = new List<InventoryItem>();
-                    allItemsQuery.CommandText = "SELECT * FROM items;";
-
-                    SQLiteDataReader reader = allItemsQuery.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        items.Add(new InventoryItem
-                        {
-                            Id = reader.GetInt32(0),
-                            Name = reader.GetString(1),
-                            QuantityOnHand = reader.GetInt32(2),
-                            Price = reader.GetDecimal(3),
-                            Unit = reader.GetString(4),
-                            Category= reader.GetString(5),
-                            SubCategory= reader.GetString(6),
-                            ParLevel= reader.GetInt32(7)
-                        });
-                    }
-                    return items;
                 }
             }
         }

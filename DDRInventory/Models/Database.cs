@@ -65,11 +65,11 @@ namespace DDRInventory.Models
         public void Dispose()
         {
             _connection.Dispose();
-            Console.WriteLine($"Connection to {DATABASE_NAME} disposed");
+            //Console.WriteLine($"Connection to {DATABASE_NAME} disposed");
         }
         void Open()
         {
-            Console.WriteLine($"Opening database {DATABASE_NAME} for read/write");
+            //Console.WriteLine($"Opening database {DATABASE_NAME} for read/write");
             // Create a new database connection:
             _connection = new SQLiteConnection("Data Source=" + DATABASE_NAME + "; Version = 3; New = True; Compress = True; ");
             // Open the connection:
@@ -81,7 +81,7 @@ namespace DDRInventory.Models
             {
 
             }
-            Console.WriteLine($"Opened {DATABASE_NAME} sucessfully");
+            //Console.WriteLine($"Opened {DATABASE_NAME} sucessfully");
         }
 
         void CreateTable(string name, string types)

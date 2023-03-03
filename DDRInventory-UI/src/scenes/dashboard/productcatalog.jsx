@@ -8,6 +8,8 @@ import { tokens } from "../../theme";
 
 import UpdateInventoryComponent from "./updateinventory.jsx"
 
+import AddNewProductComponent from "./addnewproduct.jsx"
+
 const DashboardComponent = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -16,8 +18,10 @@ const DashboardComponent = () => {
 
     const [updateInventoryWindow, setUpdateInventoryWindow] = useState(false);
 
+    const [addProductWindow, setAddProductWindow] = useState(false);
+
     useEffect(() => {
-        const base_url = "https://localhost:3000";
+        const base_url = "https://localhost:7105";
 
         const getData = async (api_method) => {
             try {
@@ -73,7 +77,11 @@ const DashboardComponent = () => {
                 null
             )}
 
-        {/*{updateInventoryWindow && <UpdateInventoryComponent item={updateInventoryWindow.original} setUpdateInventoryWindow={setUpdateInventoryWindow} />}*/}
+            {addProductWindow ? (
+                <AddNewProductComponent setAddProductWindow={setAddProductWindow} productCatalog={productCatalog} setProductCatalog={setProductCatalog} />
+            ) : (
+                null
+            )}
         
         <MaterialReactTable
             columns={stableColumns}
@@ -104,15 +112,13 @@ const DashboardComponent = () => {
             )}
             initialState={{ showColumnFilters: false }}
             renderTopToolbarCustomActions={({ table }) => {
-                const handleAddNewItem = () => {
-                    alert('Implement AddNewItem');
-                };
-
                 return (
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
                         <Button
                             color="success"
-                            onClick={handleAddNewItem}
+                            onClick={() => {
+                                setAddProductWindow(true);
+                            }} 
                             variant="contained"
                         >
                             + New Item

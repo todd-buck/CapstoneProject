@@ -15,10 +15,6 @@ namespace DDRInventory.Objects
         public string SubCategory { get; set; }
         public int ParLevel { get; set; }
 
-        public override string ToString()
-        {
-            return "'" + Id.ToString() + "', '" + Name.ToString() + "', '" + QuantityOnHand.ToString() + "', '" + Price.ToString() + "', '" + Unit.ToString() + "'";
-        }
         public static int GenerateId()
         {
             int generatedId = new Random(Guid.NewGuid().GetHashCode()).Next();

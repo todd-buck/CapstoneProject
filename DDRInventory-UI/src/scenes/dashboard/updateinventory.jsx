@@ -37,7 +37,6 @@ const UpdateInventoryComponent = ({ item, setUpdateInventoryWindow, productCatal
                 }
                 else {
                     console.log("Exiting fetch post without error. Response: " + responseStatus.toString())
-                    //window.location.reload()
                 }
             }).then(setUpdateInventoryWindow(false)).then(setOpen(false))
 

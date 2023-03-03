@@ -62,33 +62,24 @@ namespace DDRInventory.Controllers
         }
 
         [HttpPost("/api/item/add")]
-        public int Add(string name, int quantity, Decimal price, string unit, string category, string subCategory, int parLevel, int? id = null)
+        public int Add(InventoryItem newItem)
         {
-            if (id is null)
+            if (newItem.Id == -1)
             {
-                id = InventoryItem.GenerateId();
+                Console.WriteLine($"New item '{newItem.Name}' inserted with no UPC. Generating id...");
+                newItem.Id = InventoryItem.GenerateId();
             }
             try
             {
-                InventoryItemContext.AddItem(new InventoryItem
-                {
-                    Id = id.Value,
-                    Name = name,
-                    Price = price,
-                    Unit = unit,
-                    QuantityOnHand = quantity,
-                    Category = category,
-                    SubCategory = subCategory,
-                    ParLevel = parLevel
-                });
+                InventoryItemContext.AddItem(newItem);
             }
             catch (SQLiteException e)
             {
                 Console.WriteLine($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
-                return id.Value;
+                return newItem.Id;
             }
-            return id.Value;
+            return newItem.Id;
         }
 
         [HttpPut("/api/item/update")]

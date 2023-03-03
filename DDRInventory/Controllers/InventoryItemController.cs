@@ -42,13 +42,6 @@ namespace DDRInventory.Controllers
                             ParLevel = csv.GetField<int>(csv.GetFieldIndex("par level")),
                             Id = csv.GetField<int>(csv.GetFieldIndex("id"))
                         });
-                        InventoryItemContext.AddItems(items);
-                    }
-                    catch (SQLiteException e)
-                    {
-                        Console.WriteLine($"SQL Error. Exception: {e.Message}");
-                        Response.StatusCode = 512;
-                        return false;
                     }
                     catch (CsvHelperException e)
                     {
@@ -56,6 +49,16 @@ namespace DDRInventory.Controllers
                         Response.StatusCode = 400;
                         return false;
                     }
+                }
+                try
+                {
+                    InventoryItemContext.AddItems(items);
+                }
+                catch (SQLiteException e)
+                {
+                    Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                    Response.StatusCode = 512;
+                    return false;
                 }
             }
             return true;

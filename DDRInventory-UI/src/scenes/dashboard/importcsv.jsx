@@ -1,19 +1,6 @@
-/*const ImportCSVComponent = () => {
-
-    return (
-        <p>Welcome to the ImportCSV page!</p>
-    );
-}
- 
-export default ImportCSVComponent;
-*/
-
-//import './App.css';
 import React, { useState } from 'react';
-//import axios from 'axios';
 
-function App() {
-
+const ImportCSVComponent = () => {
     const [file, setFile] = useState()
 
     function handleChange(event) {
@@ -21,31 +8,35 @@ function App() {
     }
 
     function handleSubmit(event) {
-        event.preventDefault()
-        const url = 'http://localhost:3000/uploadFile';
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('fileName', file.name);
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data',
-            },
-        };
-        //axios.post(url, formData, config).then((response) => {
-        //    console.log(response.data);
-        //});
+        fetch("https://localhost:7105/api/uploadCSV", {
+            accept: 'text/plain',
+            method: 'POST',
+            mode: 'cors',
+            headers: { 'content-type': 'multipart/form-data' },
+            body: FormData
+        }).then((response) => response.status)
+            .then((responseStatus) => {
+                if (responseStatus === 451) {
+                    console.log("Item not found. Response: " + responseStatus.toString())
+                }
+                else {
+                    console.log("Exiting fetch post without error. Response: " + responseStatus.toString())
+                    //window.location.reload()
+                }
+            })
 
     }
 
     return (
-        <div className="App">
+        <div className="ImportCSVComponent">
             <form onSubmit={handleSubmit}>
-                <h1>React File Upload</h1>
-                <input type="file" onChange={handleChange} />
-                <button type="submit">Upload</button>
+                <h1>CSV File Upload</h1>
+                <input type="file" accept=".csv" onChange={handleChange} />
+                <button type="submit" onclick="handleSubmit(file)">Upload</button>
             </form>
         </div>
     );
-}
 
-export default App;
+}
+ 
+export default ImportCSVComponent;

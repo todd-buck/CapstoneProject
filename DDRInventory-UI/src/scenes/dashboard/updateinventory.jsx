@@ -24,7 +24,7 @@ const UpdateInventoryComponent = ({ item, setUpdateInventoryWindow, productCatal
     };
 
     const handleSubmit = () => {
-        fetch("https://localhost:7105/api/update", {
+        fetch("https://localhost:7105/api/item/update", {
             accept: 'application/json',
             method: 'PUT',
             mode: 'cors',

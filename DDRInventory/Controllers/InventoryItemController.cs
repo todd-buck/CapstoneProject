@@ -13,7 +13,7 @@ namespace DDRInventory.Controllers
     [Route("database")]
     public class InventoryItemController : ControllerBase
     {
-        [HttpPost("/api/uploadCSV")]
+        [HttpPost("/api/item/uploadCSV")]
         public bool UploadCSV(IFormFile file)
         {
             Console.WriteLine($"{file.FileName} uploaded successfully");
@@ -61,7 +61,7 @@ namespace DDRInventory.Controllers
             return true;
         }
 
-        [HttpPost("/api/add")]
+        [HttpPost("/api/item/add")]
         public int Add(string name, int quantity, Decimal price, string unit, string category, string subCategory, int parLevel, int? id = null)
         {
             if (id is null)
@@ -91,7 +91,7 @@ namespace DDRInventory.Controllers
             return id.Value;
         }
 
-        [HttpPut("/api/update")]
+        [HttpPut("/api/item/update")]
         public bool update(InventoryItem updatedItem)
         {
             try
@@ -113,7 +113,7 @@ namespace DDRInventory.Controllers
         }
 
 
-        [HttpGet("/api/catalog")]
+        [HttpGet("/api/item/catalog")]
         public InventoryItem[] getCatalog()
         {
             try
@@ -153,7 +153,7 @@ namespace DDRInventory.Controllers
             return returnValue;
         }
 
-        [HttpDelete("/api/delete")]
+        [HttpDelete("/api/item/delete/{id}")]
         public bool deleteItem(int id)
         {
             bool returnVal;
@@ -176,7 +176,7 @@ namespace DDRInventory.Controllers
             return returnVal;
         }
 
-        [HttpDelete("/api/deleteMany")]
+        [HttpDelete("/api/item/deleteMany")]
         public void deleteMany(int[] ids)
         {
             Response.StatusCode = 501;
@@ -191,7 +191,7 @@ namespace DDRInventory.Controllers
             }
         }
 
-        [HttpDelete("/api/deleteAll")]
+        [HttpDelete("/api/item/delete/all")]
         public void deleteAll()
         {
             try

@@ -29,7 +29,7 @@ const DashboardComponent = () => {
             }
         };
 
-        getData("/api/catalog");
+        getData("/api/item/catalog");
     }, []);
 
     const handleDeleteRow = useCallback(
@@ -38,7 +38,7 @@ const DashboardComponent = () => {
                 return;
             }
 
-            fetch("https://localhost:7105/api/delete?id=" + row.getValue('id').toString(), {
+            fetch("https://localhost:7105/api/item/delete/" + row.getValue('id').toString(), {
                 method: 'DELETE',
                 mode: 'cors',
             }).then((response) => response.status)

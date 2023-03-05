@@ -7,6 +7,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import InputAdornment from '@mui/material/InputAdornment';
 import DialogTitle from '@mui/material/DialogTitle';
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
 
 const newProduct = {
     "id": -1,
@@ -140,6 +142,7 @@ const AddNewProductComponent = ({ setAddProductWindow, productCatalog, setProduc
             </DialogActions>
         </Dialog>
     );
-}
+};
 
 export default AddNewProductComponent;
+

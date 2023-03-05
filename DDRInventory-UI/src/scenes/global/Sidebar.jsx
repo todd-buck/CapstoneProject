@@ -74,13 +74,12 @@ const Sidebar = ({selected, setSelected}) => {
                 "& .pro-inner-item": {
                     padding: "5px 35px 5px 20px !important",
                 },
-                "& .pro-inner-item:hover": {
+                "& .pro-inner-item:not(active):hover": {
                     color: `${colors.redAccent[500]} !important`,
-                    backgroundColor: "transparent !important",
                 },
                 "& .pro-menu-item.active": {
                     color: `${colors.gray[100]} !important`,
-                    backgroundColor: `${colors.redAccent[900]} !important`
+                    backgroundColor: `${colors.redAccent[500]} !important`
                 },
             }}
         >
@@ -110,10 +109,16 @@ const Sidebar = ({selected, setSelected}) => {
                     </MenuItem>
 
                     {!isCollapsed && (
-                        <Box mb="3vh" ml="5vw" mr="5vw" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-                            <Typography variant="logo_large" color={colors.redAccent[500]} align="center">
-                                DDR
-                            </Typography>
+                        <Box mb="25px">
+                            <Box display="flex" justifyContent="center" alignItems="center">
+                                <img
+                                    alt="profile-user"
+                                    width="100px"
+                                    height="100px"
+                                    src={`../../DillardsLogoV2.png`}
+                                    style={{ cursor: "pointer", borderRadius: "50%" }}
+                                />
+                            </Box>
                         </Box>
                     )}
 

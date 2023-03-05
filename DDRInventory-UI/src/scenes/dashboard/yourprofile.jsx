@@ -1,8 +1,6 @@
 import React from 'react';
-import { Avatar, Typography, TextField, Button, Box } from '@mui/material';
-import profilePicture from './StockProfilePicture.jpg';
-
-import { useTheme } from "@mui/material";
+import { Avatar, Typography, TextField, Button, Box, useTheme } from '@mui/material';
+import profilePicture from '../../assets/StockProfilePicture.jpg';
 import { tokens } from "../../theme";
 
 const YourProfileComponent = () => {

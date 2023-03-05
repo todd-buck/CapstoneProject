@@ -4,6 +4,7 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
+import logo from '../../assets/DillardsLogoV2.png'
 
 /*Menu Collapse Icon*/
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -115,7 +116,7 @@ const Sidebar = ({selected, setSelected}) => {
                                     alt="profile-user"
                                     width="100px"
                                     height="100px"
-                                    src={`../../DillardsLogoV2.png`}
+                                    src={logo}
                                     style={{ cursor: "pointer", borderRadius: "50%" }}
                                 />
                             </Box>
@@ -159,7 +160,7 @@ const Sidebar = ({selected, setSelected}) => {
                             setSelected={setSelected}
                         />
 
-                        <Item
+                       {/* <Item
                             title="Update Inventory"
                             to="/"
                             icon={<PostAddOutlinedIcon />}
@@ -172,7 +173,7 @@ const Sidebar = ({selected, setSelected}) => {
                             icon={<AddBoxOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
-                        />
+                        />*/}
                         <Item
                             title="Reports"
                             to="/"
@@ -205,13 +206,13 @@ const Sidebar = ({selected, setSelected}) => {
                             selected={selected}
                             setSelected={setSelected}
                         />
-                        <Item
+                        {/*<Item
                             title="Add New Users"
                             to="/"
                             icon={<PersonAddAltOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
-                        />
+                        />*/}
 
                         {/* Information */}
                         {!isCollapsed && (

@@ -1,9 +1,7 @@
 import React from 'react';
 
-import { useTheme } from "@mui/material";
+import { useTheme, Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
 import { tokens } from "../../theme";
-
-import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const FAQsComponent = () => {

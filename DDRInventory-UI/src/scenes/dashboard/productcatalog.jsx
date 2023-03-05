@@ -65,10 +65,6 @@ const DashboardComponent = () => {
         return { accessorKey: key, header: capitalize }
     })
 
-    function refreshPage() {
-        window.location.reload(false);
-    }
-
     return (
         <Box>
             {updateInventoryWindow ? (

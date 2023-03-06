@@ -47,8 +47,49 @@ const DocumentationComponent = () => {
                 processes an update to that item's information. If an item is added from the CSV that contains a non-UPC length ID, that means that the user did not include a
                 UPC when the item was added to the inventory, so the product ID was randomly generated. As such, if one of these items is in the imported CSV, the controller
                 will add that item with a newly generated ID. It is the responsibility of the user to manage duplicate items for which there is no UPC.</p>
+            <Typography variant="h3" sx={{ color: colors.redAccent[400] }}>
+                HTTP Response Codes
+            </Typography>
+            <p>
+                The inventory management software back-end returns many different HTTP response codes when erorrs occur. Those response codes are listed below with there meanings.
+            </p>
+            <Typography variant="h5" sx={{ color: colors.redAccent[400] }}>
+                Error 204
+            </Typography>
+            <p>
+                Error 204 means "No content" and is returned by the /api/item/catalog API call to signify that the catalog is empty.
+            </p>
+            <Typography variant="h5" sx={{ color: colors.redAccent[400] }}>
+                Error 400
+            </Typography>
+            <p>
+                Error  means "Bad Request" and is returned by the /api/item/uploadCSV API call to signify that the CSV was not parsed correctly. The user should be prompted to check the file formatting and try again.
+            </p>
+            <Typography variant="h5" sx={{ color: colors.redAccent[400] }}>
+                Error 451
+            </Typography>
+            <p>
+                Error 451 means "Item Not Found" and is returned by the /api/item/&#123;id&#125;, /api/item/update, /api/item/delete/&#123;id&#125; and /api/item/deleteMany API calls to signify that the requested item was not found in the catalog.
+            </p>
+            <p>
+                Ideally, this error will have no path to be thrown due to how the front-end handles these API requests. It is possible though, for this error to be thrown if more than one user is logged in a one time.
+            </p>
+            <Typography variant="h5" sx={{ color: colors.redAccent[400] }}>
+                Error 501
+            </Typography>
+            <p>
+                Error 501 means "Not Implemented" and is returned by any API call that has not had it's back-end functions completely implemented.
+            </p>
+            <Typography variant="h5" sx={{ color: colors.redAccent[400] }}>
+                Error 512
+            </Typography>
+            <p>
+                Error 512 means "Unspecified SQL Error" and is returned by any API call when an error occurred when reading from or writing to the database.
+            </p>
         </div>
     );
 }
 
+                //501 Not Implemented (This means what you think it means)
+                //512: General unspecified SQL error
 export default DocumentationComponent;

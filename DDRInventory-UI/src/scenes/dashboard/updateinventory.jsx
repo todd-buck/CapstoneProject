@@ -9,7 +9,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 import DialogTitle from '@mui/material/DialogTitle';
 
 const UpdateInventoryComponent = ({ item, setUpdateInventoryWindow, productCatalog, setProductCatalog } ) => {
-    console.log(item);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
@@ -36,7 +35,7 @@ const UpdateInventoryComponent = ({ item, setUpdateInventoryWindow, productCatal
                     console.log("Item not found. Response: " + responseStatus.toString())
                 }
                 else {
-                    console.log("Exiting fetch post without error. Response: " + responseStatus.toString())
+                    console.log(`Exiting fetch post without error. ${item.name} has been udpated. Response: ` + responseStatus.toString())
                 }
             }).then(setUpdateInventoryWindow(false)).then(setOpen(false))
 
@@ -119,8 +118,18 @@ const UpdateInventoryComponent = ({ item, setUpdateInventoryWindow, productCatal
                 />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleSubmit}>Submit</Button>
+                    <Button
+                        onClick={handleClose}
+                        style={{ backgroundColor: colors.primary[300], color: colors.primary[100] }}
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        onClick={handleSubmit}
+                        style={{ backgroundColor: colors.primary[300], color: colors.primary[100] }}
+                    >
+                        Submit
+                    </Button>
                 </DialogActions>
             </Dialog>
     );

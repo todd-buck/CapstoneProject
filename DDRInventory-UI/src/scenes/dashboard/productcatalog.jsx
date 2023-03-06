@@ -90,17 +90,22 @@ const DashboardComponent = () => {
             enableStickyHeader
             enableStickyFooter
             positionActionsColumn="last"
+            muiTableContainerProps={{
+                sx: {
+                        maxHeight: '70vh',
+                    }
+            }}
             renderRowActions={({ row }) => (
                 <Box sx={{ display: 'flex', flexDirextion: 'row' }} >
                     <IconButton
                         onClick={() => handleDeleteRow(row)}
+                        sx={{ "&:hover": { color: colors.redAccent[500] } }}
                     >
                         <Delete />
                     </IconButton>
                     <IconButton
-                        onClick={() => {
-                            setUpdateInventoryWindow(row);
-                        }} 
+                        onClick={() => {setUpdateInventoryWindow(row);}}
+                        sx={{ "&:hover": { color: colors.blueAccent[500] } }}
                     >
                         <Mode />
                     </IconButton>
@@ -111,10 +116,8 @@ const DashboardComponent = () => {
                 return (
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
                         <Button
-                            color="success"
-                            onClick={() => {
-                                setAddProductWindow(true);
-                            }} 
+                            style={{ backgroundColor: colors.greenAccent[500]}}
+                            onClick={() => {setAddProductWindow(true);}} 
                             variant="contained"
                         >
                             + New Item

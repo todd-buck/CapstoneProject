@@ -63,7 +63,7 @@ const AddNewProductComponent = ({ setAddProductWindow, productCatalog, setProduc
 
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Add new product to catalog</DialogTitle>
+            <DialogTitle>Add New Product</DialogTitle>
             <DialogContent>
                 <TextField
                     margin="dense"
@@ -135,8 +135,18 @@ const AddNewProductComponent = ({ setAddProductWindow, productCatalog, setProduc
                 />
                 </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleSubmit}>Submit</Button>
+                <Button
+                    onClick={handleClose}
+                    style={{ backgroundColor: colors.primary[300], color: colors.primary[100] }}
+                >
+                    Cancel
+                </Button>
+                <Button
+                    onClick={handleSubmit}
+                    style={{ backgroundColor: colors.primary[300], color: colors.primary[100] }}
+                >
+                    Submit
+                </Button>
             </DialogActions>
         </Dialog>
     );

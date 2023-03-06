@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import UnderConstructionComponent from '../global/underConstruction.jsx'
+
+const isFinished = false;
+
 
 const ImportCSVComponent = () => {
     const [file, setFile] = useState()
@@ -26,16 +30,22 @@ const ImportCSVComponent = () => {
             })
 
     }
+    if (isFinished) {
+        return (
+            <div className="ImportCSVComponent">
+                <form onSubmit={handleSubmit}>
+                    <h1>CSV File Upload</h1>
+                    <input type="file" accept=".csv" onChange={handleChange} />
+                    <button type="submit" onclick="handleSubmit(file)">Upload</button>
+                </form>
+            </div>
+        );
+    } else {
+        return (
+            <UnderConstructionComponent />
+        );
+    }
 
-    return (
-        <div className="ImportCSVComponent">
-            <form onSubmit={handleSubmit}>
-                <h1>CSV File Upload</h1>
-                <input type="file" accept=".csv" onChange={handleChange} />
-                <button type="submit" onclick="handleSubmit(file)">Upload</button>
-            </form>
-        </div>
-    );
 
 }
  

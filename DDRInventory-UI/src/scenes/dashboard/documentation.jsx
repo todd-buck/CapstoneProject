@@ -33,9 +33,9 @@ const DocumentationComponent = () => {
             <Typography variant="h5" sx={{ color: colors.redAccent[400] }}>
                 Adding Products to the Inventory
             </Typography>
-            <p>To add a product to the catalog, click the green "+New Item" button at the top right of the calalog menu, enter the product information in resulting dialog
+            <p>To add a product to the catalog, click the green "+New Item" button at the top right of the catalog menu, enter the product information in the resulting dialog
                 (except UPC, if not applicable) and click submit. when submitting, the front end performs data validation on the input to ensure that no field will be
-                passed to the controller with a null value. The controller then recieved the inventory item as an object and adds it to the SQLite database, generating
+                passed to the controller with a null value. The controller then received the inventory item as an object and adds it to the SQLite database, generating
                 a product ID that is not the same length as a UPC if a UPC is not provided. The AddItem API call returns the products ID, which is useful if the controller
                 generated an item ID for the user.</p>
             <Typography variant="h3" sx={{ color: colors.redAccent[400] }}>
@@ -44,9 +44,9 @@ const DocumentationComponent = () => {
             <p>In some instances, a user may wish to import a backup of all items in the catalog. This is useful for transferring the information for the items in the catalog
                 to another restaurant location. To import a CSV into the product catalog, click the "Import CSV" item on the sidebar, upload a CSV file, and click submit. The items
                 in the CSV will now be visible in the product catalog. If any product in the CSV had UPC that already exists in the system, then the controller only
-                proccesses an update to that item's inforamtion. If an item is added from the CSV that contains a non-UPC length ID, that means that the user did not include a
-                UPC when the item was added to the inventory and the product ID was randomly generated. As such, if one of these such items is in the imported CSV, the controller
-                will add that item with a new generated ID. It is the responsibility of the user to manage duplicate items for which there is no UPC.</p>
+                processes an update to that item's information. If an item is added from the CSV that contains a non-UPC length ID, that means that the user did not include a
+                UPC when the item was added to the inventory, so the product ID was randomly generated. As such, if one of these items is in the imported CSV, the controller
+                will add that item with a newly generated ID. It is the responsibility of the user to manage duplicate items for which there is no UPC.</p>
         </div>
     );
 }

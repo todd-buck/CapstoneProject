@@ -120,13 +120,13 @@ const UpdateInventoryComponent = ({ item, setUpdateInventoryWindow, productCatal
                 <DialogActions>
                     <Button
                         onClick={handleClose}
-                        style={{ backgroundColor: colors.primary[300], color: colors.primary[100] }}
+                        style={{ backgroundColor: colors.primary[300], color: colors.gray[100] }}
                     >
                         Cancel
                     </Button>
                     <Button
                         onClick={handleSubmit}
-                        style={{ backgroundColor: colors.primary[300], color: colors.primary[100] }}
+                        style={{ backgroundColor: colors.primary[300], color: colors.gray[100] }}
                     >
                         Submit
                     </Button>

@@ -7,7 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 const FAQsComponent = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const questionStyle = { bgcolor: colors.primary[400]};
+    const questionStyle = { bgcolor: colors.primary[200]};
     const answerStyle = { bgcolor: colors.primary[300] };
     const questionVariant = "h5";
     const answerVariant = "p";
@@ -53,66 +53,66 @@ const FAQsComponent = () => {
                     </Typography>
                 </AccordionDetails>
             </Accordion>
-            <Accordion>
-                <AccordionSummary sx={questionStyle} expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                    <Typography variant={questionVariant}>
-                        Question
-                    </Typography>
-                </AccordionSummary>
-                <AccordionDetails sx={answerStyle}>
-                    <Typography variant={answerVariant}>
-                        Answer
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
-            <Accordion>
-                <AccordionSummary sx={questionStyle} expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                    <Typography variant={questionVariant}>
-                        Question
-                    </Typography>
-                </AccordionSummary>
-                <AccordionDetails sx={answerStyle}>
-                    <Typography variant={answerVariant}>
-                        Answer
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
-            <Accordion>
-                <AccordionSummary sx={questionStyle} expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                    <Typography variant={questionVariant}>
-                        Question
-                    </Typography>
-                </AccordionSummary>
-                <AccordionDetails sx={answerStyle}>
-                    <Typography variant={answerVariant}>
-                        Answer
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
-            <Accordion>
-                <AccordionSummary sx={questionStyle} expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                    <Typography variant={questionVariant}>
-                        Question
-                    </Typography>
-                </AccordionSummary>
-                <AccordionDetails sx={answerStyle}>
-                    <Typography variant={answerVariant}>
-                        Answer
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
-            <Accordion>
-                <AccordionSummary sx={questionStyle} expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                    <Typography variant={questionVariant}>
-                        Question
-                    </Typography>
-                </AccordionSummary>
-                <AccordionDetails sx={answerStyle}>
-                    <Typography variant={answerVariant}>
-                        Answer
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
+            {/*<Accordion>*/}
+            {/*    <AccordionSummary sx={questionStyle} expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">*/}
+            {/*        <Typography variant={questionVariant}>*/}
+            {/*            Question*/}
+            {/*        </Typography>*/}
+            {/*    </AccordionSummary>*/}
+            {/*    <AccordionDetails sx={answerStyle}>*/}
+            {/*        <Typography variant={answerVariant}>*/}
+            {/*            Answer*/}
+            {/*        </Typography>*/}
+            {/*    </AccordionDetails>*/}
+            {/*</Accordion>*/}
+            {/*<Accordion>*/}
+            {/*    <AccordionSummary sx={questionStyle} expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">*/}
+            {/*        <Typography variant={questionVariant}>*/}
+            {/*            Question*/}
+            {/*        </Typography>*/}
+            {/*    </AccordionSummary>*/}
+            {/*    <AccordionDetails sx={answerStyle}>*/}
+            {/*        <Typography variant={answerVariant}>*/}
+            {/*            Answer*/}
+            {/*        </Typography>*/}
+            {/*    </AccordionDetails>*/}
+            {/*</Accordion>*/}
+            {/*<Accordion>*/}
+            {/*    <AccordionSummary sx={questionStyle} expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">*/}
+            {/*        <Typography variant={questionVariant}>*/}
+            {/*            Question*/}
+            {/*        </Typography>*/}
+            {/*    </AccordionSummary>*/}
+            {/*    <AccordionDetails sx={answerStyle}>*/}
+            {/*        <Typography variant={answerVariant}>*/}
+            {/*            Answer*/}
+            {/*        </Typography>*/}
+            {/*    </AccordionDetails>*/}
+            {/*</Accordion>*/}
+            {/*<Accordion>*/}
+            {/*    <AccordionSummary sx={questionStyle} expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">*/}
+            {/*        <Typography variant={questionVariant}>*/}
+            {/*            Question*/}
+            {/*        </Typography>*/}
+            {/*    </AccordionSummary>*/}
+            {/*    <AccordionDetails sx={answerStyle}>*/}
+            {/*        <Typography variant={answerVariant}>*/}
+            {/*            Answer*/}
+            {/*        </Typography>*/}
+            {/*    </AccordionDetails>*/}
+            {/*</Accordion>*/}
+            {/*<Accordion>*/}
+            {/*    <AccordionSummary sx={questionStyle} expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">*/}
+            {/*        <Typography variant={questionVariant}>*/}
+            {/*            Question*/}
+            {/*        </Typography>*/}
+            {/*    </AccordionSummary>*/}
+            {/*    <AccordionDetails sx={answerStyle}>*/}
+            {/*        <Typography variant={answerVariant}>*/}
+            {/*            Answer*/}
+            {/*        </Typography>*/}
+            {/*    </AccordionDetails>*/}
+            {/*</Accordion>*/}
             <Accordion>
                 <AccordionSummary sx={questionStyle} expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
                     <Typography variant={questionVariant}>

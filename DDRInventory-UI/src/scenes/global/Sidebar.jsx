@@ -67,7 +67,7 @@ const Sidebar = ({selected, setSelected}) => {
         <Box
             sx={{
                 "& .pro-sidebar-inner": {
-                    background: `${colors.primary[400]} !important`,
+                    background: `${colors.primary[200]} !important`,
                 },
                 "& .pro-icon-wrapper": {
                     backgroundColor: "transparent !important",
@@ -76,11 +76,15 @@ const Sidebar = ({selected, setSelected}) => {
                     padding: "5px 35px 5px 20px !important",
                 },
                 "& .pro-inner-item:not(active):hover": {
-                    color: `${colors.redAccent[500]} !important`,
+                    fontWeight: 'bold !important',
+                    color: `${colors.gray[100]} !important`,
+                    backgroundColor: `${colors.redAccent[200]} !important`,
+                    transition: 'background-color 0.3s ease-in-out',
                 },
                 "& .pro-menu-item.active": {
                     color: `${colors.gray[100]} !important`,
-                    backgroundColor: `${colors.redAccent[500]} !important`
+                    backgroundColor: `${colors.redAccent[500]} !important`,
+                    transition: 'background-color 0.3s ease-in-out',
                 },
             }}
         >

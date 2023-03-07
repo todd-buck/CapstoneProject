@@ -130,7 +130,7 @@ export const themeSettings = (mode) => {
             ...(mode === "dark"
                 ? {
                     primary: {
-                        main: "#FF00FF", // magenta
+                        main: colors.gray[100], // magenta
                     },
                     secondary: {
                         main: "#00FFFF", // cyan
@@ -146,7 +146,7 @@ export const themeSettings = (mode) => {
                     }
                 } : {
                     primary: {
-                        main: "#FF00FF", // magenta
+                        main: colors.gray[100], // magenta
                     },
                     secondary: {
                         main: "#00FFFF", // cyan
@@ -212,7 +212,7 @@ export const ColorModeContext = createContext({
 });
 
 export const useMode = () => {
-    const [mode, setMode] = useState("dark");
+    const [mode, setMode] = useState("light");
 
     const colorMode = useMemo(
         () => ({

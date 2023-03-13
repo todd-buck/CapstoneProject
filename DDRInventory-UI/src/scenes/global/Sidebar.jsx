@@ -4,6 +4,7 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
+import logo from '../../assets/DillardsLogoV2.png'
 
 /*Menu Collapse Icon*/
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -66,7 +67,7 @@ const Sidebar = ({selected, setSelected}) => {
         <Box
             sx={{
                 "& .pro-sidebar-inner": {
-                    background: `${colors.primary[400]} !important`,
+                    background: `${colors.primary[200]} !important`,
                 },
                 "& .pro-icon-wrapper": {
                     backgroundColor: "transparent !important",
@@ -75,11 +76,15 @@ const Sidebar = ({selected, setSelected}) => {
                     padding: "5px 35px 5px 20px !important",
                 },
                 "& .pro-inner-item:not(active):hover": {
-                    color: `${colors.redAccent[500]} !important`,
+                    fontWeight: 'bold !important',
+                    color: `${colors.gray[100]} !important`,
+                    backgroundColor: `${colors.redAccent[200]} !important`,
+                    transition: 'background-color 0.3s ease-in-out',
                 },
                 "& .pro-menu-item.active": {
                     color: `${colors.gray[100]} !important`,
-                    backgroundColor: `${colors.redAccent[500]} !important`
+                    backgroundColor: `${colors.redAccent[500]} !important`,
+                    transition: 'background-color 0.3s ease-in-out',
                 },
             }}
         >
@@ -115,7 +120,7 @@ const Sidebar = ({selected, setSelected}) => {
                                     alt="profile-user"
                                     width="100px"
                                     height="100px"
-                                    src={`../../DillardsLogoV2.png`}
+                                    src={logo}
                                     style={{ cursor: "pointer", borderRadius: "50%" }}
                                 />
                             </Box>
@@ -159,7 +164,7 @@ const Sidebar = ({selected, setSelected}) => {
                             setSelected={setSelected}
                         />
 
-                        <Item
+                       {/* <Item
                             title="Update Inventory"
                             to="/"
                             icon={<PostAddOutlinedIcon />}
@@ -172,7 +177,7 @@ const Sidebar = ({selected, setSelected}) => {
                             icon={<AddBoxOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
-                        />
+                        />*/}
                         <Item
                             title="Reports"
                             to="/"
@@ -205,13 +210,13 @@ const Sidebar = ({selected, setSelected}) => {
                             selected={selected}
                             setSelected={setSelected}
                         />
-                        <Item
+                        {/*<Item
                             title="Add New Users"
                             to="/"
                             icon={<PersonAddAltOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
-                        />
+                        />*/}
 
                         {/* Information */}
                         {!isCollapsed && (

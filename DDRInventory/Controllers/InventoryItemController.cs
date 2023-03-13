@@ -13,7 +13,7 @@ namespace DDRInventory.Controllers
     [Route("database")]
     public class InventoryItemController : ControllerBase
     {
-        [HttpPost("/api/uploadCSV")]
+        [HttpPost("/api/item/uploadCSV")]
         public bool UploadCSV(IFormFile file)
         {
             Console.WriteLine($"{file.FileName} uploaded successfully");
@@ -42,69 +42,63 @@ namespace DDRInventory.Controllers
                             ParLevel = csv.GetField<int>(csv.GetFieldIndex("par level")),
                             Id = csv.GetField<int>(csv.GetFieldIndex("id"))
                         });
-                        InventoryItemContext.AddItems(items);
                     }
-                    catch (SQLiteException e)
-                    {
-                        Console.WriteLine($"SQL Error. Exception: {e.Message}");
-                        Response.StatusCode = 512;
-                        return false;
-                    }
-                    catch(CsvHelperException e)
+                    catch (CsvHelperException e)
                     {
                         Console.WriteLine($"Error when proccessing CSV file. Exception: {e.Message}");
                         Response.StatusCode = 400;
                         return false;
                     }
                 }
+                try
+                {
+                    InventoryItemContext.AddItems(items);
+                }
+                catch (SQLiteException e)
+                {
+                    Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                    Response.StatusCode = 512;
+                    return false;
+                }
             }
             return true;
         }
 
-        [HttpPost("/api/add")]
-        public int Add(string name, int quantity, Decimal price, string unit, string category, string subCategory, int parLevel, int? id = null)
+        [HttpPost("/api/item/add")]
+        public int Add(InventoryItem newItem)
         {
-            if (id is null)
+            if (newItem.Id == -1)
             {
-                id = InventoryItem.GenerateId();
+                Console.WriteLine($"New item '{newItem.Name}' inserted with no UPC. Generating id...");
+                newItem.Id = InventoryItem.GenerateId();
             }
             try
             {
-                InventoryItemContext.AddItem(new InventoryItem
-                {
-                    Id = id.Value,
-                    Name = name,
-                    Price = price,
-                    Unit = unit,
-                    QuantityOnHand = quantity,
-                    Category = category,
-                    SubCategory = subCategory,
-                    ParLevel = parLevel
-                });
+                InventoryItemContext.AddItem(newItem);
             }
             catch (SQLiteException e)
             {
                 Console.WriteLine($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
-                return id.Value;
+                return newItem.Id;
             }
-            return id.Value;
+            return newItem.Id;
         }
 
-        [HttpPut("/api/update")]
+        [HttpPut("/api/item/update")]
         public bool update(InventoryItem updatedItem)
         {
             try
             {
                 return InventoryItemContext.UpdateItem(updatedItem);
             }
-            catch(SQLiteException e)
+            catch (SQLiteException e)
             {
                 Console.WriteLine($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return false;
             }
-            catch(ItemNotFoundException e)
+            catch (ItemNotFoundException e)
             {
                 Console.WriteLine($"Item not found. Exception: {e.Message}");
                 Response.StatusCode = 451;
@@ -113,7 +107,7 @@ namespace DDRInventory.Controllers
         }
 
 
-        [HttpGet("/api/catalog")]
+        [HttpGet("/api/item/catalog")]
         public InventoryItem[] getCatalog()
         {
             try
@@ -153,7 +147,7 @@ namespace DDRInventory.Controllers
             return returnValue;
         }
 
-        [HttpDelete("/api/delete")]
+        [HttpDelete("/api/item/delete/{id}")]
         public bool deleteItem(int id)
         {
             bool returnVal;
@@ -176,7 +170,7 @@ namespace DDRInventory.Controllers
             return returnVal;
         }
 
-        [HttpDelete("/api/deleteMany")]
+        [HttpDelete("/api/item/deleteMany")]
         public void deleteMany(int[] ids)
         {
             Response.StatusCode = 501;
@@ -191,7 +185,7 @@ namespace DDRInventory.Controllers
             }
         }
 
-        [HttpDelete("/api/deleteAll")]
+        [HttpDelete("/api/item/delete/all")]
         public void deleteAll()
         {
             try

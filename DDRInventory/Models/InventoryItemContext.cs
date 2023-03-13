@@ -17,7 +17,7 @@ namespace DDRInventory.Models
             {
                 using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
                 {
-                    insertItemCommand.CommandText = "INSERT INTO items (id, name, quantity, price, unit, category, subcategory, par_level) VALUES($id, $name, $quantity, $price, $unit, $category, $subcategory, $par_level); "; 
+                    insertItemCommand.CommandText = "INSERT INTO items (id, name, quantity, price, unit, category, subcategory, par_level) VALUES($id, $name, $quantity, $price, $unit, $category, $subcategory, $par_level); ";
                     insertItemCommand.Parameters.AddWithValue("$id", newItem.Id);
                     insertItemCommand.Parameters.AddWithValue("$name", newItem.Name);
                     insertItemCommand.Parameters.AddWithValue("$quantity", newItem.QuantityOnHand);
@@ -150,7 +150,8 @@ namespace DDRInventory.Models
             }
         }
 
-        public static InventoryItem GetItem(int id) {
+        public static InventoryItem GetItem(int id)
+        {
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand itemQuery = catalog._connection.CreateCommand())
@@ -177,8 +178,7 @@ namespace DDRInventory.Models
                         }
                         else
                         {
-                            Console.Write($"Item {id} not found");
-                            throw new ItemNotFoundException($"Item {id} not found",id);
+                            throw new ItemNotFoundException($"Item {id} not found", id);
                         }
                     }
                 }

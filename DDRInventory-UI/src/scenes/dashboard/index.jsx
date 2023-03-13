@@ -4,13 +4,13 @@ import { Box } from '@mui/material';
  
 import DashboardComponent from './dashboard.jsx';
 import ProductCatalogCopmonent from './productcatalog.jsx';
-import UpdateInventoryComponent from './updateinventory.jsx';
-import AddNewProductComponent from './addnewproduct.jsx';
+//import UpdateInventoryComponent from './updateinventory.jsx';
+//import AddNewProductComponent from './addnewproduct.jsx';
 import ReportsComponent from './reports.jsx';
 import ImportCSVComponent from './importcsv.jsx';
 import YourProfileComponent from './yourprofile.jsx';
 import DocumentationComponent from './documentation.jsx';
-import AddNewUserComponent from './addnewuser.jsx';
+//import AddNewUserComponent from './addnewuser.jsx';
 import FAQsComponent from './faqs.jsx';
 
 const Dashboard = ({ selected }) => {
@@ -20,12 +20,12 @@ const Dashboard = ({ selected }) => {
 
             case "Dashboard": return <DashboardComponent />;
             case "Product Catalog": return <ProductCatalogCopmonent />;
-            case "Update Inventory": return <UpdateInventoryComponent />;
-            case "Add New Product": return <AddNewProductComponent />;
+            //case "Update Inventory": return <UpdateInventoryComponent />;
+            //case "Add New Product": return <AddNewProductComponent />;
             case "Reports": return <ReportsComponent />;
             case "Import CSV": return <ImportCSVComponent />;
             case "Your Profile": return <YourProfileComponent />;
-            case "Add New Users": return <AddNewUserComponent />;
+            //case "Add New Users": return <AddNewUserComponent />;
             case "Documentation": return <DocumentationComponent />;
             case "FAQs": return <FAQsComponent />;
 
@@ -34,7 +34,7 @@ const Dashboard = ({ selected }) => {
     }
 
     return (
-        <Box sx={{mt:1,ml:3}}>{Content()}</Box>
+        <Box sx={{mt:1,ml:3, mr: 3, mb: 1}}>{Content()}</Box>
     )
 }
 

@@ -1,7 +1,9 @@
+import UnderConstructionComponent from '../global/underConstruction.jsx'
+
 const ReportsComponent = () => {
 
     return (
-        <p>Welcome to the Reports page!</p>
+        <UnderConstructionComponent />
     );
 }
  

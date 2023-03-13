@@ -1,7 +1,9 @@
+import UnderConstructionComponent from '../global/underConstruction.jsx'
+
 const DashboardComponent = () => {
 
     return (
-        <p>Welcome to the Dashboard!</p>
+        <UnderConstructionComponent />
     );
 } 
 

@@ -8,6 +8,7 @@ import ProductCatalogCopmonent from './productcatalog.jsx';
 //import AddNewProductComponent from './addnewproduct.jsx';
 import ReportsComponent from './reports.jsx';
 import ImportCSVComponent from './importcsv.jsx';
+import SettingsComponent from './settings.jsx';
 import YourProfileComponent from './yourprofile.jsx';
 import DocumentationComponent from './documentation.jsx';
 //import AddNewUserComponent from './addnewuser.jsx';
@@ -24,6 +25,7 @@ const Dashboard = ({ selected }) => {
             //case "Add New Product": return <AddNewProductComponent />;
             case "Reports": return <ReportsComponent />;
             case "Import CSV": return <ImportCSVComponent />;
+            case "Settings": return <SettingsComponent />;
             case "Your Profile": return <YourProfileComponent />;
             //case "Add New Users": return <AddNewUserComponent />;
             case "Documentation": return <DocumentationComponent />;

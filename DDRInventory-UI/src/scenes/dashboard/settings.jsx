@@ -1,10 +1,10 @@
 import UnderConstructionComponent from '../global/underConstruction.jsx'
 
-const ReportsComponent = () => {
+const SettingsComponent = () => {
 
     return (
         <UnderConstructionComponent />
     );
 }
 
-export default ReportsComponent;
+export default SettingsComponent;

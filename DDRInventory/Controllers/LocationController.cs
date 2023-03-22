@@ -15,13 +15,13 @@ namespace DDRInventory.Controllers
             try
             {
                 Location[] returnValue = LocationContext.GetAllLocations().ToArray();
-                if (returnValue.Length == 0) Response.StatusCode= 204;
+                if (returnValue.Length == 0) Response.StatusCode = 204;
                 return returnValue;
             }
-            catch (SQLiteException e) 
+            catch (SQLiteException e)
             {
                 Console.WriteLine($"SQL Error. Exception: {e.Message}");
-                Response.StatusCode= 512;
+                Response.StatusCode = 512;
                 return new Location[0];
             }
         }
@@ -44,6 +44,29 @@ namespace DDRInventory.Controllers
                 return newLocation.Id;
             }
             return newLocation.Id;
+        }
+
+        [HttpDelete("/api/location/delete")]
+        public bool delete(int id)
+        {
+            bool returnVal;
+            try
+            {
+                returnVal = LocationContext.DeleteLocation(id);
+            }
+            catch (ItemNotFoundException e)
+            {
+                Console.WriteLine($"Item not found. Exception: {e.Message}");
+                Response.StatusCode = 451;
+                return false;
+            }
+            catch (SQLiteException e)
+            {
+                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Response.StatusCode = 512;
+                return false;
+            }
+            return returnVal;
         }
     }
 }

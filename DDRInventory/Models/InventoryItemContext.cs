@@ -1,5 +1,4 @@
-﻿using CsvHelper.Configuration;
-using DDRInventory.Objects;
+﻿using DDRInventory.Objects;
 using System.Data.SQLite;
 
 
@@ -28,7 +27,6 @@ namespace DDRInventory.Models
                     insertItemCommand.Parameters.AddWithValue("$par_level", newItem.ParLevel);
                     Console.WriteLine($"Adding item '{newItem.Name}' to the database");
                     insertItemCommand.ExecuteNonQuery();
-                    catalog.Dispose();
                 }
             }
         }
@@ -57,7 +55,6 @@ namespace DDRInventory.Models
                         Console.WriteLine($"Adding item '{newItem.Name}' to the database");
                         insertItemCommand.ExecuteNonQuery();
                     }
-                    catalog.Dispose();
                 }
             }
         }
@@ -109,23 +106,25 @@ namespace DDRInventory.Models
                     Console.WriteLine("Retrieving all items from the database");
                     List<InventoryItem> items = new List<InventoryItem>();
                     allItemsQuery.CommandText = "SELECT * FROM items;";
-
-                    SQLiteDataReader reader = allItemsQuery.ExecuteReader();
-                    while (reader.Read())
+                    using (SQLiteDataReader reader = allItemsQuery.ExecuteReader())
                     {
-                        items.Add(new InventoryItem
+                        while (reader.Read())
                         {
-                            Id = reader.GetString(0),
-                            Name = reader.GetString(1),
-                            QuantityOnHand = reader.GetInt32(2),
-                            Price = reader.GetDecimal(3),
-                            Unit = reader.GetString(4),
-                            Category = reader.GetString(5),
-                            SubCategory = reader.GetString(6),
-                            ParLevel = reader.GetInt32(7)
-                        });
+                            items.Add(new InventoryItem
+                            {
+                                Id = reader.GetString(0),
+                                Name = reader.GetString(1),
+                                QuantityOnHand = reader.GetInt32(2),
+                                Price = reader.GetDecimal(3),
+                                Unit = reader.GetString(4),
+                                Category = reader.GetString(5),
+                                SubCategory = reader.GetString(6),
+                                ParLevel = reader.GetInt32(7)
+                            });
+                        }
+                        return items;
                     }
-                    return items;
+
                 }
             }
         }
@@ -139,13 +138,14 @@ namespace DDRInventory.Models
                     Console.WriteLine("Retrieving all items from the database");
                     List<string> items = new List<string>();
                     allItemsQuery.CommandText = "SELECT * FROM items;";
-
-                    SQLiteDataReader reader = allItemsQuery.ExecuteReader();
-                    while (reader.Read())
+                    using (SQLiteDataReader reader = allItemsQuery.ExecuteReader())
                     {
-                        items.Add(reader.GetString(0));
+                        while (reader.Read())
+                        {
+                            items.Add(reader.GetString(0));
+                        }
+                        return items;
                     }
-                    return items;
                 }
             }
         }
@@ -157,7 +157,7 @@ namespace DDRInventory.Models
                 using (SQLiteCommand itemQuery = catalog._connection.CreateCommand())
                 {
                     Console.WriteLine($"Retrieving item {id} from the database");
-                    itemQuery.CommandText = "SELECT * FROM items WHERE id = " + id.ToString() + ";";
+                    itemQuery.CommandText = $"SELECT * FROM items WHERE id = {id};";
                     using (SQLiteDataReader reader = itemQuery.ExecuteReader())
                     {
                         if (reader.Read())
@@ -173,8 +173,7 @@ namespace DDRInventory.Models
                                 SubCategory = reader.GetString(6),
                                 ParLevel = reader.GetInt32(7)
                             };
-                            Console.WriteLine($"Item {id} ({returnVal.Name}) found.");
-                            Console.WriteLine($"Item {id} ({returnVal.Name}) found.");
+                            Console.WriteLine($"Item {id} ({returnVal.Name}) found");
                             return returnVal;
                         }
                         else

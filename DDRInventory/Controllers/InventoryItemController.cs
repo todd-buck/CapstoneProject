@@ -5,9 +5,6 @@ using DDRInventory.Objects;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SQLite;
 using System.Globalization;
-using System;
-using System.Data;
-using System.Data.SqlClient;
 using System.Reflection;
 
 namespace DDRInventory.Controllers
@@ -138,7 +135,7 @@ namespace DDRInventory.Controllers
             }
         }
 
-        [HttpGet("/api/item/{id}")]
+        [HttpGet("/api/item")]
         public InventoryItem getById(string id)
         {
             InventoryItem returnValue = new InventoryItem();
@@ -161,7 +158,7 @@ namespace DDRInventory.Controllers
             return returnValue;
         }
 
-        [HttpDelete("/api/item/delete/{id}")]
+        [HttpDelete("/api/item/delete")]
         public bool deleteItem(string id)
         {
             bool returnVal;

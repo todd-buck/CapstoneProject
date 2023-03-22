@@ -105,7 +105,7 @@ namespace DDRInventory.Models
                 {
                     Console.WriteLine("Retrieving all items from the database");
                     List<InventoryItem> items = new List<InventoryItem>();
-                    allItemsQuery.CommandText = "SELECT * FROM items;";
+                    allItemsQuery.CommandText = "SELECT * FROM items ORDER BY name asc;";
                     using (SQLiteDataReader reader = allItemsQuery.ExecuteReader())
                     {
                         while (reader.Read())

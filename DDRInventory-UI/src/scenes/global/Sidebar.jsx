@@ -81,12 +81,12 @@ const Sidebar = ({selected, setSelected}) => {
                 "& .pro-inner-item:not(active):hover": {
                     fontWeight: 'bold !important',
                     color: `${colors.gray[100]} !important`,
-                    backgroundColor: `${colors.removeAccent[200]} !important`,
+                    backgroundColor: `${colors.splashAccent[200]} !important`,
                     transition: 'background-color 0.3s ease-in-out',
                 },
                 "& .pro-menu-item.active": {
                     color: `${colors.gray[100]} !important`,
-                    backgroundColor: `${colors.removeAccent[500]} !important`,
+                    backgroundColor: `${colors.splashAccent[500]} !important`,
                     transition: 'background-color 0.3s ease-in-out',
                 },
             }}

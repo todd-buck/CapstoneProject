@@ -13,7 +13,7 @@ const DocumentationComponent = () => {
         pl: 2, pt: 2, pb: 2,
         mt: 2, mb: 2,
         backgroundColor: colors.primary[200],
-        color: colors.removeAccent[500],
+        color: colors.splashAccent[500],
         fontWeight: 'bold',
         textTransform: 'uppercase',
         letterSpacing: 3,
@@ -43,7 +43,7 @@ const DocumentationComponent = () => {
         backgroundColor: colors.primary[200],
     };
     const subtopicSummaryTextStyle = {
-        color: colors.removeAccent[500],
+        color: colors.splashAccent[500],
         fontWeight: 'bold',
         textTransform: 'uppercase',
         letterSpacing: 3,

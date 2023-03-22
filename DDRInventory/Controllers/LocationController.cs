@@ -69,8 +69,8 @@ namespace DDRInventory.Controllers
             return returnVal;
         }
 
-        [HttpPut("/api/location/getName")]
-        public string getName(int id, string name)
+        [HttpGet("/api/location/getName")]
+        public string getName(int id)
         {
             try
             {

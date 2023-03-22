@@ -98,6 +98,35 @@ namespace DDRInventory.Models
                 }
             }
         }
+
+        public static Location GetName(int id)
+        {
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand locationQuery = catalog._connection.CreateCommand())
+                {
+                    Console.WriteLine($"Retrieving name of location {id} from the database");
+                    locationQuery.CommandText = $"SELECT name FROM locations WHERE id = {id}";
+                    using (SQLiteDataReader reader = locationQuery.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            Console.WriteLine($"Location name {id} ({reader.GetString(1)}) found");
+                            return new Location()
+                            {
+                                Name = reader.GetString(1)
+                            };
+                        }
+                        else
+                        {
+                            throw new LocationNotFoundException($"Location {id} not found", id.ToString());
+                        }
+                    }
+
+                }
+            }
+
+        }
     }
 }
 

@@ -68,5 +68,25 @@ namespace DDRInventory.Controllers
             }
             return returnVal;
         }
+
+        [HttpPut("/api/location/getName")]
+        public string getName(int id, string name)
+        {
+            try
+            {
+                return LocationContext.GetLocation(id).Name;
+            }
+            catch (SQLiteException e)
+            {
+                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Response.StatusCode = 512;
+                return null;
+            }
+            catch (LocationNotFoundException e)
+            {
+                Response.StatusCode = 204;
+                return null;
+            }
+        }
     }
 }

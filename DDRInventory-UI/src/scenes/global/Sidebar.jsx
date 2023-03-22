@@ -71,6 +71,7 @@ const Sidebar = ({selected, setSelected}) => {
             sx={{
                 "& .pro-sidebar-inner": {
                     background: `${colors.primary[200]} !important`,
+                    position: 'fixed',
                 },
                 "& .pro-icon-wrapper": {
                     backgroundColor: "transparent !important",

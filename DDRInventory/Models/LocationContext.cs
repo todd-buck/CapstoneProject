@@ -44,5 +44,90 @@ namespace DDRInventory.Models
                 }
             }
         }
+
+        public static Location GetLocation(int id)
+        {
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand locationQuery = catalog._connection.CreateCommand())
+                {
+                    Console.WriteLine($"Retrieving location {id} from the database");
+                    locationQuery.CommandText = $"SELECT * FROM locations WHERE id = {id}";
+                    using (SQLiteDataReader reader = locationQuery.ExecuteReader()) 
+                    {
+                        if (reader.Read())
+                        {
+                            Console.WriteLine($"Location {id} ({reader.GetString(1)}) found");
+                            return new Location()
+                            {
+                                Id = reader.GetInt32(0),
+                                Name = reader.GetString(1)
+                            };
+                        }
+                        else
+                        {
+                            throw new LocationNotFoundException($"Location {id} not found", id.ToString());
+                        }
+                    }
+
+                }
+            }
+
+        }
+
+        public static bool DeleteLocation(int id)
+        {
+            Console.WriteLine($"Deleting Location with id, {id}");
+            try
+            {
+                GetLocation(id);
+            }
+            catch (ItemNotFoundException e)
+            {
+                Console.WriteLine($"Item with id {e.Id} does not exists. Delete operation terminated.");
+                return false;
+            }
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand addLocationCommand = catalog._connection.CreateCommand())
+                {
+                    addLocationCommand.CommandText = $"DELETE FROM locations WHERE id = {id};";
+                    addLocationCommand.ExecuteNonQuery();
+                    Console.WriteLine($"Location with id {id} removed from the database.");
+                    return true;
+                }
+            }
+        }
+
+        public static Location GetName(int id)
+        {
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand locationQuery = catalog._connection.CreateCommand())
+                {
+                    Console.WriteLine($"Retrieving name of location {id} from the database");
+                    locationQuery.CommandText = $"SELECT name FROM locations WHERE id = {id}";
+                    using (SQLiteDataReader reader = locationQuery.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            Console.WriteLine($"Location name {id} ({reader.GetString(1)}) found");
+                            return new Location()
+                            {
+                                Name = reader.GetString(1)
+                            };
+                        }
+                        else
+                        {
+                            throw new LocationNotFoundException($"Location {id} not found", id.ToString());
+                        }
+                    }
+
+                }
+            }
+
+        }
     }
 }
+
+

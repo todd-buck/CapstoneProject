@@ -5,7 +5,10 @@ using DDRInventory.Objects;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SQLite;
 using System.Globalization;
-using System.Linq.Expressions;
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Reflection;
 
 namespace DDRInventory.Controllers
 {
@@ -109,8 +112,12 @@ namespace DDRInventory.Controllers
         [HttpGet("/api/item/schema")]
         public string[] getSchema()
         {
-            return null;
-            //return a list of strings that are the names of the attributes contained in the InventoryItem class.
+            List<string> attributeNames = new List<string>();
+            foreach (PropertyInfo property in typeof(InventoryItem).GetProperties())
+            {
+                attributeNames.Add(property.Name);
+            }
+            return attributeNames.ToArray();
         }
 
 

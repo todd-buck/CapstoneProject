@@ -99,13 +99,13 @@ const DashboardComponent = () => {
                 <Box sx={{ display: 'flex', flexDirextion: 'row' }} >
                     <IconButton
                         onClick={() => handleDeleteRow(row)}
-                        sx={{ "&:hover": { color: colors.redAccent[500] } }}
+                        sx={{ "&:hover": { color: colors.removeAccent[500] } }}
                     >
                         <Delete />
                     </IconButton>
                     <IconButton
                         onClick={() => {setUpdateInventoryWindow(row);}}
-                        sx={{ "&:hover": { color: colors.blueAccent[500] } }}
+                        sx={{ "&:hover": { color: colors.changeAccent[500] } }}
                     >
                         <Mode />
                     </IconButton>
@@ -116,7 +116,7 @@ const DashboardComponent = () => {
                 return (
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
                         <Button
-                            style={{ backgroundColor: colors.greenAccent[500]}}
+                            style={{ backgroundColor: colors.addAccent[500]}}
                             onClick={() => {setAddProductWindow(true);}} 
                             variant="contained"
                         >

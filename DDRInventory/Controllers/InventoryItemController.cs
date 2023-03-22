@@ -40,7 +40,7 @@ namespace DDRInventory.Controllers
                             Category = csv.GetField(csv.GetFieldIndex("category")),
                             SubCategory = csv.GetField(csv.GetFieldIndex("subcategory")),
                             ParLevel = csv.GetField<int>(csv.GetFieldIndex("par level")),
-                            Id = csv.GetField<int>(csv.GetFieldIndex("id"))
+                            Id = csv.GetField(csv.GetFieldIndex("id"))
                         });
                     }
                     catch (CsvHelperException e)
@@ -65,9 +65,9 @@ namespace DDRInventory.Controllers
         }
 
         [HttpPost("/api/item/add")]
-        public int Add(InventoryItem newItem)
+        public string Add(InventoryItem newItem)
         {
-            if (newItem.Id == -1)
+            if (newItem.Id == "-1")
             {
                 Console.WriteLine($"New item '{newItem.Name}' inserted with no UPC. Generating id...");
                 newItem.Id = InventoryItem.GenerateId();
@@ -106,6 +106,13 @@ namespace DDRInventory.Controllers
             }
         }
 
+        [HttpGet("/api/item/schema")]
+        public string[] getSchema()
+        {
+            return null;
+            //return a list of strings that are the names of the attributes contained in the InventoryItem class.
+        }
+
 
         [HttpGet("/api/item/catalog")]
         public InventoryItem[] getCatalog()
@@ -125,7 +132,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpGet("/api/item/{id}")]
-        public InventoryItem getById(int id)
+        public InventoryItem getById(string id)
         {
             InventoryItem returnValue = new InventoryItem();
             try
@@ -148,7 +155,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpDelete("/api/item/delete/{id}")]
-        public bool deleteItem(int id)
+        public bool deleteItem(string id)
         {
             bool returnVal;
             try

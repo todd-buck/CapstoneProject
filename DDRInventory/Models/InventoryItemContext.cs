@@ -77,7 +77,7 @@ namespace DDRInventory.Models
             }
         }
 
-        public static bool DeleteItem(int id)
+        public static bool DeleteItem(string id)
         {
             Console.WriteLine($"Deleting item with ID {id}");
             try
@@ -115,7 +115,7 @@ namespace DDRInventory.Models
                     {
                         items.Add(new InventoryItem
                         {
-                            Id = reader.GetInt32(0),
+                            Id = reader.GetString(0),
                             Name = reader.GetString(1),
                             QuantityOnHand = reader.GetInt32(2),
                             Price = reader.GetDecimal(3),
@@ -130,27 +130,27 @@ namespace DDRInventory.Models
             }
         }
 
-        private static List<int> GetAllIds()
+        private static List<string> GetAllIds()
         {
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand allItemsQuery = catalog._connection.CreateCommand())
                 {
                     Console.WriteLine("Retrieving all items from the database");
-                    List<int> items = new List<int>();
+                    List<string> items = new List<string>();
                     allItemsQuery.CommandText = "SELECT * FROM items;";
 
                     SQLiteDataReader reader = allItemsQuery.ExecuteReader();
                     while (reader.Read())
                     {
-                        items.Add(reader.GetInt32(0));
+                        items.Add(reader.GetString(0));
                     }
                     return items;
                 }
             }
         }
 
-        public static InventoryItem GetItem(int id)
+        public static InventoryItem GetItem(string id)
         {
             using (Database catalog = new Database())
             {
@@ -164,7 +164,7 @@ namespace DDRInventory.Models
                         {
                             InventoryItem returnVal = new InventoryItem
                             {
-                                Id = reader.GetInt32(0),
+                                Id = reader.GetString(0),
                                 Name = reader.GetString(1),
                                 QuantityOnHand = reader.GetInt32(2),
                                 Price = reader.GetDecimal(3),

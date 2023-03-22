@@ -10,7 +10,7 @@ namespace DDRInventory.Controllers
     public class LocationController : ControllerBase
     {
         [HttpGet("/api/location/catalog")]
-        Location[] getCatalog()
+        public Location[] getCatalog()
         {
             try
             {
@@ -27,7 +27,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpPost("/api/location/add")]
-        int add(Location newLocation)
+        public int add(Location newLocation)
         {
             if (newLocation.Id == -1)
             {

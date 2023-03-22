@@ -39,7 +39,7 @@ namespace DDRInventory.Models
                     Console.WriteLine($"Adding location to '{newLocation.Name}' to the database");
                     addLocationCommand.CommandText = "INSERT INTO locations (id, name) VALUES($id, $name)";
                     addLocationCommand.Parameters.AddWithValue("$id", newLocation.Id);
-                    addLocationCommand.Parameters[1].Value = newLocation.Name;
+                    addLocationCommand.Parameters.AddWithValue("$name", newLocation.Name);
                     addLocationCommand.ExecuteNonQuery();
                 }
             }

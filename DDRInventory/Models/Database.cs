@@ -12,8 +12,8 @@ namespace DDRInventory.Models
         public static Dictionary<string, string> TABLES = new Dictionary<string, string>
         {
             { "items", "(id VARCHAR(20), name VARCHAR(20), quantity INT, price REAL, unit VARCHAR(10), category VARCHAR(15), subcategory VARCHAR(15), par_level INT)" },
-            { "locations", "(id VARCHAR(20), location VARCHAR(20))" },
-            { "putaway", "(itemId VARCHAR(20), locationId VARCHAR(20), quantity INT)" }
+            { "locations", "(id INT, name VARCHAR(20))" },
+            { "putaway", "(item_id VARCHAR(20), location_id VARCHAR(20), quantity INT)" }
         };
      
         //Database version notes

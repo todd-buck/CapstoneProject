@@ -174,6 +174,7 @@ namespace DDRInventory.Models
                                 ParLevel = reader.GetInt32(7)
                             };
                             Console.WriteLine($"Item {id} ({returnVal.Name}) found.");
+                            Console.WriteLine($"Item {id} ({returnVal.Name}) found.");
                             return returnVal;
                         }
                         else

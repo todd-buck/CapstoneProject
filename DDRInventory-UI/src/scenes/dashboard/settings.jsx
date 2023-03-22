@@ -9,7 +9,7 @@ const SettingsComponent = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const [selectedOption, setSelectedOption] = useState('light');
+    const [selectedOption, setSelectedOption] = useState('default');
 
     const handleChange = (event) => {
         setSelectedOption(event.target.value);
@@ -25,8 +25,7 @@ const SettingsComponent = () => {
                     Select Theme:
                 </Typography>
                 <Select value={selectedOption} onChange={handleChange}>
-                    <MenuItem value="light">Light (Default)</MenuItem>
-                    <MenuItem value="dark">Dark</MenuItem>
+                    <MenuItem value="default">Default</MenuItem>
                     <MenuItem value="contrast">Contrast</MenuItem>
                     <MenuItem value="desert">Desert</MenuItem>
                     <MenuItem value="flamingo">Flamingo</MenuItem>

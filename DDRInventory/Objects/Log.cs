@@ -15,10 +15,9 @@ namespace DDRInventory.Objects
         public string? LocationName { get; set; }
         public string? Adjustment { get; set; }
         public string? Reason { get; set; }
-        public void Write(string message, bool verboseOnly = false)
+        public void Write(string message)
         {
-            Console.WriteLine(message);
-            if (verboseOnly) return;
+            Console.WriteLine($"{User}: " + message);
             using (Database db = new Database())
             {
                 using (SQLiteCommand addLogEntry = db._connection.CreateCommand())
@@ -28,7 +27,7 @@ namespace DDRInventory.Objects
                     addLogEntry.Parameters.AddWithValue("$date", DateTime.Now.ToString("MM-dd-yyyy"));
                     addLogEntry.Parameters.AddWithValue("$time", DateTime.Now.ToString("HH:mm:ss"));
                     addLogEntry.Parameters.AddWithValue("$user", User);
-                    addLogEntry.Parameters.AddWithValue("$action", Action); 
+                    addLogEntry.Parameters.AddWithValue("$action", Action);
                     addLogEntry.Parameters.AddWithValue("$item_name", ItemName);
                     addLogEntry.Parameters.AddWithValue("$location_name", LocationName);
                     addLogEntry.Parameters.AddWithValue("$adjustment", Adjustment);
@@ -36,6 +35,10 @@ namespace DDRInventory.Objects
                     addLogEntry.ExecuteNonQuery();
                 }
             }
+        }
+
+        public static void WriteVerbose(string message){
+            Console.WriteLine(message);
         }
         public override string ToString()
         {

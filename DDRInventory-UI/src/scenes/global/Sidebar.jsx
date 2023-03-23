@@ -83,14 +83,14 @@ const Sidebar = ({selected, setSelected}) => {
                 },
                 "& .pro-inner-item": {
                     padding: "5px 0px 5px 20px !important",
-                    margin: "0px 10px 0px 0px",
+                    margin: "0px 15px 0px 0px",
                 },
                 "& .pro-inner-item:not(active):hover": {
                     fontWeight: 'bold !important',
                     //padding: "5px 0px 5px 20px !important",
                     //margin: "0px 10px 0px 135px",
                     color: `${colors.gray[100]} !important`,
-                    backgroundColor: `${colors.splashAccent[0]} !important`,
+                    //backgroundColor: `${colors.splashAccent[0]} !important`,
                     transition: 'background-color 0.3s ease-in-out',
                 },
                 "& .pro-menu-item.active": {
@@ -140,7 +140,7 @@ const Sidebar = ({selected, setSelected}) => {
                         </Box>
                     )}
 
-                    <Box paddingLeft={isCollapsed ? undefined : "10%"} marginRight="50px">
+                    <Box paddingLeft={isCollapsed ? undefined : "10%"} marginRight="0vw">
                         {!isCollapsed && (
                             <Typography
                                 variant="h6"

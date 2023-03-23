@@ -7,12 +7,10 @@ namespace DDRInventory.Models
     {
         public static List<Location> GetAllLocations()
         {
-            //each time we use the database i will have two using directives, the first using directive is for the db object, the second using directive is for the SQLite command
             using (Database catalog = new Database()) 
             {
                 using (SQLiteCommand allLocationQuery = catalog._connection.CreateCommand())
                 {
-                    Console.WriteLine("Getting all locations from the database");
                     List<Location> locations = new List<Location>();
                     allLocationQuery.CommandText = "SELECT * FROM locations";
                     SQLiteDataReader reader = allLocationQuery.ExecuteReader();
@@ -24,23 +22,32 @@ namespace DDRInventory.Models
                            Name = reader.GetString(1)
                         });
                     }
+                    new Log
+                    {
+                        User = "DummyUser",
+                        Action = "Opened Location Catalog"
+                    }.Write($"Retrieving all locations from the database");
                     return locations;
                 }
             }
         }
 
-        public static void AddItem(Location newLocation)
+        public static void AddLocation(Location newLocation)
         {
-            //each time we use the database i will have two using directives, the first using directive is for the db object, the second using directive is for the SQLite command
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand addLocationCommand = catalog._connection.CreateCommand())
                 {
-                    Console.WriteLine($"Adding location to '{newLocation.Name}' to the database");
                     addLocationCommand.CommandText = "INSERT INTO locations (id, name) VALUES($id, $name)";
                     addLocationCommand.Parameters.AddWithValue("$id", newLocation.Id);
                     addLocationCommand.Parameters.AddWithValue("$name", newLocation.Name);
                     addLocationCommand.ExecuteNonQuery();
+                    new Log
+                    {
+                        User = "DummyUser",
+                        Action = "Location Addition",
+                        LocationName = newLocation.Name
+                    }.Write($"Adding location '{newLocation.Name}' to the database");
                 }
             }
         }
@@ -51,18 +58,19 @@ namespace DDRInventory.Models
             {
                 using (SQLiteCommand locationQuery = catalog._connection.CreateCommand())
                 {
-                    Console.WriteLine($"Retrieving location {id} from the database");
+                    Log.WriteVerbose($"Retrieving location {id} from the database");
                     locationQuery.CommandText = $"SELECT * FROM locations WHERE id = {id}";
                     using (SQLiteDataReader reader = locationQuery.ExecuteReader()) 
                     {
                         if (reader.Read())
                         {
-                            Console.WriteLine($"Location {id} ({reader.GetString(1)}) found");
+                            Log.WriteVerbose($"Location {id} ({reader.GetString(1)}) found");
                             return new Location()
                             {
                                 Id = reader.GetInt32(0),
                                 Name = reader.GetString(1)
                             };
+                            
                         }
                         else
                         {
@@ -77,14 +85,14 @@ namespace DDRInventory.Models
 
         public static bool DeleteLocation(int id)
         {
-            Console.WriteLine($"Deleting Location with id, {id}");
+            Log.WriteVerbose($"Deleting Location with id, {id}");
             try
             {
                 GetLocation(id);
             }
             catch (ItemNotFoundException e)
             {
-                Console.WriteLine($"Item with id {e.Id} does not exists. Delete operation terminated.");
+                Log.WriteVerbose($"Item with id {e.Id} does not exists. Delete operation terminated.");
                 return false;
             }
             using (Database catalog = new Database())
@@ -93,7 +101,13 @@ namespace DDRInventory.Models
                 {
                     addLocationCommand.CommandText = $"DELETE FROM locations WHERE id = {id};";
                     addLocationCommand.ExecuteNonQuery();
-                    Console.WriteLine($"Location with id {id} removed from the database.");
+                    Log.WriteVerbose($"Location with id {id} removed from the database.");
+                    new Log
+                    {
+                        User = "DummyUser",
+                        Action = "Location Deletion",
+                        LocationName = GetName(id).Name
+                    }.Write($"Deleted a location from the database");
                     return true;
                 }
             }
@@ -105,13 +119,14 @@ namespace DDRInventory.Models
             {
                 using (SQLiteCommand locationQuery = catalog._connection.CreateCommand())
                 {
-                    Console.WriteLine($"Retrieving name of location {id} from the database");
+                    Log.WriteVerbose($"Retrieving name of location {id} from the database");
                     locationQuery.CommandText = $"SELECT name FROM locations WHERE id = {id}";
                     using (SQLiteDataReader reader = locationQuery.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            Console.WriteLine($"Location name {id} ({reader.GetString(1)}) found");
+                            Log.WriteVerbose($"Location name {id} ({reader.GetString(1)}) found");
+
                             return new Location()
                             {
                                 Name = reader.GetString(1)

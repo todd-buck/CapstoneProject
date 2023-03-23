@@ -21,7 +21,7 @@ namespace DDRInventory.Controllers
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return new Location[0];
             }
@@ -36,11 +36,11 @@ namespace DDRInventory.Controllers
             }
             try
             {
-                LocationContext.AddItem(newLocation);
+                LocationContext.AddLocation(newLocation);
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return newLocation.Id;
             }
@@ -57,13 +57,13 @@ namespace DDRInventory.Controllers
             }
             catch (ItemNotFoundException e)
             {
-                Console.WriteLine($"Item not found. Exception: {e.Message}");
+                Log.WriteVerbose($"Item not found. Exception: {e.Message}");
                 Response.StatusCode = 451;
                 return false;
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return false;
             }
@@ -79,7 +79,7 @@ namespace DDRInventory.Controllers
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return null;
             }

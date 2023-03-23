@@ -19,7 +19,7 @@ namespace DDRInventory.Controllers
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
             }
         }
@@ -33,7 +33,7 @@ namespace DDRInventory.Controllers
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return new PutawayEntry[0];
             }
@@ -48,7 +48,7 @@ namespace DDRInventory.Controllers
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return new PutawayEntry[0];
             }
@@ -63,7 +63,7 @@ namespace DDRInventory.Controllers
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return false;
             }

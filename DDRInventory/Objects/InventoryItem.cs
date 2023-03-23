@@ -29,13 +29,13 @@ namespace DDRInventory.Objects
                 try
                 {
                     InventoryItem idInUse = InventoryItemContext.GetItem(generatedId);
-                    Console.WriteLine($"Generated Id {generatedId} is in use by {idInUse.Name}. Generating new Id");
+                    Log.WriteVerbose($"Item added with duplicate Id. Generating new Id.");
                     generatedId = (int.Parse(generatedId) + 1).ToString();
                     continue;
                 }
                 catch (ItemNotFoundException e)
                 {
-                    Console.WriteLine($"Generated Id {e.Id} not in use. New item will use {e.Id}");
+                    Log.WriteVerbose($"Item added with no Id or UPC. New item will use {e.Id}");
                     return e.Id;
                 }
             }

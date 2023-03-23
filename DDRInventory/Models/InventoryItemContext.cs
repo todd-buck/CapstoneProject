@@ -25,7 +25,13 @@ namespace DDRInventory.Models
                     insertItemCommand.Parameters.AddWithValue("$category", newItem.Category);
                     insertItemCommand.Parameters.AddWithValue("$subcategory", newItem.SubCategory);
                     insertItemCommand.Parameters.AddWithValue("$par_level", newItem.ParLevel);
-                    Console.WriteLine($"Adding item '{newItem.Name}' to the database");
+                    insertItemCommand.ExecuteNonQuery();
+                    new Log
+                    {
+                        User = "DummyUser",
+                        Action = "Item Addition",
+                        ItemName = newItem.Name,
+                    }.Write($"Adding item '{newItem.Name}' to the database");
                     insertItemCommand.ExecuteNonQuery();
                 }
             }
@@ -55,8 +61,9 @@ namespace DDRInventory.Models
                         new Log
                         {
                             User = "DummyUser",
-                            Action = "CSV Import",
+                            Action = "Item Addition",
                             ItemName = newItem.Name,
+                            Reason = "CSV Import",
                         }.Write($"Adding item '{newItem.Name}' to the database");
                         insertItemCommand.ExecuteNonQuery();
                     }
@@ -66,14 +73,19 @@ namespace DDRInventory.Models
 
         public static bool DeleteAll()
         {
-            Console.WriteLine($"Deleting all items from the database");
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
                 {
                     insertItemCommand.CommandText = "DELETE FROM items;";
                     insertItemCommand.ExecuteNonQuery();
-                    Console.WriteLine($"All items removed from the catalog");
+                    insertItemCommand.ExecuteNonQuery();
+                    new Log
+                    {
+                        User = "DummyUser",
+                        Action = "All Item Deletion"
+                    }.Write("Deleting all items from the database");
+                    Log.WriteVerbose($"All items removed from the catalog");
                     return true;
                 }
             }
@@ -81,14 +93,14 @@ namespace DDRInventory.Models
 
         public static bool DeleteItem(string id)
         {
-            Console.WriteLine($"Deleting item with ID {id}");
+            Log.WriteVerbose($"Deleting item with ID {id}");
             try
             {
                 GetItem(id);
             }
             catch (ItemNotFoundException e)
             {
-                Console.WriteLine($"Item with id {e.Id} does not exists. Delete operation terminated.");
+                Log.WriteVerbose($"Item with id {e.Id} does not exists. Delete operation terminated.");
                 return false;
             }
             using (Database catalog = new Database())
@@ -97,7 +109,13 @@ namespace DDRInventory.Models
                 {
                     insertItemCommand.CommandText = $"DELETE FROM items WHERE id = {id};";
                     insertItemCommand.ExecuteNonQuery();
-                    Console.WriteLine($"Item with id {id} removed from the database.");
+                    new Log
+                    {
+                        User = "DummyUser",
+                        Action = "Item Deleted",
+                        ItemName = GetItem(id).Name,
+                        Reason = "DummyReason"
+                    }.Write($"Item with id {id} removed from the database.");
                     return true;
                 }
             }
@@ -108,7 +126,6 @@ namespace DDRInventory.Models
             {
                 using (SQLiteCommand allItemsQuery = catalog._connection.CreateCommand())
                 {
-                    Console.WriteLine("Retrieving all items from the database");
                     List<InventoryItem> items = new List<InventoryItem>();
                     allItemsQuery.CommandText = "SELECT * FROM items ORDER BY name asc;";
                     using (SQLiteDataReader reader = allItemsQuery.ExecuteReader())
@@ -127,6 +144,11 @@ namespace DDRInventory.Models
                                 ParLevel = reader.GetInt32(7)
                             });
                         }
+                        new Log
+                        {
+                            User = "DummyUser",
+                            Action = "Open Item Catalog",
+                        }.Write("Retrieving all items from the database");
                         return items;
                     }
 
@@ -140,7 +162,7 @@ namespace DDRInventory.Models
             {
                 using (SQLiteCommand allItemsQuery = catalog._connection.CreateCommand())
                 {
-                    Console.WriteLine("Retrieving all items from the database");
+                    Log.WriteVerbose("Retrieving all items ids from the database");
                     List<string> items = new List<string>();
                     allItemsQuery.CommandText = "SELECT * FROM items;";
                     using (SQLiteDataReader reader = allItemsQuery.ExecuteReader())
@@ -161,7 +183,7 @@ namespace DDRInventory.Models
             {
                 using (SQLiteCommand itemQuery = catalog._connection.CreateCommand())
                 {
-                    Console.WriteLine($"Retrieving item {id} from the database");
+                    Log.WriteVerbose($"Retrieving item {id} from the database");
                     itemQuery.CommandText = $"SELECT * FROM items WHERE id = {id};";
                     using (SQLiteDataReader reader = itemQuery.ExecuteReader())
                     {
@@ -178,7 +200,7 @@ namespace DDRInventory.Models
                                 SubCategory = reader.GetString(6),
                                 ParLevel = reader.GetInt32(7)
                             };
-                            Console.WriteLine($"Item {id} ({returnVal.Name}) found");
+                            Log.WriteVerbose($"Item {id} ({returnVal.Name}) found");
                             return returnVal;
                         }
                         else
@@ -205,8 +227,13 @@ namespace DDRInventory.Models
                     updateItemCommand.Parameters.AddWithValue("$category", updatedItem.Category);
                     updateItemCommand.Parameters.AddWithValue("$subcategory", updatedItem.SubCategory);
                     updateItemCommand.Parameters.AddWithValue("$par_level", updatedItem.ParLevel);
-                    Console.WriteLine($"Updating item id {updatedItem.Id}'s properties");
                     updateItemCommand.ExecuteNonQuery();
+                    new Log
+                    {
+                        User = "DummyUser",
+                        Action = "Item Update",
+                        ItemName= updatedItem.Name,
+                    }.Write($"Updating {updatedItem.Name}'s item properties");
                     return true;
                 }
             }

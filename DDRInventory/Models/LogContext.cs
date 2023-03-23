@@ -25,7 +25,7 @@ namespace DDRInventory.Models
                                 Time = reader.GetString(1),
                                 User = reader.GetString(2),
                                 Action = reader.GetString(3),
-                                ItemName = reader.GetString(4).ToString(),
+                                ItemName = reader.GetValue(4).ToString(),
                                 LocationName = reader.GetValue(5).ToString(),
                                 Adjustment = reader.GetValue(6).ToString(),
                                 Reason = reader.GetValue(7).ToString()

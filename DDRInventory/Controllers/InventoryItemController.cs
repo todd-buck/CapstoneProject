@@ -16,7 +16,7 @@ namespace DDRInventory.Controllers
         [HttpPost("uploadCSV")]
         public bool UploadCSV(IFormFile file)
         {
-            Console.WriteLine($"{file.FileName} uploaded successfully");
+            Log.WriteVerbose($"{file.FileName} uploaded successfully");
             List<InventoryItem> items = new List<InventoryItem>();
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
@@ -45,7 +45,7 @@ namespace DDRInventory.Controllers
                     }
                     catch (CsvHelperException e)
                     {
-                        Console.WriteLine($"Error when proccessing CSV file. Exception: {e.Message}");
+                        Log.WriteVerbose($"Error when proccessing CSV file. Exception: {e.Message}");
                         Response.StatusCode = 400;
                         return false;
                     }
@@ -56,7 +56,7 @@ namespace DDRInventory.Controllers
                 }
                 catch (SQLiteException e)
                 {
-                    Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                    Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                     Response.StatusCode = 512;
                     return false;
                 }
@@ -69,7 +69,7 @@ namespace DDRInventory.Controllers
         {
             if (newItem.Id == "-1")
             {
-                Console.WriteLine($"New item '{newItem.Name}' inserted with no UPC. Generating id...");
+                Log.WriteVerbose($"New item '{newItem.Name}' inserted with no UPC. Generating id...");
                 newItem.Id = InventoryItem.GenerateId();
             }
             try
@@ -78,7 +78,7 @@ namespace DDRInventory.Controllers
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return newItem.Id;
             }
@@ -94,13 +94,13 @@ namespace DDRInventory.Controllers
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return false;
             }
             catch (ItemNotFoundException e)
             {
-                Console.WriteLine($"Item not found. Exception: {e.Message}");
+                Log.WriteVerbose($"Item not found. Exception: {e.Message}");
                 Response.StatusCode = 451;
                 return false;
             }
@@ -129,13 +129,13 @@ namespace DDRInventory.Controllers
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return new InventoryItem[0];
             }
         }
 
-        [HttpGet("item")]
+        [HttpGet]
         public InventoryItem getById(string id)
         {
             InventoryItem returnValue = new InventoryItem();
@@ -145,13 +145,13 @@ namespace DDRInventory.Controllers
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return new InventoryItem();
             }
             catch (ItemNotFoundException e)
             {
-                Console.WriteLine($"Item not found. Exception: {e.Message}");
+                Log.WriteVerbose($"Item not found. Exception: {e.Message}");
                 Response.StatusCode = 451;
                 return new InventoryItem();
             }
@@ -168,13 +168,13 @@ namespace DDRInventory.Controllers
             }
             catch (ItemNotFoundException e)
             {
-                Console.WriteLine($"Item not found. Exception: {e.Message}");
+                Log.WriteVerbose($"Item not found. Exception: {e.Message}");
                 Response.StatusCode = 451;
                 return false;
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return false;
             }
@@ -191,7 +191,7 @@ namespace DDRInventory.Controllers
             }
             catch (ItemNotFoundException e)
             {
-                Console.WriteLine($"Item not found. Exception: {e.Message}");
+                Log.WriteVerbose($"Item not found. Exception: {e.Message}");
                 Response.StatusCode = 451;
             }
         }
@@ -205,7 +205,7 @@ namespace DDRInventory.Controllers
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
             }
         }

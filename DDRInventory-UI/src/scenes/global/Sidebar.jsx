@@ -50,7 +50,9 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
             active={selected === title}
             sx={{
                 color: colors.gray[100],
-                marginRight: "20px",
+                //marginRight: "20px",
+                //padding: "5px 0px 5px 20px !important",
+                //margin: "0px 10px 0px 135px",
             }}
             onClick={() => setSelected(title)}
             icon={icon}
@@ -73,19 +75,22 @@ const Sidebar = ({selected, setSelected}) => {
                 //height: "150vh",
                 "& .pro-sidebar-inner": {
                     background: `${colors.primary[200]} !important`,
-                    position: 'fixed',   
+                    height: "100vh",
+                    //position: 'fixed',   
                 },
                 "& .pro-icon-wrapper": {
                     backgroundColor: "transparent !important",
                 },
                 "& .pro-inner-item": {
                     padding: "5px 0px 5px 20px !important",
-                    margin: "0px 10px 0px 0",
+                    margin: "0px 10px 0px 0px",
                 },
                 "& .pro-inner-item:not(active):hover": {
                     fontWeight: 'bold !important',
+                    //padding: "5px 0px 5px 20px !important",
+                    //margin: "0px 10px 0px 135px",
                     color: `${colors.gray[100]} !important`,
-                    backgroundColor: `${colors.splashAccent[200]} !important`,
+                    backgroundColor: `${colors.splashAccent[0]} !important`,
                     transition: 'background-color 0.3s ease-in-out',
                 },
                 "& .pro-menu-item.active": {
@@ -111,8 +116,10 @@ const Sidebar = ({selected, setSelected}) => {
                                 justifyContent="flex-end"
                                 alignItems="center"
                                 ml="15px"
+
+                                
                             >
-                                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                                <IconButton sx={{ "&:hover": { backgroundColor: colors.splashAccent[100] } }} onClick={() => setIsCollapsed(!isCollapsed)}>
                                     <MenuOutlinedIcon />
                                 </IconButton>
                             </Box>

@@ -6,7 +6,7 @@ import Sidebar from "./scenes/global/Sidebar";
 
 import Dashboard from "./scenes/dashboard";
 
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 import { ColorModeContext, useMode } from './theme';
 
 
@@ -20,13 +20,18 @@ function App() {
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <div className="app">
-                    <Sidebar isSidebar={isSidebar} selected={selected} setSelected={setSelected} />
-                    <main className="content">
-                        <Topbar setIsSidebar={setIsSidebar} />
-                        <Routes>
-                            <Route path="/" element={<Dashboard selected={selected} />} />
-                        </Routes>
-                    </main>
+                    <Box sx={{position: "fixed", zIndex: 100, height: "100vh"} }>
+                        <Sidebar isSidebar={isSidebar} selected={selected} setSelected={setSelected} />
+                    </Box>
+
+                    <Box sx={{width: "98vw", pl: 10} }>
+                        <main className="content">
+                            <Topbar setIsSidebar={setIsSidebar} />
+                            <Routes>
+                                <Route path="/" element={<Dashboard selected={selected} />} />
+                            </Routes>
+                        </main>
+                    </Box>
                 </div>
             </ThemeProvider>
         </ColorModeContext.Provider>

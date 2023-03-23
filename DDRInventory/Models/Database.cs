@@ -13,12 +13,13 @@ namespace DDRInventory.Models
         {
             { "items", "(id VARCHAR(20), name VARCHAR(20), quantity INT, price REAL, unit VARCHAR(10), category VARCHAR(15), subcategory VARCHAR(15), par_level INT)" },
             { "locations", "(id INT, name VARCHAR(20))" },
-            { "putaway", "(item_id VARCHAR(20), location_id INT, location_name VARCHAR(20), quantity INT)" }
+            { "putaway", "(item_id VARCHAR(20), location_id INT, location_name VARCHAR(20), quantity INT)" },
+            { "log", "(date VARCHAR(20), time VARCHAR(20), user VARCHAR(20), action VARCHAR(20), item_name VARCHAR(20), location_name VARCHAR(20), adjustment VARCHAR(20), reason VARCHAR(20))" }
         };
      
         //Database version notes
         //2. Added category, subcategory, par_level
-        const string DATABASE_NAME = "catalogV3.db";
+        const string DATABASE_NAME = "catalogV4.db";
         string DATABASE_PATH = Directory.GetCurrentDirectory();
 
         //MEMBER ATTRIBUTES
@@ -37,7 +38,7 @@ namespace DDRInventory.Models
                 if (Path.GetFileName(dbFile) != DATABASE_NAME)
                 {
                     File.Delete(dbFile);
-                    Console.WriteLine($"Delete obselete database file {Path.GetFileName(dbFile)}");
+                    Console.WriteLine($"Deleting obselete database file {Path.GetFileName(dbFile)}");
                 }
             }
         }

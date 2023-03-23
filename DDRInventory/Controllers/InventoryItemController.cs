@@ -9,11 +9,11 @@ using System.Reflection;
 
 namespace DDRInventory.Controllers
 {
+    [Route("api/item")]
     [ApiController]
-    [Route("database")]
     public class InventoryItemController : ControllerBase
     {
-        [HttpPost("/api/item/uploadCSV")]
+        [HttpPost("uploadCSV")]
         public bool UploadCSV(IFormFile file)
         {
             Console.WriteLine($"{file.FileName} uploaded successfully");
@@ -64,7 +64,7 @@ namespace DDRInventory.Controllers
             return true;
         }
 
-        [HttpPost("/api/item/add")]
+        [HttpPost("add")]
         public string Add(InventoryItem newItem)
         {
             if (newItem.Id == "-1")
@@ -85,7 +85,7 @@ namespace DDRInventory.Controllers
             return newItem.Id;
         }
 
-        [HttpPut("/api/item/update")]
+        [HttpPut("update")]
         public bool update(InventoryItem updatedItem)
         {
             try
@@ -106,7 +106,7 @@ namespace DDRInventory.Controllers
             }
         }
 
-        [HttpGet("/api/item/schema")]
+        [HttpGet("schema")]
         public string[] getSchema()
         {
             List<string> attributeNames = new List<string>();
@@ -118,7 +118,7 @@ namespace DDRInventory.Controllers
         }
 
 
-        [HttpGet("/api/item/catalog")]
+        [HttpGet("catalog")]
         public InventoryItem[] getCatalog()
         {
             try
@@ -135,7 +135,7 @@ namespace DDRInventory.Controllers
             }
         }
 
-        [HttpGet("/api/item")]
+        [HttpGet("item")]
         public InventoryItem getById(string id)
         {
             InventoryItem returnValue = new InventoryItem();
@@ -158,7 +158,7 @@ namespace DDRInventory.Controllers
             return returnValue;
         }
 
-        [HttpDelete("/api/item/delete")]
+        [HttpDelete("delete")]
         public bool deleteItem(string id)
         {
             bool returnVal;
@@ -181,7 +181,7 @@ namespace DDRInventory.Controllers
             return returnVal;
         }
 
-        [HttpDelete("/api/item/deleteMany")]
+        [HttpDelete("deleteMany")]
         public void deleteMany(int[] ids)
         {
             Response.StatusCode = 501;
@@ -196,7 +196,7 @@ namespace DDRInventory.Controllers
             }
         }
 
-        [HttpDelete("/api/item/delete/all")]
+        [HttpDelete("delete/all")]
         public void deleteAll()
         {
             try

@@ -6,10 +6,11 @@ using System.Data.SQLite;
 
 namespace DDRInventory.Controllers
 {
+    [Route("api/location")]
     [ApiController]
     public class LocationController : ControllerBase
     {
-        [HttpGet("/api/location/catalog")]
+        [HttpGet("catalog")]
         public Location[] getCatalog()
         {
             try
@@ -26,7 +27,7 @@ namespace DDRInventory.Controllers
             }
         }
 
-        [HttpPost("/api/location/add")]
+        [HttpPost("add")]
         public int add(Location newLocation)
         {
             if (newLocation.Id == -1)
@@ -46,7 +47,7 @@ namespace DDRInventory.Controllers
             return newLocation.Id;
         }
 
-        [HttpDelete("/api/location/delete")]
+        [HttpDelete("delete")]
         public bool delete(int id)
         {
             bool returnVal;
@@ -69,7 +70,7 @@ namespace DDRInventory.Controllers
             return returnVal;
         }
 
-        [HttpGet("/api/location/getName")]
+        [HttpGet("getName")]
         public string getName(int id)
         {
             try

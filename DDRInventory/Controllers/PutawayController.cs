@@ -6,6 +6,7 @@ using System.Data.SQLite;
 
 namespace DDRInventory.Controllers
 {
+    [Route("/api/putaway")]
     [ApiController]
     public class PutawayController : ControllerBase
     {
@@ -23,7 +24,7 @@ namespace DDRInventory.Controllers
             }
         }
 
-        [HttpGet("/api/putaway/location/{locationId}")]
+        [HttpGet("location/{locationId}")]
         public PutawayEntry[] getByLocation(int locationId)
         {
             try
@@ -38,7 +39,7 @@ namespace DDRInventory.Controllers
             }
         }
 
-        [HttpGet("/api/putaway/item/{itemId}")]
+        [HttpGet("item/{itemId}")]
         public PutawayEntry[] getByItem(string itemId)
         {
             try
@@ -53,7 +54,7 @@ namespace DDRInventory.Controllers
             }
         }
 
-        [HttpPut("/api/putaway/update")]
+        [HttpPut("update")]
         public bool update(PutawayEntry updatedEntry)
         {
             try

@@ -52,7 +52,12 @@ namespace DDRInventory.Models
                         insertItemCommand.Parameters.AddWithValue("$category", newItem.Category);
                         insertItemCommand.Parameters.AddWithValue("$subcategory", newItem.SubCategory);
                         insertItemCommand.Parameters.AddWithValue("$par_level", newItem.ParLevel);
-                        Console.WriteLine($"Adding item '{newItem.Name}' to the database");
+                        new Log
+                        {
+                            User = "DummyUser",
+                            Action = "CSV Import",
+                            ItemName = newItem.Name,
+                        }.Write($"Adding item '{newItem.Name}' to the database");
                         insertItemCommand.ExecuteNonQuery();
                     }
                 }
@@ -68,7 +73,7 @@ namespace DDRInventory.Models
                 {
                     insertItemCommand.CommandText = "DELETE FROM items;";
                     insertItemCommand.ExecuteNonQuery();
-                    Console.WriteLine($"All items removes from the catalog");
+                    Console.WriteLine($"All items removed from the catalog");
                     return true;
                 }
             }

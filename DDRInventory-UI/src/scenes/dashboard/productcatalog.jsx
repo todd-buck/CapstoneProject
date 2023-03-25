@@ -120,7 +120,7 @@ const DashboardComponent = () => {
                         {/*Add New Product Button*/}
                         <Tooltip arrow title="Add New Product">
                             <Button
-                                style={{ backgroundColor: colors.greenAccent[500]}}
+                                style={{ /*backgroundColor: colors.greenAccent[500]*/}}
                                 onClick={() => {setAddNewProductComponentVisibility(true);}} 
                                 variant="contained"
                             >
@@ -160,7 +160,7 @@ const DashboardComponent = () => {
                             onClick={() => {
                                 deleteItem.mutate(row.getValue('id'))
                             }}
-                            sx={{ "&:hover": { color: colors.redAccent[500] } }}
+                            sx={{ "&:hover": { /*color: colors.redAccent[500]*/ } }}
                         >
                             <Delete />
                         </IconButton>
@@ -170,7 +170,7 @@ const DashboardComponent = () => {
                             onClick={() => {
                                 setUpdateInventoryComponentVisibility(row);
                             }}
-                            sx={{ "&:hover": { color: colors.blueAccent[500] } }}
+                            sx={{ "&:hover": { /*color: colors.blueAccent[500]*/ } }}
                         >
                             <Mode />
                         </IconButton>

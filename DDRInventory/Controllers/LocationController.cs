@@ -89,5 +89,21 @@ namespace DDRInventory.Controllers
                 return null;
             }
         }
+
+        [HttpDelete("delete/all")]
+        public void deleteAll()
+        {
+            try
+            {
+                LocationContext.DeleteAll();
+            }
+            catch (SQLiteException e)
+            {
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
+                Response.StatusCode = 512;
+            }
+        }
     }
 }
+
+

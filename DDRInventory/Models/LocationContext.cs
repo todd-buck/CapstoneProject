@@ -83,6 +83,25 @@ namespace DDRInventory.Models
 
         }
 
+        public static bool DeleteAll()
+        {
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand deleteLocationsCommand = catalog._connection.CreateCommand())
+                {
+                    deleteLocationsCommand.CommandText = "DELETE FROM locations;";
+                    deleteLocationsCommand.ExecuteNonQuery();
+                    deleteLocationsCommand.ExecuteNonQuery();
+                    new Log
+                    {
+                        User = "DummyUser",
+                        Action = "All Location Deletion"
+                    }.Write("Deleting all locations from the database");
+                    return true;
+                }
+            }
+        }
+
         public static bool DeleteLocation(int id)
         {
             Log.WriteVerbose($"Deleting Location with id, {id}");

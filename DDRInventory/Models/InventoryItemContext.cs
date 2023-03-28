@@ -48,7 +48,8 @@ namespace DDRInventory.Models
                     {
                         if (GetAllIds().Contains(newItem.Id))
                         {
-                            newItem.Id = InventoryItem.GenerateId();
+                            UpdateItem(newItem);
+                            continue;
                         }
                         insertItemCommand.Parameters.AddWithValue("$id", newItem.Id);
                         insertItemCommand.Parameters.AddWithValue("$name", newItem.Name);

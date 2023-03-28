@@ -33,11 +33,11 @@ namespace DDRInventory.Models
         {
             using (Database catalog = new Database())
             {
-                using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
+                using (SQLiteCommand deleteAllPutawayEntriesCommand = catalog._connection.CreateCommand())
                 {
-                    insertItemCommand.CommandText = "DELETE FROM putaway;";
-                    insertItemCommand.ExecuteNonQuery();
-                    insertItemCommand.ExecuteNonQuery();
+                    deleteAllPutawayEntriesCommand.CommandText = "DELETE FROM putaway;";
+                    deleteAllPutawayEntriesCommand.ExecuteNonQuery();
+                    deleteAllPutawayEntriesCommand.ExecuteNonQuery();
                     new Log
                     {
                         User = "DummyUser",

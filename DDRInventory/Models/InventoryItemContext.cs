@@ -76,11 +76,11 @@ namespace DDRInventory.Models
         {
             using (Database catalog = new Database())
             {
-                using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
+                using (SQLiteCommand deleteAllItemsCommand = catalog._connection.CreateCommand())
                 {
-                    insertItemCommand.CommandText = "DELETE FROM items;";
-                    insertItemCommand.ExecuteNonQuery();
-                    insertItemCommand.ExecuteNonQuery();
+                    deleteAllItemsCommand.CommandText = "DELETE FROM items;";
+                    deleteAllItemsCommand.ExecuteNonQuery();
+                    deleteAllItemsCommand.ExecuteNonQuery();
                     new Log
                     {
                         User = "DummyUser",

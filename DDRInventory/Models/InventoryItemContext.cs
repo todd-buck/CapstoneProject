@@ -86,7 +86,6 @@ namespace DDRInventory.Models
                         User = "DummyUser",
                         Action = "All Item Deletion"
                     }.Write("Deleting all items from the database");
-                    Log.WriteVerbose($"All items removed from the catalog");
                     return true;
                 }
             }

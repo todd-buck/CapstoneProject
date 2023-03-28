@@ -28,6 +28,25 @@ namespace DDRInventory.Models
                 }
             }
         }
+
+        public static bool DeleteAll()
+        {
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand insertItemCommand = catalog._connection.CreateCommand())
+                {
+                    insertItemCommand.CommandText = "DELETE FROM putaway;";
+                    insertItemCommand.ExecuteNonQuery();
+                    insertItemCommand.ExecuteNonQuery();
+                    new Log
+                    {
+                        User = "DummyUser",
+                        Action = "All Putaway Deletion"
+                    }.Write("Deleting all putaway entries from the database");
+                    return true;
+                }
+            }
+        }
         public static bool UpdateEntry(PutawayEntry updatedEntry)
         {
             using (Database catalog = new Database())

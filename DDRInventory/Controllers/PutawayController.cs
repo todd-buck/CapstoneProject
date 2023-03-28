@@ -68,5 +68,19 @@ namespace DDRInventory.Controllers
                 return false;
             }
         }
+
+        [HttpDelete("delete/all")]
+        public void deleteAll()
+        {
+            try
+            {
+                PutawayEntryContext.DeleteAll();
+            }
+            catch (SQLiteException e)
+            {
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
+                Response.StatusCode = 512;
+            }
+        }
     }
 }

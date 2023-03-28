@@ -1,6 +1,6 @@
 import { createContext, useState, useMemo } from 'react';
 import { createTheme } from '@mui/material/styles';
-import { selectedScheme } from './scenes/dashboard/settings';
+import { SettingsComponent } from './scenes/dashboard/settings';
 
 // REVISION V2
 
@@ -431,12 +431,12 @@ export const useMode = () => {
     const colorScheme = useMemo(
         () => ({
             toggleColorScheme: () =>
-                setScheme(selectedScheme),
+                setScheme(SettingsComponent.selectedScheme),
         }),
         []
     );
 
-    const theme = useMemo(() => createTheme(themeSettings(mode, scheme)), [mode])
+    const theme = useMemo(() => createTheme(themeSettings(mode, scheme)), [{ mode, scheme }])
 
     return [theme, colorMode];
 };

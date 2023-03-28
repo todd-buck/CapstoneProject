@@ -5,7 +5,7 @@ import { tokens } from "../../theme";
 
 const YourProfileComponent = () => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
     const emailAddress = "margarethamilton@dillardsdiningresources.com";
     const phoneNumber = "1800-867-5309";
     const loggedin = false;

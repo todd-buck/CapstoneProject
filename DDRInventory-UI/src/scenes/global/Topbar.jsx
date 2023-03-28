@@ -10,7 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const Topbar = () => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
     const colorMode = useContext(ColorModeContext);
 
 

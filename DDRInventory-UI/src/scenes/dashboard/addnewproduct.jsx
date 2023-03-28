@@ -21,7 +21,7 @@ const newProduct = {
 
 const AddNewProductComponent = ({ setAddProductWindow, productCatalog, setProductCatalog }) => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
 
     const [open, setOpen] = useState(true);
 

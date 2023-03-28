@@ -10,7 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 const UpdateInventoryComponent = ({ item, setUpdateInventoryWindow, productCatalog, setProductCatalog } ) => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
 
     const [open, setOpen] = useState(true);
 

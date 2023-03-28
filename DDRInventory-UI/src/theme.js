@@ -1,11 +1,15 @@
 import { createContext, useState, useMemo } from 'react';
 import { createTheme } from '@mui/material/styles';
-import { SettingsComponent } from './scenes/dashboard/settings.jsx';
+import { selectedScheme } from './scenes/dashboard/settings';
 
 // REVISION V2
 
 // color design tokens, THIS IS FINE.
 // A function called "tokens" that takes the mode and scheme as parameters.
+
+// This is used at the beginning of each component:
+// const colors = tokens(theme.palette.mode);
+// parameters changed from previous
 
 export const tokens = (mode, scheme) => {
     if (mode === "dark" && scheme === "default") {
@@ -160,12 +164,142 @@ export const tokens = (mode, scheme) => {
     }
     else if (mode === "light" && scheme === "flamingo") {
         return {
-            // insert flamingo hex codes
+            gray: {
+                100: "#FAFAFA",
+                200: "#cccccc",
+                300: "#b3b3b3",
+                400: "#999999",
+                500: "#808080",
+                600: "#666666",
+                700: "#4d4d4d",
+                800: "#333333",
+                900: "#212121"
+            },
+            primary: {
+                100: "#fcdfd1",
+                200: "#f9bfa3",
+                300: "#f6a074",
+                400: "#f38046",
+                500: "#f06018",
+                600: "#c04d13",
+                700: "#903a0e",
+                800: "#60260a",
+                900: "#301305"
+            },
+            addAccent: {
+                100: "#175D17",
+                200: "#1E7C1E",
+                300: "#269A26",
+                400: "#2CB22C",
+                500: "#33CC33",
+                600: "#72DC72",
+                700: "#A0E8A0",
+                800: "#BFEFBF",
+                900: "#E1F7E1"
+            },
+            removeAccent: {
+                100: "#480000",
+                200: "#700000",
+                300: "#960000",
+                400: "#B00000",
+                500: "#CD0000",
+                600: "#F20000",
+                700: "#FF4747",
+                800: "#FF7979",
+                900: "#FFA3A3"
+            },
+            changeAccent: {
+                100: "#00478E",
+                200: "#0056AC",
+                300: "#006DDA",
+                400: "#0180FF",
+                500: "#3399FF",
+                600: "#65B2FF",
+                700: "#9BCDFF",
+                800: "#B9DCFF",
+                900: "#D9ECFF"
+            },
+            splashAccent: {
+                100: "#332100",
+                200: "#664200",
+                300: "#996300",
+                400: "#cc8400",
+                500: "#ffa500",
+                600: "#ffb733",
+                700: "#ffc966",
+                800: "#ffdb99",
+                900: "#ffedcc"
+            }
         }
     }
     else if (mode === "dark" && scheme === "flamingo") {
         return {
-            // insert flamingo hex codes
+            gray: {
+                100: "#FAFAFA",
+                200: "#cccccc",
+                300: "#b3b3b3",
+                400: "#999999",
+                500: "#808080",
+                600: "#666666",
+                700: "#4d4d4d",
+                800: "#333333",
+                900: "#212121"
+            },
+            primary: {
+                100: "#fadde6",
+                200: "#f5bbcc",
+                300: "#f198b3",
+                400: "#ec7699",
+                500: "#e75480",
+                600: "#b94366",
+                700: "#8b324d",
+                800: "#5c2233",
+                900: "#2e111a"
+            },
+            addAccent: {
+                100: "#175D17",
+                200: "#1E7C1E",
+                300: "#269A26",
+                400: "#2CB22C",
+                500: "#33CC33",
+                600: "#72DC72",
+                700: "#A0E8A0",
+                800: "#BFEFBF",
+                900: "#E1F7E1"
+            },
+            removeAccent: {
+                100: "#480000",
+                200: "#700000",
+                300: "#960000",
+                400: "#B00000",
+                500: "#CD0000",
+                600: "#F20000",
+                700: "#FF4747",
+                800: "#FF7979",
+                900: "#FFA3A3"
+            },
+            changeAccent: {
+                100: "#00478E",
+                200: "#0056AC",
+                300: "#006DDA",
+                400: "#0180FF",
+                500: "#3399FF",
+                600: "#65B2FF",
+                700: "#9BCDFF",
+                800: "#B9DCFF",
+                900: "#D9ECFF"
+            },
+            splashAccent: {
+                100: "#332100",
+                200: "#664200",
+                300: "#996300",
+                400: "#cc8400",
+                500: "#ffa500",
+                600: "#ffb733",
+                700: "#ffc966",
+                800: "#ffdb99",
+                900: "#ffedcc"
+            }
         }
     }
     else if (mode === "light" && scheme === "desert") {
@@ -202,6 +336,8 @@ export const tokens = (mode, scheme) => {
 
 // MUI theme settings, is a function called "ThemeSettings"
 // that takes the current mode and current scheme as parameters.
+// THIS IS ONLY USED WITHIN THEME.JS!
+// parameters changed from previously, changes made to update all function calls
 
 export const themeSettings = (mode, scheme) => {
     const colors = tokens(mode, scheme);
@@ -271,6 +407,10 @@ export const themeSettings = (mode, scheme) => {
 };
 
 // context for color mode
+
+// used in topbar.js to toggle different icons based on light/dark mode
+// const colorMode = useContext(ColorModeContext);
+
 export const ColorModeContext = createContext({
     toggleColorMode: () => { },
     toggleColorScheme: () => { }
@@ -291,7 +431,7 @@ export const useMode = () => {
     const colorScheme = useMemo(
         () => ({
             toggleColorScheme: () =>
-                setScheme("default"),
+                setScheme(selectedScheme),
         }),
         []
     );

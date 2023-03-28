@@ -6,7 +6,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const FAQsComponent = () => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
     const questionStyle = { bgcolor: colors.primary[200]};
     const answerStyle = { bgcolor: colors.primary[300] };
     const questionVariant = "h5";

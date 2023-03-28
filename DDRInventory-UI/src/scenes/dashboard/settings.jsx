@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { useContext } from "react";
 import { Typography, useTheme } from '@mui/material';
-import { tokens } from "../../theme";
+import { ColorModeContext, tokens } from "../../theme";
 import { Select, InputLabel, MenuItem } from '@mui/material';
 import { Box } from '../../../node_modules/@mui/material/index';
 
 const SettingsComponent = () => {
 
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
+    const colorMode = useContext(ColorModeContext);
     const [selectedScheme, setSelectedScheme] = useState('default');
 
     const handleChange = (event) => {

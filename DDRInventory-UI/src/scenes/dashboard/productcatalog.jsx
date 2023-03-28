@@ -12,7 +12,7 @@ import AddNewProductComponent from "./addnewproduct.jsx"
 
 const DashboardComponent = () => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
 
     const [productCatalog, setProductCatalog] = useState(null)
 

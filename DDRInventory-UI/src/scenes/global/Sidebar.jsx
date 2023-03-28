@@ -44,7 +44,7 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
     return (
         <MenuItem
             active={selected === title}
@@ -63,7 +63,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 
 const Sidebar = ({selected, setSelected}) => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     return (

@@ -8,11 +8,10 @@ const SettingsComponent = () => {
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-
-    const [selectedOption, setSelectedOption] = useState('default');
+    const [selectedScheme, setSelectedScheme] = useState('default');
 
     const handleChange = (event) => {
-        setSelectedOption(event.target.value);
+        setSelectedScheme(event.target.value);
     };
 
     return (
@@ -22,9 +21,9 @@ const SettingsComponent = () => {
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center'}}>
                 <Typography variant="h4" sx={{p:2}}>
-                    Select Theme:
+                    Select Color Scheme:
                 </Typography>
-                <Select value={selectedOption} onChange={handleChange}>
+                <Select value={selectedScheme} onChange={handleChange}>
                     <MenuItem value="default">Default</MenuItem>
                     <MenuItem value="contrast">Contrast</MenuItem>
                     <MenuItem value="desert">Desert</MenuItem>

@@ -1,10 +1,15 @@
 import { createContext, useState, useMemo } from 'react';
 import { createTheme } from '@mui/material/styles';
+import { SettingsComponent } from './scenes/dashboard/settings.jsx';
 
-// color design tokens
-export const tokens = (mode) => ({
-    ...(mode === "dark"
-        ? {
+// REVISION V2
+
+// color design tokens, THIS IS FINE.
+// A function called "tokens" that takes the mode and scheme as parameters.
+
+export const tokens = (mode, scheme) => {
+    if (mode === "dark" && scheme === "default") {
+        return {
             gray: {
                 100: "#FAFAFA",
                 200: "#cccccc",
@@ -71,8 +76,11 @@ export const tokens = (mode) => ({
                 800: "#ffdb99",
                 900: "#ffedcc"
             }
-        } : {
-            gray: { 
+        }
+    }
+    else if (mode === "light" && scheme === "default") {
+        return {
+            gray: {
                 100: "#212121",
                 200: "#333333",
                 300: "#4d4d4d",
@@ -94,7 +102,7 @@ export const tokens = (mode) => ({
                 800: "#888888",
                 900: "#787878"
             },
-            addAccent: { 
+            addAccent: {
                 900: "#175D17",
                 800: "#1E7C1E",
                 700: "#269A26",
@@ -116,7 +124,7 @@ export const tokens = (mode) => ({
                 800: "#700000",
                 900: "#480000"
             },
-            changeAccent: { 
+            changeAccent: {
                 100: "#D9ECFF",
                 200: "#B9DCFF",
                 300: "#9BCDFF",
@@ -139,50 +147,84 @@ export const tokens = (mode) => ({
                 900: "#332100"
             }
         }
-    )
-});
+    }
+    else if (mode === "light" && scheme === "contrast") {
+        return {
+            // insert contrast hex codes
+        }
+    }
+    else if (mode === "dark" && scheme === "contrast") {
+        return {
+            // insert contrast hex codes
+        }
+    }
+    else if (mode === "light" && scheme === "flamingo") {
+        return {
+            // insert flamingo hex codes
+        }
+    }
+    else if (mode === "dark" && scheme === "flamingo") {
+        return {
+            // insert flamingo hex codes
+        }
+    }
+    else if (mode === "light" && scheme === "desert") {
+        return {
+            // insert desert hex codes
+        }
+    }
+    else if (mode === "dark" && scheme === "desert") {
+        return {
+            // insert desert hex codes
+        }
+    }
+    else if (mode === "light" && scheme === "sea") {
+        return {
+            // insert sea hex codes
+        }
+    }
+    else if (mode === "dark" && scheme === "sea") {
+        return {
+            // insert sea hex codes
+        }
+    }
+    else if (mode === "light" && scheme === "daisy") {
+        return {
+            // insert daisy hex codes
+        }
+    }
+    else if (mode === "dark" && scheme === "daisy") {
+        return {
+            // insert daisy hex codes
+        }
+    }
+};
 
-// mui theme settings
-export const themeSettings = (mode) => {
-    const colors = tokens(mode);
+// MUI theme settings, is a function called "ThemeSettings"
+// that takes the current mode and current scheme as parameters.
+
+export const themeSettings = (mode, scheme) => {
+    const colors = tokens(mode, scheme);
 
     return {
         palette: {
             mode: mode,
-            ...(mode === "dark"
-                ? {
-                    primary: {
-                        main: colors.gray[100], // magenta
-                    },
-                    secondary: {
-                        main: "#00FFFF", // cyan
+            scheme: scheme,
+            primary: {
+                main: colors.gray[100], // neutral
+            },
+            secondary: {
+                main: "#00FFFF", // cyan
 
-                    },
-                    neutral: {
-                        dark: "#00FF00", // green
-                        main: "#00FF00",
-                        light: "#00FF00",
-                    },
-                    background: {
-                        default: colors.primary[100], // violet
-                    }
-                } : {
-                    primary: {
-                        main: colors.gray[100], // magenta
-                    },
-                    secondary: {
-                        main: "#00FFFF", // cyan
-
-                    },
-                    neutral: {
-                        dark: "#00FF00", // green
-                        main: "#00FF00",
-                        light: "#00FF00",
-                    },
-                    background: {
-                        default: colors.primary[100], // violet
-                    }
-                }),
+            },
+            neutral: {
+                dark: "#00FF00", // green
+                main: "#00FF00", // green
+                light: "#00FF00", // green
+            },
+            background: {
+                default: colors.primary[100], // neutral
+            }
         },
         typography: {
             fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
@@ -230,11 +272,13 @@ export const themeSettings = (mode) => {
 
 // context for color mode
 export const ColorModeContext = createContext({
-    toggleColorMode: () => { }
+    toggleColorMode: () => { },
+    toggleColorScheme: () => { }
 });
 
 export const useMode = () => {
     const [mode, setMode] = useState("light");
+    const [scheme, setScheme] = useState("default");
 
     const colorMode = useMemo(
         () => ({
@@ -244,7 +288,15 @@ export const useMode = () => {
         []
     );
 
-    const theme = useMemo(() => createTheme(themeSettings(mode)), [mode])
+    const colorScheme = useMemo(
+        () => ({
+            toggleColorScheme: () =>
+                setScheme("default"),
+        }),
+        []
+    );
+
+    const theme = useMemo(() => createTheme(themeSettings(mode, scheme)), [mode])
 
     return [theme, colorMode];
 };

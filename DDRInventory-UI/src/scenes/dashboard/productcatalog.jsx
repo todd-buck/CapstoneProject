@@ -1,134 +1,189 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useMemo, useState } from 'react'
 import MaterialReactTable from 'material-react-table';
-
-import { Box, IconButton, useTheme, Button } from "@mui/material";
-import { Delete, Mode } from '@mui/icons-material';
-
+import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import {
+    useQuery, useMutation
+} from '@tanstack/react-query';
 import { tokens } from "../../theme";
-
-import UpdateInventoryComponent from "./updateinventory.jsx"
-
+import { Delete, Mode } from '@mui/icons-material';
 import AddNewProductComponent from "./addnewproduct.jsx"
+import UpdateInventoryComponent from "./updateinventory.jsx"
 
 const DashboardComponent = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode, theme.palette.scheme);
 
-    const [productCatalog, setProductCatalog] = useState(null)
+    const [addNewProductComponentVisibility, setAddNewProductComponentVisibility] = useState(null);
+    const [updateInventoryComponentVisibility, setUpdateInventoryComponentVisibility] = useState(null);
 
-    const [updateInventoryWindow, setUpdateInventoryWindow] = useState(false);
+    //API GET for Product Catalog
+    const { data, isFetchError, isFetching, refetch } = useQuery({
+        queryKey: [
+            'table-data',
+        ],
+        queryFn: async () => {
+            const fetchURL = new URL(
+                '/api/item/catalog',
+                'https://localhost:7105',
+            );
 
-    const [addProductWindow, setAddProductWindow] = useState(false);
+            const response = await fetch(fetchURL.href);
+            const json = await response.json();
+            return json;
+        }
+    });
 
-    useEffect(() => {
-        const base_url = "https://localhost:7105";
-
-        const getData = async (api_method) => {
-            try {
-                const response = await fetch(base_url + api_method);
-                const responseData = await response.json()
-                setProductCatalog(responseData)
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        getData("/api/item/catalog");
-    }, []);
-
-    const handleDeleteRow = useCallback(
-        (row) => {
-            if (!window.confirm(`Are you sure you want to delete ${row.getValue('name')}?`)) {
-                return;
-            }
-
-            fetch("https://localhost:7105/api/item/delete/" + row.getValue('id').toString(), {
+    //API DELETE for Product Catalog Item
+    const deleteItem = useMutation({
+        mutationFn: (itemId) => {
+            fetch("https://localhost:7105/api/item/delete/" + itemId.toString(), {
                 method: 'DELETE',
                 mode: 'cors',
-            }).then((response) => response.status)
-                .then((responseStatus) => {
-                    if (responseStatus != 200) {
-                        window.location.reload()
-                    }
-                })
-            //update local table
-            productCatalog.splice(row.index, 1);
-            setProductCatalog([...productCatalog]);
-        },
-        [productCatalog],
+            }).then(() => {
+                refetch()
+                }
+            )
+        }
+    });
+
+    const handleDeleteMany = (rows) => {
+        rows.map((row) => deleteItem.mutate(row.original.id))
+    }
+
+    //if back-end table schema is changed, this will need to be updated
+    const columns = useMemo(
+        () => [
+            {
+                accessorKey: 'id',
+                header: 'Id',
+            },
+            {
+                accessorKey: 'name',
+                header: 'Name',
+                enableSorting:true,
+            },
+            {
+                accessorKey: 'quantityOnHand',
+                header: 'Quantity',
+            },
+            {
+                accessorKey: 'price',
+                header: 'Price',
+            },
+            {
+                accessorKey: 'unit',
+                header: 'Unit',
+            },
+            {
+                accessorKey: 'category',
+                header: 'Category',
+            },
+            {
+                accessorKey: 'subCategory',
+                header: 'Subcategory',
+            },
+            {
+                accessorKey: 'parLevel',
+                header: 'Par Level',
+            },
+        ],
+        [],
     );
-
-    if (!productCatalog) return (<div>Loading...</div>)
-
-    const stableColumns = Object.keys(productCatalog[0]).map(key => {
-        const capitalize = key.toLocaleUpperCase()
-        return { accessorKey: key, header: capitalize }
-    })
 
     return (
         <Box>
-            {updateInventoryWindow ? (
-                <UpdateInventoryComponent item={updateInventoryWindow.original} setUpdateInventoryWindow={setUpdateInventoryWindow} productCatalog={productCatalog} setProductCatalog={setProductCatalog} />
-            ) : (
-                null
-            )}
+            {addNewProductComponentVisibility ? (<AddNewProductComponent addNewProductComponentVisibility={addNewProductComponentVisibility} setAddNewProductComponentVisibility={setAddNewProductComponentVisibility} refetch={refetch} />) : null}
+            {updateInventoryComponentVisibility ? (<UpdateInventoryComponent item={updateInventoryComponentVisibility.original} setUpdateInventoryComponentVisibility={setUpdateInventoryComponentVisibility} refetch={refetch} />) : null}
+            <MaterialReactTable
+                columns={columns}
+                data={data ? data : []} //displays an empty table if no row data from API call
 
-            {addProductWindow ? (
-                <AddNewProductComponent setAddProductWindow={setAddProductWindow} productCatalog={productCatalog} setProductCatalog={setProductCatalog} />
-            ) : (
-                null
-            )}
-        
-        <MaterialReactTable
-            columns={stableColumns}
-            data={productCatalog}
-            enableColumnFilterModes
-            enableColumnOrdering
-            enableColumnGrouping
-            enableGrouping
-            enableRowActions
-            enableStickyHeader
-            enableStickyFooter
-            positionActionsColumn="last"
-            muiTableContainerProps={{
-                sx: {
-                        maxHeight: '70vh',
-                    }
-            }}
-            renderRowActions={({ row }) => (
-                <Box sx={{ display: 'flex', flexDirextion: 'row' }} >
-                    <IconButton
-                        onClick={() => handleDeleteRow(row)}
-                        sx={{ "&:hover": { color: colors.removeAccent[500] } }}
-                    >
-                        <Delete />
-                    </IconButton>
-                    <IconButton
-                        onClick={() => {setUpdateInventoryWindow(row);}}
-                        sx={{ "&:hover": { color: colors.changeAccent[500] } }}
-                    >
-                        <Mode />
-                    </IconButton>
-                </Box>
-            )}
-            initialState={{ showColumnFilters: false }}
-            renderTopToolbarCustomActions={({ table }) => {
-                return (
+                //Options
+                enableColumnOrdering
+                enableGrouping
+                enableResizing
+                enableStickyHeader
+                enableRowSelection
+                enableMultiRowSelection
+                enableRowActions
+                positionActionsColumn="last"
+
+                //Error Messages
+                muiToolbarAlertBannerProps={
+                    isFetchError ? {color: 'error', children: 'Error loading data.'} : {}
+                }
+
+                //Top Toolbar Buttons
+                renderTopToolbarCustomActions={({ table }) => (
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
-                        <Button
-                            style={{ backgroundColor: colors.addAccent[500]}}
-                            onClick={() => {setAddProductWindow(true);}} 
-                            variant="contained"
-                        >
-                            + New Item
-                        </Button>
-                    </div>
-                );
-            }}
+                        {/*Add New Product Button*/}
+                        <Tooltip arrow title="Add New Product">
+                            <Button
+                                style={{ /*backgroundColor: colors.greenAccent[500]*/}}
+                                onClick={() => {setAddNewProductComponentVisibility(true);}} 
+                                variant="contained"
+                            >
+                                + New Product
+                            </Button>
+                        </Tooltip>
 
+                        {/*Delete Button*/}
+                        <Button
+                            ///BUG: THIS SHOULD BE COLORS.REDACCENT[500], but it can't read that for some reason//////
+                            color="secondary"
+                            //////////////////////////////////////////////////////////////////////////////////////////
+                            onClick={() => {
+                                handleDeleteMany(table.getSelectedRowModel().rows)
+                                table.reset()
+                            }}
+                            variant="contained"
+                            disabled={table.getSelectedRowModel().rows.length < 1}
+                        >
+                            Delete
+                        </Button>
+
+                        {/*Refresh Button*/}
+                        <Tooltip arrow title="Refresh Data">
+                            <IconButton onClick={refetch}>
+                                <RefreshIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </div>
+                )}
+
+                //Buttons that appear on every row
+                renderRowActions={({ row }) => (
+                    <Box sx={{ display: 'flex', flexDirextion: 'row' }} >
+                        {/*Delete Button*/}
+                        <IconButton
+                            onClick={() => {
+                                deleteItem.mutate(row.getValue('id'))
+                            }}
+                            sx={{ "&:hover": { /*color: colors.redAccent[500]*/ } }}
+                        >
+                            <Delete />
+                        </IconButton>
+
+                        {/*Edit Button*/}
+                        <IconButton
+                            onClick={() => {
+                                setUpdateInventoryComponentVisibility(row);
+                            }}
+                            sx={{ "&:hover": { /*color: colors.blueAccent[500]*/ } }}
+                        >
+                            <Mode />
+                        </IconButton>
+                    </Box>
+                )}
+
+                state={{
+                    showAlertBanner: isFetchError,
+                    showProgressBars: isFetching,
+                }}
             />
         </Box>
-    )
-}
+    );
+};
 
 export default DashboardComponent;

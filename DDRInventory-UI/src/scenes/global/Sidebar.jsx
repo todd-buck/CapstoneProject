@@ -48,8 +48,11 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     return (
         <MenuItem
             active={selected === title}
-            style={{
+            sx={{
                 color: colors.gray[100],
+                //marginRight: "20px",
+                //padding: "5px 0px 5px 20px !important",
+                //margin: "0px 10px 0px 135px",
             }}
             onClick={() => setSelected(title)}
             icon={icon}
@@ -64,24 +67,30 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 const Sidebar = ({selected, setSelected}) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode, theme.palette.scheme);
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(true);
 
     return (
         <Box
             sx={{
+                //height: "150vh",
                 "& .pro-sidebar-inner": {
                     background: `${colors.primary[200]} !important`,
+                    height: "100vh",
+                    //position: 'fixed',   
                 },
                 "& .pro-icon-wrapper": {
                     backgroundColor: "transparent !important",
                 },
                 "& .pro-inner-item": {
-                    padding: "5px 35px 5px 20px !important",
+                    padding: "5px 0px 5px 20px !important",
+                    margin: "0px 15px 0px 0px",
                 },
                 "& .pro-inner-item:not(active):hover": {
                     fontWeight: 'bold !important',
+                    //padding: "5px 0px 5px 20px !important",
+                    //margin: "0px 10px 0px 135px",
                     color: `${colors.gray[100]} !important`,
-                    backgroundColor: `${colors.splashAccent[200]} !important`,
+                    //backgroundColor: `${colors.splashAccent[0]} !important`,
                     transition: 'background-color 0.3s ease-in-out',
                 },
                 "& .pro-menu-item.active": {
@@ -98,7 +107,6 @@ const Sidebar = ({selected, setSelected}) => {
                         onClick={() => setIsCollapsed(!isCollapsed)}
                         icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
                         style={{
-                            margin: "10px 0 10px 0",
                             color: colors.gray[100],
                         }}
                     >
@@ -108,8 +116,10 @@ const Sidebar = ({selected, setSelected}) => {
                                 justifyContent="flex-end"
                                 alignItems="center"
                                 ml="15px"
+
+                                
                             >
-                                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                                <IconButton sx={{ "&:hover": { backgroundColor: colors.splashAccent[100] } }} onClick={() => setIsCollapsed(!isCollapsed)}>
                                     <MenuOutlinedIcon />
                                 </IconButton>
                             </Box>
@@ -130,7 +140,7 @@ const Sidebar = ({selected, setSelected}) => {
                         </Box>
                     )}
 
-                    <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+                    <Box paddingLeft={isCollapsed ? undefined : "10%"} marginRight="0vw">
                         {!isCollapsed && (
                             <Typography
                                 variant="h6"
@@ -165,6 +175,7 @@ const Sidebar = ({selected, setSelected}) => {
                             icon={<DvrOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
+                            sx={{ m: "0px 0 0px 0px" }}
                         />
 
                        {/* <Item

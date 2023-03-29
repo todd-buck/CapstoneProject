@@ -6,9 +6,15 @@ import Sidebar from "./scenes/global/Sidebar";
 
 import Dashboard from "./scenes/dashboard";
 
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 import { ColorModeContext, useMode } from './theme';
 
+import {
+    QueryClient,
+    QueryClientProvider,
+} from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
     const [mode, setMode] = useState("light");
@@ -22,13 +28,17 @@ function App() {
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
                     <div className="app">
-                        <Sidebar selected={selected} setSelected={setSelected} />
-                        <main className="content">
-                            <Topbar />
-                            <Routes>
-                                <Route path="/" element={<Dashboard selected={selected} scheme={scheme} setScheme={setScheme} />} />
-                            </Routes>
-                        </main>
+                        <Box sx={{ position: "fixed", zIndex: 100, height: "100vh" }}>
+                            <Sidebar selected={selected} setSelected={setSelected} />
+                        </Box>
+                        <Box sx={{ width: "98vw", pl: 10 }}>
+                            <main className="content">
+                                <Topbar />
+                                <Routes>
+                                    <Route path="/" element={<Dashboard selected={selected} scheme={scheme} setScheme={setScheme} />} />
+                                </Routes>
+                            </main>
+                        </Box>
                     </div>
                 </ThemeProvider>
             </ColorModeContext.Provider>

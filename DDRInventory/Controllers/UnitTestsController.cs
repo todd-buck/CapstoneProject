@@ -8,12 +8,13 @@ namespace DDRInventory.Controllers
     public class UnitTestsController : ControllerBase
     {
         [HttpGet("run")]
-        public bool run()
+        public string run()
         {
+            LocationContext.DeleteAll();
+            PutawayEntryContext.DeleteAll();
             UnitTestsContext.step9_getSchema();
-            //UnitTestsContext.getCatalogTest();
-            //UnitTestsContext.addItemTest();
-            return true;
+            UnitTestsContext.step10_addLocation();
+            return "PLEASE DO NOT FORGET TO ROLL BACK ANY CATALOG CHANGES IN YOUR GIT STAGING BEFORE COMMITING";
         }
     }
 }

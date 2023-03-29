@@ -22,9 +22,58 @@ namespace DDRInventory.Models
             }
             else
             {
-                Console.WriteLine("\tUNIT TEST 'GET SCHEMA' FAILED");
+                Console.WriteLine("\tUNIT TEST 9 'GET SCHEMA' FAILED");
                 Console.WriteLine($"\tRESULT: {"\"" + string.Join(", ", data) + "\""}");
                 Console.WriteLine($"\tEXPECTED: {"\"" + string.Join(", ", control) + "\""}");
+            }
+        }
+
+        public static async void step10_addLocation()
+        {
+            Console.WriteLine("RUNNING UNIT TEST 10.1 'ADD LOCATION'...");
+            Location location = new Location()
+            {
+                Name = "Freezer",
+                Id = 1
+            };
+            string endPoint = "/location/add";
+            HttpClient client = new HttpClient();
+            string response = await client.PostAsJsonAsync(BASE_URI + endPoint, location).GetAwaiter().GetResult().Content.ReadAsStringAsync();
+            bool? data = JsonConvert.DeserializeObject<bool>(response);
+            if (data ?? false)
+            {
+                Console.WriteLine("\tUNIT TEST 10.1 'ADD ITEM LOCATION' PASSED");
+            }
+            else
+            {
+                Console.WriteLine("\tUNIT TEST 10.1 'ADD LOCATION' FAILED");
+                Console.WriteLine($"\tRESULT: 'false'");
+                Console.WriteLine("\tEXPECTED: 'true'");
+            }
+            Console.WriteLine("RUNNING UNIT TEST 10.2 'LOCATION CATALOG'...");
+            endPoint = "/location/catalog";
+            response = await client.GetStringAsync(BASE_URI + endPoint);
+            Location[]? data2 = JsonConvert.DeserializeObject<Location[]>(response);
+            if (data2 is not null && data2.Length == 1)
+            {
+                Console.WriteLine("\tUNIT TEST 10.2 'LOCATION CATALOG' PASSED");
+            }
+            else
+            {
+                Console.WriteLine("\tUNIT TEST 10.2 'LOCATION CATALOG' FAILED");
+                if (data2 is null)
+                {
+                    Console.WriteLine("\tRESULT: A null array");
+                }
+                else if (data2.Length == 0)
+                {
+                    Console.WriteLine($"\tRESULT: An array of Location object of length 0");
+                }
+                else
+                {
+                    Console.WriteLine("\tRESULT: A non-one-length array of Location objects.");
+                }
+                Console.WriteLine("\tEXPECTED: An array of Location objects of length 1.");
             }
         }
     }

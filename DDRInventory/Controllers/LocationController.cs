@@ -81,12 +81,12 @@ namespace DDRInventory.Controllers
             {
                 Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
-                return null;
+                return "";
             }
-            catch (LocationNotFoundException e)
+            catch (LocationNotFoundException)
             {
                 Response.StatusCode = 204;
-                return null;
+                return "";
             }
         }
 

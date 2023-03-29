@@ -33,14 +33,14 @@ namespace DDRInventory.Controllers
                     {
                         items.Add(new InventoryItem
                         {
-                            Name = csv.GetField(csv.GetFieldIndex("name")),
+                            Name = csv.GetField(csv.GetFieldIndex("name")) ?? "",
                             QuantityOnHand = csv.GetField<int>(csv.GetFieldIndex("quantity on hand")),
-                            Price = Decimal.Parse(csv.GetField(csv.GetFieldIndex("price")).Replace("$", "")),
-                            Unit = csv.GetField(csv.GetFieldIndex("unit")),
-                            Category = csv.GetField(csv.GetFieldIndex("category")),
-                            SubCategory = csv.GetField(csv.GetFieldIndex("subcategory")),
+                            Price = Decimal.Parse(csv.GetField(csv.GetFieldIndex("price")) ?? "".Replace("$", "")),
+                            Unit = csv.GetField(csv.GetFieldIndex("unit")) ?? "",
+                            Category = csv.GetField(csv.GetFieldIndex("category")) ?? "",
+                            SubCategory = csv.GetField(csv.GetFieldIndex("subcategory")) ?? "",
                             ParLevel = csv.GetField<int>(csv.GetFieldIndex("par level")),
-                            Id = csv.GetField(csv.GetFieldIndex("id"))
+                            Id = csv.GetField(csv.GetFieldIndex("id")) ?? ""
                         });
                     }
                     catch (CsvHelperException e)

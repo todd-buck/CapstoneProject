@@ -15,7 +15,7 @@ const Topbar = () => {
 
 
     return (
-        <Box display="flex" justifyContent="space-between" p={2}>
+        <Box display="flex" justifyContent="space-between" p={2} style={{backgroundColor: colors.primary[200]}}>
             <Link
                 href="/"
                 underline="none"

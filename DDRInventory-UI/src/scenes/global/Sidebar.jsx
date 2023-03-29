@@ -42,7 +42,7 @@ import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 /*FAQs Icon*/
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 
-const Item = ({ title, to, icon, selected, setSelected }) => {
+const Item = ({ title, to, icon, selected, setSelected, isCollapsed, setIsCollapsed }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode, theme.palette.scheme);
     return (
@@ -54,7 +54,11 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
                 //padding: "5px 0px 5px 20px !important",
                 //margin: "0px 10px 0px 135px",
             }}
-            onClick={() => setSelected(title)}
+            onClick={() => {
+                setSelected(title)
+                setIsCollapsed(!isCollapsed)
+            }
+            }
             icon={icon}
         >
             <Typography>{title}</Typography>
@@ -74,7 +78,7 @@ const Sidebar = ({selected, setSelected}) => {
             sx={{
                 //height: "150vh",
                 "& .pro-sidebar-inner": {
-                    background: `${colors.primary[200]} !important`,
+                    background: `${colors.primary[300]} !important`,
                     height: "100vh",
                     //position: 'fixed',   
                 },
@@ -157,6 +161,8 @@ const Sidebar = ({selected, setSelected}) => {
                             icon={<GridViewOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
+                            isCollapsed={isCollapsed}
+                            setIsCollapsed={ setIsCollapsed} 
                         />
 
                         {!isCollapsed && (
@@ -176,6 +182,8 @@ const Sidebar = ({selected, setSelected}) => {
                             selected={selected}
                             setSelected={setSelected}
                             sx={{ m: "0px 0 0px 0px" }}
+                            isCollapsed={isCollapsed}
+                            setIsCollapsed={setIsCollapsed}
                         />
 
                        {/* <Item
@@ -198,6 +206,8 @@ const Sidebar = ({selected, setSelected}) => {
                             icon={<AssessmentOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
+                            isCollapsed={isCollapsed}
+                            setIsCollapsed={setIsCollapsed}
                         />
                         <Item
                             title="Import CSV"
@@ -205,6 +215,8 @@ const Sidebar = ({selected, setSelected}) => {
                             icon={<UploadFileOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
+                            isCollapsed={isCollapsed}
+                            setIsCollapsed={setIsCollapsed}
                         />
 
                         <Item
@@ -213,6 +225,8 @@ const Sidebar = ({selected, setSelected}) => {
                             icon={<SettingsOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
+                            isCollapsed={isCollapsed}
+                            setIsCollapsed={setIsCollapsed}
                         />
 
                         {/* Pages/User Manipulation*/}
@@ -231,6 +245,8 @@ const Sidebar = ({selected, setSelected}) => {
                             icon={<PersonOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
+                            isCollapsed={isCollapsed}
+                            setIsCollapsed={setIsCollapsed}
                         />
                         {/*<Item
                             title="Add New Users"
@@ -256,6 +272,8 @@ const Sidebar = ({selected, setSelected}) => {
                             icon={<MenuBookOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
+                            isCollapsed={isCollapsed}
+                            setIsCollapsed={setIsCollapsed}
                         />
                         <Item
                             title="FAQs"
@@ -263,6 +281,8 @@ const Sidebar = ({selected, setSelected}) => {
                             icon={<HelpOutlineOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
+                            isCollapsed={isCollapsed}
+                            setIsCollapsed={setIsCollapsed}
                         />
                     </Box>
                 </Menu>

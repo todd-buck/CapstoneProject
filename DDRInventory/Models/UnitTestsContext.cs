@@ -76,5 +76,23 @@ namespace DDRInventory.Models
                 Console.WriteLine("\tEXPECTED: An array of Location objects of length 1.");
             }
         }
+        public static async void step11_getLocationName()
+        {
+            Console.WriteLine("RUNNING UNIT TEST 11 'GET LOCATION NAME'...");
+            string endPoint = "/location/getName/1";
+            HttpClient client = new HttpClient();
+            string response = await client.GetStringAsync(BASE_URI + endPoint);
+            string data = response;
+            if (data == "Freezer")
+            {
+                Console.WriteLine("\tUNIT TEST 11 'GET LOCATION NAME' PASSED");
+            }
+            else
+            {
+                Console.WriteLine("\tUNIT TEST 11 'GET LOCATION NAME' FAILED");
+                Console.WriteLine($"\tRESULT: {data}");
+                Console.WriteLine("\tEXPECTED: 'Freezer'");
+            }
+        }
     }
 }

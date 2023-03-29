@@ -14,6 +14,7 @@ namespace DDRInventory.Controllers
             PutawayEntryContext.DeleteAll();
             UnitTestsContext.step9_getSchema();
             UnitTestsContext.step10_addLocation();
+            UnitTestsContext.step11_getLocationName();
             return "PLEASE DO NOT FORGET TO ROLL BACK ANY CATALOG CHANGES IN YOUR GIT STAGING BEFORE COMMITING";
         }
     }

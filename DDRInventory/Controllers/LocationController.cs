@@ -70,7 +70,7 @@ namespace DDRInventory.Controllers
             return returnVal;
         }
 
-        [HttpGet("getName")]
+        [HttpGet("getName/{id}")]
         public string getName(int id)
         {
             try

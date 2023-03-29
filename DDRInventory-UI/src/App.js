@@ -24,6 +24,7 @@ function App() {
     const [selected, setSelected] = useState("Dashboard");
 
     return (
+        <QueryClientProvider client={queryClient}>
             <ColorModeContext.Provider value={colorMode}>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
@@ -42,6 +43,7 @@ function App() {
                     </div>
                 </ThemeProvider>
             </ColorModeContext.Provider>
+        </QueryClientProvider>
     )
 }
 

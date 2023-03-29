@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Routes, Route } from 'react-router-dom';
 
@@ -6,8 +7,8 @@ import Sidebar from "./scenes/global/Sidebar";
 
 import Dashboard from "./scenes/dashboard";
 
-import { Box, CssBaseline, ThemeProvider } from '@mui/material';
-import { ColorModeContext, useMode } from './theme';
+import { Box, CssBaseline, ThemeProvider, useTheme } from '@mui/material';
+import { ColorModeContext, useMode, tokens } from './theme';
 
 import {
     QueryClient,
@@ -18,10 +19,12 @@ const queryClient = new QueryClient();
 
 function App() {
     const [mode, setMode] = useState("light");
-    const [scheme, setScheme] = useState("default");
+    const [scheme, setScheme] = useState("flamingo");
 
     const [theme, colorMode] = useMode(mode, setMode, scheme);
     const [selected, setSelected] = useState("Dashboard");
+
+    const colors = tokens(mode, scheme);
 
     return (
         <QueryClientProvider client={queryClient}>
@@ -32,7 +35,7 @@ function App() {
                         <Box sx={{ position: "fixed", zIndex: 100, height: "100vh" }}>
                             <Sidebar selected={selected} setSelected={setSelected} />
                         </Box>
-                        <Box sx={{ width: "98vw", pl: 10 }}>
+                        <Box sx={{ width: "98vw", pl: 10, backgroundColor: colors.primary[100] }}>
                             <main className="content">
                                 <Topbar />
                                 <Routes>

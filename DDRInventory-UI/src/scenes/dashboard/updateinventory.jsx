@@ -8,18 +8,12 @@ import DialogContent from '@mui/material/DialogContent';
 import InputAdornment from '@mui/material/InputAdornment';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const UpdateInventoryComponent = ({ item, setUpdateInventoryWindow, productCatalog, setProductCatalog } ) => {
+const UpdateInventoryComponent = ({ item, setUpdateInventoryComponentVisibility, refetch } ) => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-
-    const [open, setOpen] = useState(true);
-
-    const oldTable = productCatalog;
-    const oldItem = item;
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
 
     const handleClose = () => {
-        setOpen(false);
-        setUpdateInventoryWindow(false);
+        setUpdateInventoryComponentVisibility(null);
     };
 
     const handleSubmit = () => {
@@ -37,11 +31,7 @@ const UpdateInventoryComponent = ({ item, setUpdateInventoryWindow, productCatal
                 else {
                     console.log(`Exiting fetch post without error. ${item.name} has been udpated. Response: ` + responseStatus.toString())
                 }
-            }).then(setUpdateInventoryWindow(false)).then(setOpen(false))
-
-        //update local table
-        productCatalog[oldTable.indexOf(oldItem)] = item;
-        setProductCatalog([...productCatalog]);
+            }).then(setUpdateInventoryComponentVisibility(null)).then(() => {refetch()})
     };
 
     if (!item) return (
@@ -51,7 +41,7 @@ const UpdateInventoryComponent = ({ item, setUpdateInventoryWindow, productCatal
     );
 
     return (
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={item !== null} onClose={handleClose}>
             <DialogTitle>Update {item.name}</DialogTitle>
                 <DialogContent>
                 <TextField

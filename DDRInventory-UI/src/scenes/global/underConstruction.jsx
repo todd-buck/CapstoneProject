@@ -5,7 +5,7 @@ import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
 
 const Error = () => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }} >

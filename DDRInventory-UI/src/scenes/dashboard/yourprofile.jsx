@@ -5,7 +5,7 @@ import { tokens } from "../../theme";
 
 const YourProfileComponent = () => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
     const emailAddress = "margarethamilton@dillardsdiningresources.com";
     const phoneNumber = "1800-867-5309";
     const loggedin = false;
@@ -40,15 +40,15 @@ const YourProfileComponent = () => {
             </Box>
             <Button variant="contained" sx={{
                 ml: 2, mt: 2,
-                backgroundColor: colors.blueAccent[400],
-                ':hover': { backgroundColor: colors.blueAccent[600] }
+                backgroundColor: colors.changeAccent[400],
+                ':hover': { backgroundColor: colors.changeAccent[600] }
             }}>
                 Edit Profile
             </Button>
             <Button variant="contained" sx={{
                 ml: 2, mt: 2,
-                backgroundColor: colors.greenAccent[400],
-                ':hover': { backgroundColor: colors.greenAccent[600] }
+                backgroundColor: colors.addAccent[400],
+                ':hover': { backgroundColor: colors.addAccent[600] }
             }}>
                 Log Out
             </Button>
@@ -69,8 +69,8 @@ const YourProfileComponent = () => {
                     type="password"
                 />
                 <Button variant="contained" sx={{
-                    backgroundColor: colors.greenAccent[400],
-                    ':hover': { backgroundColor: colors.greenAccent[600] }
+                    backgroundColor: colors.addAccent[400],
+                    ':hover': { backgroundColor: colors.addAccent[600] }
                 }}>
                     Login
                 </Button>

@@ -16,10 +16,10 @@ import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 import DvrOutlinedIcon from "@mui/icons-material/DvrOutlined";
 
 /*Add Inventory Icon*/
-import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
+//import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
 
 /*Add New Item Icon*/
-import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+//import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 
 /*Reports Icon*/
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
@@ -27,11 +27,14 @@ import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 /*CSV Import Icon*/
 import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined';
 
+/*Settings Icon*/
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+
 /*Your Profile Icon*/
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 
 /*Add New Users Icon*/
-import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
+//import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 
 /*Documentation Icon*/
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
@@ -41,12 +44,15 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
     return (
         <MenuItem
             active={selected === title}
-            style={{
+            sx={{
                 color: colors.gray[100],
+                //marginRight: "20px",
+                //padding: "5px 0px 5px 20px !important",
+                //margin: "0px 10px 0px 135px",
             }}
             onClick={() => setSelected(title)}
             icon={icon}
@@ -60,30 +66,36 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 
 const Sidebar = ({selected, setSelected}) => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
+    const [isCollapsed, setIsCollapsed] = useState(true);
 
     return (
         <Box
             sx={{
+                //height: "150vh",
                 "& .pro-sidebar-inner": {
                     background: `${colors.primary[200]} !important`,
+                    height: "100vh",
+                    //position: 'fixed',   
                 },
                 "& .pro-icon-wrapper": {
                     backgroundColor: "transparent !important",
                 },
                 "& .pro-inner-item": {
-                    padding: "5px 35px 5px 20px !important",
+                    padding: "5px 0px 5px 20px !important",
+                    margin: "0px 15px 0px 0px",
                 },
                 "& .pro-inner-item:not(active):hover": {
                     fontWeight: 'bold !important',
+                    //padding: "5px 0px 5px 20px !important",
+                    //margin: "0px 10px 0px 135px",
                     color: `${colors.gray[100]} !important`,
-                    backgroundColor: `${colors.redAccent[200]} !important`,
+                    //backgroundColor: `${colors.splashAccent[0]} !important`,
                     transition: 'background-color 0.3s ease-in-out',
                 },
                 "& .pro-menu-item.active": {
                     color: `${colors.gray[100]} !important`,
-                    backgroundColor: `${colors.redAccent[500]} !important`,
+                    backgroundColor: `${colors.splashAccent[500]} !important`,
                     transition: 'background-color 0.3s ease-in-out',
                 },
             }}
@@ -95,7 +107,6 @@ const Sidebar = ({selected, setSelected}) => {
                         onClick={() => setIsCollapsed(!isCollapsed)}
                         icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
                         style={{
-                            margin: "10px 0 10px 0",
                             color: colors.gray[100],
                         }}
                     >
@@ -105,8 +116,10 @@ const Sidebar = ({selected, setSelected}) => {
                                 justifyContent="flex-end"
                                 alignItems="center"
                                 ml="15px"
+
+                                
                             >
-                                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                                <IconButton sx={{ "&:hover": { backgroundColor: colors.splashAccent[100] } }} onClick={() => setIsCollapsed(!isCollapsed)}>
                                     <MenuOutlinedIcon />
                                 </IconButton>
                             </Box>
@@ -127,7 +140,7 @@ const Sidebar = ({selected, setSelected}) => {
                         </Box>
                     )}
 
-                    <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+                    <Box paddingLeft={isCollapsed ? undefined : "10%"} marginRight="0vw">
                         {!isCollapsed && (
                             <Typography
                                 variant="h6"
@@ -162,6 +175,7 @@ const Sidebar = ({selected, setSelected}) => {
                             icon={<DvrOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
+                            sx={{ m: "0px 0 0px 0px" }}
                         />
 
                        {/* <Item
@@ -189,6 +203,14 @@ const Sidebar = ({selected, setSelected}) => {
                             title="Import CSV"
                             to="/"
                             icon={<UploadFileOutlinedIcon />}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+
+                        <Item
+                            title="Settings"
+                            to="/"
+                            icon={<SettingsOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />

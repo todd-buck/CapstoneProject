@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data.SQLite;
+using System.IO;
+using System.Reflection;
 using System.Text;
 namespace DDRInventory.Models
 {
@@ -9,13 +11,16 @@ namespace DDRInventory.Models
 
         public static Dictionary<string, string> TABLES = new Dictionary<string, string>
         {
-            { "items", "(id INT, name VARCHAR(20), quantity INT, price REAL, unit VARCHAR(10), category VARCHAR(15), subcategory VARCHAR(15), par_level INT)" },
-            { "locations", "(id INT, location VARCHAR(20), quantity INT)" }
+            { "items", "(id VARCHAR(20), name VARCHAR(20), quantity INT, price REAL, unit VARCHAR(10), category VARCHAR(15), subcategory VARCHAR(15), par_level INT)" },
+            { "locations", "(id INT, name VARCHAR(20))" },
+            { "putaway", "(item_id VARCHAR(20), location_id INT, location_name VARCHAR(20), quantity INT)" },
+            { "log", "(date VARCHAR(20), time VARCHAR(20), user VARCHAR(20), action VARCHAR(20), item_name VARCHAR(20), location_name VARCHAR(20), adjustment VARCHAR(20), reason VARCHAR(20))" }
         };
      
         //Database version notes
         //2. Added category, subcategory, par_level
-        const string DATABASE_NAME = "catalogV2.db";
+        const string DATABASE_NAME = "catalogV4.db";
+        string DATABASE_PATH = Directory.GetCurrentDirectory();
 
         //MEMBER ATTRIBUTES
         public SQLiteConnection _connection;
@@ -26,8 +31,21 @@ namespace DDRInventory.Models
             Open();
         }
 
+        private void CheckVersion()
+        {
+            foreach (string dbFile in Directory.GetFiles(DATABASE_PATH, "*.db"))
+            {
+                if (Path.GetFileName(dbFile) != DATABASE_NAME)
+                {
+                    File.Delete(dbFile);
+                    Console.WriteLine($"Deleting obselete database file {Path.GetFileName(dbFile)}");
+                }
+            }
+        }
+
         public void Init()
         {
+            CheckVersion();
             List<string> tablesInDatabase = GetTableNames();
 
             foreach (string name in TABLES.Keys)
@@ -71,7 +89,7 @@ namespace DDRInventory.Models
         {
             //Console.WriteLine($"Opening database {DATABASE_NAME} for read/write");
             // Create a new database connection:
-            _connection = new SQLiteConnection("Data Source=" + DATABASE_NAME + "; Version = 3; New = True; Compress = True; ");
+            _connection = new SQLiteConnection($"Data Source={ DATABASE_PATH + '\\' + DATABASE_NAME }; Version = 3; New = True; Compress = True; ");
             // Open the connection:
             try
             {
@@ -79,7 +97,7 @@ namespace DDRInventory.Models
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine("Unspecified SQL error when creating or opening databse file");
             }
             //Console.WriteLine($"Opened {DATABASE_NAME} sucessfully");
         }
@@ -88,7 +106,7 @@ namespace DDRInventory.Models
         {
             SQLiteCommand createTableCommand = _connection.CreateCommand();
             createTableCommand.CommandText = "CREATE TABLE " + name + " " + types;
-            Console.WriteLine("The sql command is " + createTableCommand.CommandText);
+            //Console.WriteLine("The sql command is " + createTableCommand.CommandText);
             createTableCommand.ExecuteNonQuery();
         }
     }

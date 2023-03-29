@@ -27,6 +27,12 @@ import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 /*CSV Import Icon*/
 import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined';
 
+/*Location Manager Icon*/
+import NotListedLocationOutlinedIcon from '@mui/icons-material/NotListedLocationOutlined';
+
+/*Put Away Manager Icon*/
+import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
+
 /*Settings Icon*/
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 
@@ -41,6 +47,7 @@ import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 
 /*FAQs Icon*/
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import { ManageSearchOutlined, NotListedLocationOutlined } from "../../../node_modules/@mui/icons-material/index";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
@@ -205,6 +212,24 @@ const Sidebar = ({selected, setSelected}) => {
                             icon={<UploadFileOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
+                        />
+
+                        <Item
+                            title="Location Manager"
+                            to="/"
+                            icon={<NotListedLocationOutlined />}
+                            selected={selected}
+                            setSelected={setSelected}
+                            sx={{ m: "0px 0 0px 0px" }}
+                        />
+
+                        <Item
+                            title="Put Away Manager"
+                            to="/"
+                            icon={<ManageSearchOutlined />}
+                            selected={selected}
+                            setSelected={setSelected}
+                            sx={{ m: "0px 0 0px 0px" }}
                         />
 
                         <Item

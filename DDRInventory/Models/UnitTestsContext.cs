@@ -6,52 +6,25 @@ namespace DDRInventory.Models
     public class UnitTestsContext
     {
         static string BASE_URI = "https://localhost:7105/api";
-        public static async void getCatalogTest()
+
+        public static async void step9_getSchema()
         {
-            Console.WriteLine("RUNNING UNIT TEST 'GET CATALOG'...");
-            string endPoint = "/item/catalog";
+            string[] control = { "Id", "Name", "QuantityOnHand", "Price", "Unit", "Category", "SubCategory", "ParLevel" };
+
+            Console.WriteLine("RUNNING UNIT TEST 9 'GET SCHEMA'...");
+            string endPoint = "/item/schema";
             HttpClient client = new HttpClient();
             string response = await client.GetStringAsync(BASE_URI + endPoint);
-            InventoryItem[]? data = JsonConvert.DeserializeObject<InventoryItem[]>(response);
-            if (true)
+            string[]? data = JsonConvert.DeserializeObject<string[]>(response);
+            if (string.Join(", ", data) == string.Join(", ", control))
             {
-                Console.WriteLine("\tUNIT TEST 'GET CATALOG' PASSED");
-                Console.WriteLine($"The first item's name is {(data is not null && data[0] is not null ? data[0].Name : null)}");
+                Console.WriteLine("\tUNIT TEST 9 'GET SCHEMA' PASSED");
             }
             else
             {
-                Console.WriteLine("\tUNIT TEST 'GET CATALOG' FAILED");
-                Console.WriteLine("\tRESULT: {/*FIXME: OBJECT.TOSTRING()*/}");
-                Console.WriteLine("\tEXPECTED: {/*FIXME: OBJECT.TOSTRING()*/}");
-            }
-        }
-        public static async void addItemTest()
-        {
-            Console.WriteLine("RUNNING UNIT TEST 'ADD ITEM'...");
-            InventoryItem item = new InventoryItem()
-            {
-                Name = "Potato",
-                Id = "1",
-                Category = "Food",
-                SubCategory = "Starch",
-                ParLevel = 10,
-                Price = 0.50M,
-                QuantityOnHand = 40,
-                Unit = "Lbs."
-            };
-            string endPoint = "/item/add";
-            HttpClient client = new HttpClient();
-            string response = await client.PostAsJsonAsync(BASE_URI + endPoint, item).GetAwaiter().GetResult().Content.ReadAsStringAsync();
-            string? data = JsonConvert.DeserializeObject<string>(response);
-            if (data == "1")
-            {
-                Console.WriteLine("\tUNIT TEST 'ADD ITEM 1' PASSED");
-            }
-            else
-            {
-                Console.WriteLine("\tUNIT TEST 'ADD ITEM 1' FAILED");
-                Console.WriteLine($"\tRESULT: '{data}'");
-                Console.WriteLine("\tEXPECTED: '1'");
+                Console.WriteLine("\tUNIT TEST 'GET SCHEMA' FAILED");
+                Console.WriteLine($"\tRESULT: {"\"" + string.Join(", ", data) + "\""}");
+                Console.WriteLine($"\tEXPECTED: {"\"" + string.Join(", ", control) + "\""}");
             }
         }
     }

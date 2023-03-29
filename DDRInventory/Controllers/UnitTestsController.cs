@@ -10,8 +10,9 @@ namespace DDRInventory.Controllers
         [HttpGet("run")]
         public bool run()
         {
-            UnitTestsContext.getCatalogTest();
-            UnitTestsContext.addItemTest();
+            UnitTestsContext.step9_getSchema();
+            //UnitTestsContext.getCatalogTest();
+            //UnitTestsContext.addItemTest();
             return true;
         }
     }

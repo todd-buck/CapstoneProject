@@ -15,6 +15,7 @@ namespace DDRInventory.Controllers
             UnitTestsContext.step9_getSchema();
             UnitTestsContext.step10_addLocation();
             UnitTestsContext.step11_getLocationName();
+            UnitTestsContext.step12_addLocation();
             return "PLEASE DO NOT FORGET TO ROLL BACK ANY CATALOG CHANGES IN YOUR GIT STAGING BEFORE COMMITING";
         }
     }

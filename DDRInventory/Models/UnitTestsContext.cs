@@ -39,16 +39,16 @@ namespace DDRInventory.Models
             string endPoint = "/location/add";
             HttpClient client = new HttpClient();
             string response = await client.PostAsJsonAsync(BASE_URI + endPoint, location).GetAwaiter().GetResult().Content.ReadAsStringAsync();
-            bool? data = JsonConvert.DeserializeObject<bool>(response);
-            if (data ?? false)
+            int? data = JsonConvert.DeserializeObject<int>(response);
+            if (data is not null && data == 1)
             {
                 Console.WriteLine("\tUNIT TEST 10.1 'ADD ITEM LOCATION' PASSED");
             }
             else
             {
                 Console.WriteLine("\tUNIT TEST 10.1 'ADD LOCATION' FAILED");
-                Console.WriteLine($"\tRESULT: 'false'");
-                Console.WriteLine("\tEXPECTED: 'true'");
+                Console.WriteLine($"\tRESULT: '{data}'");
+                Console.WriteLine($"\tEXPECTED: '1'");
             }
             Console.WriteLine("RUNNING UNIT TEST 10.2 'LOCATION CATALOG'...");
             endPoint = "/location/catalog";
@@ -92,6 +92,29 @@ namespace DDRInventory.Models
                 Console.WriteLine("\tUNIT TEST 11 'GET LOCATION NAME' FAILED");
                 Console.WriteLine($"\tRESULT: {data}");
                 Console.WriteLine("\tEXPECTED: 'Freezer'");
+            }
+        }
+        public static async void step12_addLocation()
+        {
+            Console.WriteLine("RUNNING UNIT TEST 12 'ADD LOCATION'...");
+            Location location = new Location()
+            {
+                Name = "Shelf",
+                Id = 2
+            };
+            string endPoint = "/location/add";
+            HttpClient client = new HttpClient();
+            string response = await client.PostAsJsonAsync(BASE_URI + endPoint, location).GetAwaiter().GetResult().Content.ReadAsStringAsync();
+            int? data = JsonConvert.DeserializeObject<int>(response);
+            if (data is not null && data == 2)
+            {
+                Console.WriteLine("\tUNIT TEST 12 'ADD ITEM LOCATION' PASSED");
+            }
+            else
+            {
+                Console.WriteLine("\tUNIT TEST 12 'ADD LOCATION' FAILED");
+                Console.WriteLine($"\tRESULT: '{data}'");
+                Console.WriteLine($"\tEXPECTED: '2'");
             }
         }
     }

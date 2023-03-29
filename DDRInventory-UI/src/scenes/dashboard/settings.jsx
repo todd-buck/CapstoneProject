@@ -2,18 +2,14 @@ import React, { useState } from 'react';
 import { useContext } from "react";
 import { Typography, useTheme } from '@mui/material';
 import { ColorModeContext, tokens } from "../../theme";
-import { Select, InputLabel, MenuItem } from '@mui/material';
+import { Select, MenuItem } from '@mui/material';
 import { Box } from '../../../node_modules/@mui/material/index';
 
-const SettingsComponent = () => {
-
+const SettingsComponent = ({ scheme, setScheme }) => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode, theme.palette.scheme);
-    const colorMode = useContext(ColorModeContext);
-    const [selectedScheme, setSelectedScheme] = useState('default');
 
-    const handleChange = (event) => {
-        setSelectedScheme(event.target.value);
+    const handleChange = event => {
+        setScheme(event.target.value);
     };
 
     return (
@@ -25,7 +21,7 @@ const SettingsComponent = () => {
                 <Typography variant="h4" sx={{p:2}}>
                     Select Color Scheme:
                 </Typography>
-                <Select value={selectedScheme} onChange={handleChange}>
+                <Select value={scheme} onChange={handleChange}>
                     <MenuItem value="default">Default</MenuItem>
                     <MenuItem value="contrast">Contrast</MenuItem>
                     <MenuItem value="desert">Desert</MenuItem>

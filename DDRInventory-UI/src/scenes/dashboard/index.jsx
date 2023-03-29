@@ -14,7 +14,7 @@ import DocumentationComponent from './documentation.jsx';
 //import AddNewUserComponent from './addnewuser.jsx';
 import FAQsComponent from './faqs.jsx';
 
-const Dashboard = ({ selected }) => {
+const Dashboard = ({ selected, scheme, setScheme }) => {
 
     const Content = () => {
         switch (selected) {
@@ -25,7 +25,7 @@ const Dashboard = ({ selected }) => {
             //case "Add New Product": return <AddNewProductComponent />;
             case "Reports": return <ReportsComponent />;
             case "Import CSV": return <ImportCSVComponent />;
-            case "Settings": return <SettingsComponent />;
+            case "Settings": return <SettingsComponent scheme={scheme} setScheme={setScheme} />;
             case "Your Profile": return <YourProfileComponent />;
             //case "Add New Users": return <AddNewUserComponent />;
             case "Documentation": return <DocumentationComponent />;

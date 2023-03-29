@@ -16,10 +16,10 @@ import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 import DvrOutlinedIcon from "@mui/icons-material/DvrOutlined";
 
 /*Add Inventory Icon*/
-import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
+//import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
 
 /*Add New Item Icon*/
-import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+//import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 
 /*Reports Icon*/
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
@@ -34,7 +34,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 
 /*Add New Users Icon*/
-import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
+//import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 
 /*Documentation Icon*/
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";

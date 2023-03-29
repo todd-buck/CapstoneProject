@@ -19,7 +19,7 @@ const queryClient = new QueryClient();
 
 function App() {
     const [mode, setMode] = useState("light");
-    const [scheme, setScheme] = useState("flamingo");
+    const [scheme, setScheme] = useState("default");
 
     const [theme, colorMode] = useMode(mode, setMode, scheme);
     const [selected, setSelected] = useState("Dashboard");

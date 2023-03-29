@@ -232,6 +232,8 @@ const Sidebar = ({selected, setSelected}) => {
                             icon={<NotListedLocationOutlined />}
                             selected={selected}
                             setSelected={setSelected}
+                            isCollapsed={isCollapsed}
+                            setIsCollapsed={setIsCollapsed}
                             sx={{ m: "0px 0 0px 0px" }}
                         />
 
@@ -241,6 +243,8 @@ const Sidebar = ({selected, setSelected}) => {
                             icon={<ManageSearchOutlined />}
                             selected={selected}
                             setSelected={setSelected}
+                            isCollapsed={isCollapsed}
+                            setIsCollapsed={setIsCollapsed}
                             sx={{ m: "0px 0 0px 0px" }}
                         />
 

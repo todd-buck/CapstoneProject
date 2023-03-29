@@ -155,5 +155,27 @@ namespace DDRInventory.Models
                 }
             }
         }
+
+        static bool DeleteAllEntries(int locationId)
+        {
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand deleteAllEntryCommand = catalog._connection.CreateCommand())
+                {
+                    try
+                    {
+                        Log.WriteVerbose($"Removing all putaway entries.");
+                        List<PutawayEntry> entries = new List<PutawayEntry>();
+                        deleteAllEntryCommand.CommandText = "DELETE FROM putaway";
+                        deleteAllEntryCommand.ExecuteNonQuery();
+                    }
+                    catch (SQLiteException e)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
     }
 }

@@ -10,10 +10,13 @@ namespace DDRInventory.Controllers
         [HttpGet("run")]
         public async Task<string> run()
         {
-            int i = 9;
+            int i = 1;
             List<bool> results = new List<bool>();
             LocationContext.DeleteAll();
             PutawayEntryContext.DeleteAll();
+            results.Add(await UnitTestsContext.Test1_deleteAll());
+            Console.WriteLine($"Test {i++} done.");
+            return "HALTED EARLY";
             results.Add(await UnitTestsContext.Test9_getSchema());
             Console.WriteLine($"Test {i++} done.");
             results.Add(await UnitTestsContext.Test10_addLocation());

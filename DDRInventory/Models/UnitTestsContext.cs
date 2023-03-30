@@ -8,6 +8,31 @@ namespace DDRInventory.Models
     {
         static string BASE_URI = "https://localhost:7105/api";
 
+        public static async Task<bool> Test1_deleteAll()
+        {
+            Console.WriteLine("RUNNING UNIT TEST 2 'DELETE ALL'...");
+            string endPoint = "/item/delete/all";
+            HttpClient client = new HttpClient();
+            string response = await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
+            // then get catalog
+            Console.WriteLine("RUNNING UNIT TEST 2.1 'GET CATALOG'...");
+            endPoint = "/item/catalog";
+            response = await client.GetStringAsync(BASE_URI + endPoint);
+            InventoryItem[]? data = JsonConvert.DeserializeObject<InventoryItem[]>(response);
+            if (data is not null && data.Length == 0)
+            {
+                Console.WriteLine("\tUNIT TEST 2 'DELETE ALL' PASSED");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("\tUNIT TEST 2 'DELETE ALL' FAILED");
+                Console.WriteLine("\tRESULT: {/*FIXME: OBJECT.TOSTRING()*/}");
+                Console.WriteLine("\tEXPECTED: {/*FIXME: OBJECT.TOSTRING()*/}");
+                return false;
+            }
+        }
+
         public static async Task<bool> Test9_getSchema()
         {
             string[] control = { "Id", "Name", "QuantityOnHand", "Price", "Unit", "Category", "SubCategory", "ParLevel" };

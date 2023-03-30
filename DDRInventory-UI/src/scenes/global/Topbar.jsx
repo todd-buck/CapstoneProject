@@ -12,6 +12,7 @@ const Topbar = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode, theme.palette.scheme);
     const colorMode = useContext(ColorModeContext);
+    const iconStyle = {color: colors.gray[100]}
 
 
     return (
@@ -30,7 +31,8 @@ const Topbar = () => {
 
             {/* Icons */}
             <Box display="flex">
-                <IconButton onClick={colorMode.toggleColorMode}>
+                <IconButton onClick={colorMode.toggleColorMode}
+                    style={iconStyle}>
                     {theme.palette.mode === 'dark' ? (
                         <DarkModeOutlinedIcon />
                     ) : (
@@ -38,13 +40,13 @@ const Topbar = () => {
                     )}
                 </IconButton>
                 <IconButton>
-                    <NotificationsOutlinedIcon />
+                    <NotificationsOutlinedIcon style={iconStyle} />
                 </IconButton>
                 <IconButton>
-                    <SettingsOutlinedIcon />
+                    <SettingsOutlinedIcon style={iconStyle} />
                 </IconButton>
                 <IconButton>
-                    <PersonOutlinedIcon />
+                    <PersonOutlinedIcon style={iconStyle} />
                 </IconButton>
             </Box>
         </Box>    

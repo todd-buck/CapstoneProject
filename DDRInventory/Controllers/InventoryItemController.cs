@@ -86,7 +86,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpPut("update")]
-        public bool update(InventoryItem updatedItem)
+        public bool Update(InventoryItem updatedItem)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpGet("schema")]
-        public string[] getSchema()
+        public string[] GetSchema()
         {
             List<string> attributeNames = new List<string>();
             foreach (PropertyInfo property in typeof(InventoryItem).GetProperties())
@@ -119,7 +119,7 @@ namespace DDRInventory.Controllers
 
 
         [HttpGet("catalog")]
-        public InventoryItem[] getCatalog()
+        public InventoryItem[] GetCatalog()
         {
             try
             {
@@ -136,7 +136,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpGet("{id}")]
-        public InventoryItem getById(string id)
+        public InventoryItem GetById(string id)
         {
             InventoryItem returnValue = new InventoryItem();
             try
@@ -159,7 +159,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpDelete("delete")]
-        public bool deleteItem(string id)
+        public bool DeleteItem(string id)
         {
             bool returnVal;
             try
@@ -182,7 +182,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpDelete("deleteMany")]
-        public void deleteMany(int[] ids)
+        public void DeleteMany(int[] ids)
         {
             Response.StatusCode = 501;
             try
@@ -197,7 +197,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpDelete("delete/all")]
-        public void deleteAll()
+        public void DeleteAll()
         {
             try
             {

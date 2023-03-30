@@ -11,7 +11,7 @@ namespace DDRInventory.Controllers
     public class PutawayController : ControllerBase
     {
         [HttpPost("add")]
-        public bool add(PutawayEntry newEntry)
+        public bool Add(PutawayEntry newEntry)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpGet("location/{locationId}")]
-        public PutawayEntry[] getByLocation(int locationId)
+        public PutawayEntry[] GetByLocation(int locationId)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpGet("item/{itemId}")]
-        public PutawayEntry[] getByItem(string itemId)
+        public PutawayEntry[] GetByItem(string itemId)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpPut("update")]
-        public bool update(PutawayEntry updatedEntry)
+        public bool Update(PutawayEntry updatedEntry)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpDelete("delete/all")]
-        public bool deleteAll()
+        public bool DeleteAll()
         {
             try
             {

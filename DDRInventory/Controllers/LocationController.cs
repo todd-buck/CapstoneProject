@@ -10,24 +10,8 @@ namespace DDRInventory.Controllers
     [ApiController]
     public class LocationController : ControllerBase
     {
-        [HttpGet("catalog")]
-        public Location[] getCatalog()
-        {
-            try
-            {
-                Location[] returnValue = LocationContext.GetAllLocations().ToArray();
-                return returnValue;
-            }
-            catch (SQLiteException e)
-            {
-                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
-                Response.StatusCode = 512;
-                return new Location[0];
-            }
-        }
-
         [HttpPost("add/{locationName}")]
-        public bool add(string locationName)
+        public bool Add(string locationName)
         {
             try
             {
@@ -44,8 +28,41 @@ namespace DDRInventory.Controllers
             }
         }
 
+        [HttpGet("catalog")]
+        public Location[] GetCatalog()
+        {
+            try
+            {
+                Location[] returnValue = LocationContext.GetAllLocations().ToArray();
+                return returnValue;
+            }
+            catch (SQLiteException e)
+            {
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
+                Response.StatusCode = 512;
+                return new Location[0];
+            }
+        }
+        [HttpGet("getName/{id}")]
+        public string GetName(int id)
+        {
+            try
+            {
+                return LocationContext.GetLocation(id).Name;
+            }
+            catch (SQLiteException e)
+            {
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
+                Response.StatusCode = 512;
+                return "";
+            }
+            catch (LocationNotFoundException)
+            {
+                return "";
+            }
+        }
         [HttpDelete("delete/{id}")]
-        public bool delete(int id)
+        public bool Delete(int id)
         {
             bool returnVal;
             try
@@ -66,28 +83,8 @@ namespace DDRInventory.Controllers
             }
             return returnVal;
         }
-
-        [HttpGet("getName/{id}")]
-        public string getName(int id)
-        {
-            try
-            {
-                return LocationContext.GetLocation(id).Name;
-            }
-            catch (SQLiteException e)
-            {
-                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
-                Response.StatusCode = 512;
-                return "";
-            }
-            catch (LocationNotFoundException)
-            {
-                return "";
-            }
-        }
-
         [HttpDelete("delete/all")]
-        public bool deleteAll()
+        public bool DeleteAll()
         {
             try
             {

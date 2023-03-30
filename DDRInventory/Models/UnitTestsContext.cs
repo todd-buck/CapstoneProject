@@ -7,7 +7,7 @@ namespace DDRInventory.Models
     {
         static string BASE_URI = "https://localhost:7105/api";
 
-        public static async Task<bool> step9_getSchema()
+        public static async Task<bool> Test9_getSchema()
         {
             string[] control = { "Id", "Name", "QuantityOnHand", "Price", "Unit", "Category", "SubCategory", "ParLevel" };
 
@@ -30,15 +30,11 @@ namespace DDRInventory.Models
             }
         }
 
-        public static async Task<bool> step10_addLocation()
+        public static async Task<bool> Test10_addLocation()
         {
             Console.WriteLine("RUNNING UNIT TEST 10.1 'ADD LOCATION'...");
-            Location location = new Location()
-            {
-                Name = "Freezer",
-                Id = 1
-            };
-            string endPoint = "/location/add";
+            string name = "Freezer";
+            string endPoint = $"/location/add/{name}";
             HttpClient client = new HttpClient();
             string response = await client.PostAsJsonAsync(BASE_URI + endPoint, location).GetAwaiter().GetResult().Content.ReadAsStringAsync();
             int? data = JsonConvert.DeserializeObject<int>(response);
@@ -81,7 +77,7 @@ namespace DDRInventory.Models
                 return false;
             }
         }
-        public static async Task<bool> step11_getLocationName()
+        public static async Task<bool> Test11_getLocationName()
         {
             Console.WriteLine("RUNNING UNIT TEST 11 'GET LOCATION NAME'...");
             string endPoint = "/location/getName/1";
@@ -101,7 +97,7 @@ namespace DDRInventory.Models
                 return false;
             }
         }
-        public static async Task<bool> step12_addLocation()
+        public static async Task<bool> Test12_addLocation()
         {
             Console.WriteLine("RUNNING UNIT TEST 12 'ADD LOCATION'...");
             Location location = new Location()
@@ -126,7 +122,7 @@ namespace DDRInventory.Models
                 return false;
             }
         }
-        public static async Task<bool> step13_deleteLocation()
+        public static async Task<bool> Test13_deleteLocation()
         {
             Console.WriteLine("RUNNING UNIT TEST 13.1 'DELETE LOCATION'...");
             string endPoint = "/location/delete/2";
@@ -172,7 +168,7 @@ namespace DDRInventory.Models
                 return false;
             }
         }
-        public static async Task<bool> step14_deleteAllLocations()
+        public static async Task<bool> Test14_deleteAllLocations()
         {
             Console.WriteLine("RUNNING UNIT TEST 14.1 'DELETE ALL LOCATIONS'...");
             string endPoint = "/location/delete/all";
@@ -218,7 +214,7 @@ namespace DDRInventory.Models
                 return false;
             }
         }
-        public static async Task<bool> step15_addLocation()
+        public static async Task<bool> Test15_addLocation()
         {
             Console.WriteLine("RUNNING UNIT TEST 15.1 'ADD LOCATION'...");
             Location location = new Location()
@@ -243,7 +239,7 @@ namespace DDRInventory.Models
                 return false;
             }
         }
-        public static async Task<bool> step16_addPutawayEntry()
+        public static async Task<bool> Test16_addPutawayEntry()
         {
             Console.WriteLine("RUNNING UNIT TEST 16.1 'ADD PUTAWAY ENTRY'...");
 
@@ -302,7 +298,7 @@ namespace DDRInventory.Models
                 return false;
             }
         }
-        public static async Task<bool> step17_updatePutawayEntry()
+        public static async Task<bool> Test17_updatePutawayEntry()
         {
             Console.WriteLine("RUNNING UNIT TEST 17 'UPDATE PUTAWAY ENTRY'...");
 
@@ -330,7 +326,7 @@ namespace DDRInventory.Models
                 return false;
             }
         }
-        public static async Task<bool> step18_getEntriesByLocation()
+        public static async Task<bool> Test18_getEntriesByLocation()
         {
             string endPoint = "/putaway/location/1";
             HttpClient client = new HttpClient();

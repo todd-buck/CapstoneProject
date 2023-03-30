@@ -36,9 +36,9 @@ namespace DDRInventory.Models
             string name = "Freezer";
             string endPoint = $"/location/add/{name}";
             HttpClient client = new HttpClient();
-            string response = await client.PostAsJsonAsync(BASE_URI + endPoint, location).GetAwaiter().GetResult().Content.ReadAsStringAsync();
-            int? data = JsonConvert.DeserializeObject<int>(response);
-            if (data is not null && data == 1)
+            string response = await client.PostAsJsonAsync(BASE_URI + endPoint, new object()).GetAwaiter().GetResult().Content.ReadAsStringAsync();
+            bool data = JsonConvert.DeserializeObject<bool>(response);
+            if (data)
             {
                 Console.WriteLine("\tUNIT TEST 10.1 'ADD ITEM LOCATION' PASSED");
             }
@@ -100,16 +100,12 @@ namespace DDRInventory.Models
         public static async Task<bool> Test12_addLocation()
         {
             Console.WriteLine("RUNNING UNIT TEST 12 'ADD LOCATION'...");
-            Location location = new Location()
-            {
-                Name = "Shelf",
-                Id = 2
-            };
-            string endPoint = "/location/add";
+            string name = "Shelf";
+            string endPoint = $"/location/add/{name}";
             HttpClient client = new HttpClient();
-            string response = await client.PostAsJsonAsync(BASE_URI + endPoint, location).GetAwaiter().GetResult().Content.ReadAsStringAsync();
-            int? data = JsonConvert.DeserializeObject<int>(response);
-            if (data is not null && data == 2)
+            string response = await client.PostAsJsonAsync(BASE_URI + endPoint, new object()).GetAwaiter().GetResult().Content.ReadAsStringAsync();
+            bool data = JsonConvert.DeserializeObject<bool>(response);
+            if (data)
             {
                 Console.WriteLine("\tUNIT TEST 12 'ADD LOCATION' PASSED");
                 return true;

@@ -7,7 +7,7 @@ namespace DDRInventory.Models
     {
         public static List<Location> GetAllLocations()
         {
-            using (Database catalog = new Database()) 
+            using (Database catalog = new Database())
             {
                 using (SQLiteCommand allLocationQuery = catalog._connection.CreateCommand())
                 {
@@ -18,8 +18,8 @@ namespace DDRInventory.Models
                     {
                         locations.Add(new Location()
                         {
-                           Id = reader.GetInt32(0),
-                           Name = reader.GetString(1)
+                            Id = reader.GetInt32(0),
+                            Name = reader.GetString(1)
                         });
                     }
                     new Log
@@ -60,7 +60,7 @@ namespace DDRInventory.Models
                 {
                     Log.WriteVerbose($"Retrieving location {id} from the database");
                     locationQuery.CommandText = $"SELECT * FROM locations WHERE id = {id}";
-                    using (SQLiteDataReader reader = locationQuery.ExecuteReader()) 
+                    using (SQLiteDataReader reader = locationQuery.ExecuteReader())
                     {
                         if (reader.Read())
                         {
@@ -70,7 +70,7 @@ namespace DDRInventory.Models
                                 Id = reader.GetInt32(0),
                                 Name = reader.GetString(1)
                             };
-                            
+
                         }
                         else
                         {
@@ -101,15 +101,15 @@ namespace DDRInventory.Models
                 }
             }
         }
-
         public static bool DeleteLocation(int id)
         {
-            Log.WriteVerbose($"Deleting Location with id, {id}");
+            Log.WriteVerbose($"Deleting Location with id {id}");
+            string locationName;
             try
             {
-                GetLocation(id);
+                locationName = GetName(id).Name;
             }
-            catch (ItemNotFoundException e)
+            catch (LocationNotFoundException e)
             {
                 Log.WriteVerbose($"Item with id {e.Id} does not exists. Delete operation terminated.");
                 return false;
@@ -125,13 +125,12 @@ namespace DDRInventory.Models
                     {
                         User = "DummyUser",
                         Action = "Location Deletion",
-                        LocationName = GetName(id).Name
+                        LocationName = locationName
                     }.Write($"Deleted a location from the database");
                     return true;
                 }
             }
         }
-
         public static Location GetName(int id)
         {
             using (Database catalog = new Database())
@@ -144,11 +143,11 @@ namespace DDRInventory.Models
                     {
                         if (reader.Read())
                         {
-                            Log.WriteVerbose($"Location name {id} ({reader.GetString(1)}) found");
+                            Log.WriteVerbose($"Location name {id} ({reader.GetString(0)}) found");
 
                             return new Location()
                             {
-                                Name = reader.GetString(1)
+                                Name = reader.GetString(0)
                             };
                         }
                         else

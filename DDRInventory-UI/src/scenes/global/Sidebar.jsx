@@ -63,7 +63,9 @@ const Item = ({ title, to, icon, selected, setSelected, isCollapsed, setIsCollap
             }}
             onClick={() => {
                 setSelected(title)
-                setIsCollapsed(!isCollapsed)
+                if (!isCollapsed) {
+                    setIsCollapsed(!isCollapsed)
+                }
             }
             }
             icon={icon}

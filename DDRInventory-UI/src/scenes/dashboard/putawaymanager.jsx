@@ -7,11 +7,14 @@ import { ColorModeContext, tokens } from "../../theme";
 import { Select, MenuItem } from '@mui/material';
 import { Box } from '../../../node_modules/@mui/material/index';
 import { Button } from '@mui/material';
+import UpdatePutawayItemComponent from "./updateputawayitem.jsx";
 
 const PutAwayManagerComponent = ({ scheme, setScheme }) => {
+    const [updatePutawayItemComponentVisibility, setUpdatePutawayItemComponentVisibility] = useState(false);
+
 
     const AddByItem = () => {
-        const [showAddByItemSearchbar, setShowByItemSearchBar] = useState(false);
+        const [showAddByItemSearchbar, setShowByItemSearchBar] = useState(null);
         return (
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                 <Button
@@ -87,7 +90,9 @@ const PutAwayManagerComponent = ({ scheme, setScheme }) => {
         return (
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
                 <Button
-                    onClick={() => setShowByLocationSearchBar(prev => !prev)}
+                    onClick={() => {
+                        setShowByLocationSearchBar(prev => !prev)
+                    }}
                     sx={{ p: 1, mb: 1, mx: 1 }}
                     variant="contained"
                 >
@@ -106,23 +111,35 @@ const PutAwayManagerComponent = ({ scheme, setScheme }) => {
         );
     }
 
-
     return (
-        <div>
+        <Box>
+            {updatePutawayItemComponentVisibility ? (<UpdatePutawayItemComponent updatePutawayItemComponentVisibility={updatePutawayItemComponentVisibility} setUpdatePutawayItemComponentVisibility={setUpdatePutawayItemComponentVisibility} />) : null}
+
             <Typography variant="h1" sx={{p:2}}>
                 Put Away Manager
             </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', juatifyContent: 'flex-start', alignItems: 'flex-start'}}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', juatifyContent: 'flex-start', alignItems: 'flex-start' }}>
 
-                    <AddByItem />
+                <AddByItem />
 
-                    <RemoveByItem />
+                <RemoveByItem />
 
-                    <AddByLocation />
+                <AddByLocation />
 
-                    <RemoveByLocation />
+                <RemoveByLocation />
+
+                
+                <Button
+                    onClick={() => {
+                        setUpdatePutawayItemComponentVisibility(true)
+                    }}
+                    sx={{ p: 1, mb: 1, mx: 1 }}
+                    variant="contained"
+                >
+                    Modal Test
+                </Button>
             </Box>
-        </div>
+        </Box>
     );
 }
 

@@ -7,6 +7,15 @@ namespace DDRInventory.Models
     {
         public static void Add(PutawayEntry newEntry)
         {
+            try
+            {
+                UpdateEntry(newEntry);
+                return;
+            }
+            catch (PutawayEntryNotFoundException e)
+            {
+                Log.WriteVerbose(e.Message + "\nCreating entry...");
+            }
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand insertEntryCommand = catalog._connection.CreateCommand())
@@ -50,6 +59,7 @@ namespace DDRInventory.Models
         }
         public static bool UpdateEntry(PutawayEntry updatedEntry)
         {
+            GetEntry(updatedEntry.ItemId, updatedEntry.LocationId);
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand updatePutawayCommand = catalog._connection.CreateCommand())
@@ -95,7 +105,7 @@ namespace DDRInventory.Models
                                 QuantityInLocation = reader.GetInt32(3)
                             };
                         }
-                        return new PutawayEntry();
+                        throw new PutawayEntryNotFoundException($"Putaway entry for item {itemId} in location {locationId} not found.",itemId, locationId);
                     }
                 }
             }

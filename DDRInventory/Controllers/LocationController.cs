@@ -26,24 +26,22 @@ namespace DDRInventory.Controllers
             }
         }
 
-        [HttpPost("add")]
-        public int add(Location newLocation)
+        [HttpPost("add/{locationName}")]
+        public bool add(string locationName)
         {
-            if (newLocation.Id == -1)
-            {
-                //FIX ME: ADD ID GENERATION
-            }
             try
             {
-                LocationContext.AddLocation(newLocation);
+                if (LocationContext.AddLocation(locationName))
+                    return true;
+                else
+                    return false;
             }
             catch (SQLiteException e)
             {
                 Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
-                return newLocation.Id;
+                return false;
             }
-            return newLocation.Id;
         }
 
         [HttpDelete("delete/{id}")]

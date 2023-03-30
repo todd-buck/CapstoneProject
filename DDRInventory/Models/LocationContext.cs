@@ -32,8 +32,15 @@ namespace DDRInventory.Models
             }
         }
 
-        public static void AddLocation(Location newLocation)
+        public static bool AddLocation(string locationName)
         {
+            List<string> locationNames = GetAllLocations().Select(x => x.Name.ToLower()).ToList();
+            if (locationNames.Contains(locationName.ToLower())) return false;
+            Location newLocation = new Location()
+            {
+                Name = locationName,
+                Id = Location.GenerateId()
+            };
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand addLocationCommand = catalog._connection.CreateCommand())
@@ -48,6 +55,7 @@ namespace DDRInventory.Models
                         Action = "Location Addition",
                         LocationName = newLocation.Name
                     }.Write($"Adding location '{newLocation.Name}' to the database");
+                    return true;
                 }
             }
         }
@@ -118,7 +126,11 @@ namespace DDRInventory.Models
             {
                 using (SQLiteCommand addLocationCommand = catalog._connection.CreateCommand())
                 {
-                    addLocationCommand.CommandText = $"DELETE FROM locations WHERE id = {id};";
+                    addLocationCommand.CommandText = $"DELETE FROM locations WHERE id = $id;";
+                    addLocationCommand.Parameters.AddWithValue("$id", id);
+                    addLocationCommand.ExecuteNonQuery();
+                    addLocationCommand.CommandText = $"DELETE FROM putaway WHERE location_id = $id;";
+                    addLocationCommand.Parameters.AddWithValue("$id", id);
                     addLocationCommand.ExecuteNonQuery();
                     Log.WriteVerbose($"Location with id {id} removed from the database.");
                     new Log

@@ -1,0 +1,11 @@
+﻿Category,Subcategory,Name,Id,Unit,Price,Par Level,Quantity On Hand
+Drink,Non-Alcoholic,Tonic Water,1,case,$20.00 ,50,35
+Ingredient,Fruit,Green Olives,2,jar,$16.00 ,30,20
+Cleaning Product,Applicant,Towels,3,feet,$10.00 ,20,17
+Miscellaneous,Non-Food-Related,Straws,4,each,$1.00 ,1000,300
+Drink,Non-Alcoholic,Soda Ginger Ale,5,oz,$69.00 ,363,478
+Ingredient,Fruit,Cherries,6,lb,$10.00 ,30,59
+Ingredient,Condiment,Sriracha,7,bottle,$18.00 ,69,102
+Ingredient,Condiment,Hot Sauce,8,can,$54.00 ,487,33
+Miscellaneous,Food-Related,Balsamic Glaze,9,jug,$20.00 ,380,172
+Miscellaneous,Food-Related,Truffle Oil,10,bag,$68.00,136,317

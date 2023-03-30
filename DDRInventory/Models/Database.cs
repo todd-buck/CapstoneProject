@@ -28,7 +28,16 @@ namespace DDRInventory.Models
         //CONSTRUCTORS
         public Database()
         {
-            Open();
+            _connection = new SQLiteConnection($"Data Source={DATABASE_PATH + '\\' + DATABASE_NAME}; Version = 3; New = True; Compress = True; ");
+            // Open the connection:
+            try
+            {
+                _connection.Open();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Unspecified SQL error when creating or opening databse file");
+            }
         }
 
         private void CheckVersion()
@@ -84,22 +93,6 @@ namespace DDRInventory.Models
         {
             _connection.Dispose();
             //Console.WriteLine($"Connection to {DATABASE_NAME} disposed");
-        }
-        void Open()
-        {
-            //Console.WriteLine($"Opening database {DATABASE_NAME} for read/write");
-            // Create a new database connection:
-            _connection = new SQLiteConnection($"Data Source={ DATABASE_PATH + '\\' + DATABASE_NAME }; Version = 3; New = True; Compress = True; ");
-            // Open the connection:
-            try
-            {
-                _connection.Open();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Unspecified SQL error when creating or opening databse file");
-            }
-            //Console.WriteLine($"Opened {DATABASE_NAME} sucessfully");
         }
 
         void CreateTable(string name, string types)

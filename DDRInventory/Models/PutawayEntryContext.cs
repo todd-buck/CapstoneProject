@@ -7,13 +7,23 @@ namespace DDRInventory.Models
     {
         public static void Add(PutawayEntry newEntry)
         {
+            try
+            {
+                UpdateEntry(newEntry);
+                return;
+            }
+            catch (PutawayEntryNotFoundException e)
+            {
+                Log.WriteVerbose(e.Message + "\nCreating entry...");
+            }
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand insertEntryCommand = catalog._connection.CreateCommand())
                 {
-                    insertEntryCommand.CommandText = "INSERT INTO putaway (item_id, location_id, quantity) VALUES($iid, $lid, $quantity);";
+                    insertEntryCommand.CommandText = "INSERT INTO putaway (item_id, location_id, location_name, quantity) VALUES($iid, $lid, $ln, $quantity);";
                     insertEntryCommand.Parameters.AddWithValue("$iid", newEntry.ItemId);
                     insertEntryCommand.Parameters.AddWithValue("$lid", newEntry.LocationId);
+                    insertEntryCommand.Parameters.AddWithValue("$ln", newEntry.LocationName);
                     insertEntryCommand.Parameters.AddWithValue("$quantity", newEntry.QuantityInLocation);
                     Console.WriteLine($"Putting away {newEntry.QuantityInLocation} of item {newEntry.ItemId} in location {newEntry.LocationName}");
                     insertEntryCommand.ExecuteNonQuery();
@@ -49,6 +59,7 @@ namespace DDRInventory.Models
         }
         public static bool UpdateEntry(PutawayEntry updatedEntry)
         {
+            GetEntry(updatedEntry.ItemId, updatedEntry.LocationId);
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand updatePutawayCommand = catalog._connection.CreateCommand())
@@ -79,7 +90,7 @@ namespace DDRInventory.Models
                 using (SQLiteCommand putawayByItemQuery = catalog._connection.CreateCommand())
                 {
                     Log.WriteVerbose($"Retrieving putaway entry for item {itemId} in location {locationId}");
-                    putawayByItemQuery.CommandText = "SELECT * FROM putaway WHERE item_id = $item_id, location_id = $location_id ORDER BY quantity asc;";
+                    putawayByItemQuery.CommandText = "SELECT * FROM putaway WHERE item_id = $item_id AND location_id = $location_id ORDER BY quantity asc;";
                     putawayByItemQuery.Parameters.AddWithValue("$item_id", itemId);
                     putawayByItemQuery.Parameters.AddWithValue("$location_id", locationId);
                     using (SQLiteDataReader reader = putawayByItemQuery.ExecuteReader())
@@ -94,7 +105,7 @@ namespace DDRInventory.Models
                                 QuantityInLocation = reader.GetInt32(3)
                             };
                         }
-                        return new PutawayEntry();
+                        throw new PutawayEntryNotFoundException($"Putaway entry for item {itemId} in location {locationId} not found.",itemId, locationId);
                     }
                 }
             }
@@ -154,6 +165,28 @@ namespace DDRInventory.Models
                     }
                 }
             }
+        }
+
+        static bool DeleteAllEntries(int locationId)
+        {
+            using (Database catalog = new Database())
+            {
+                using (SQLiteCommand deleteAllEntryCommand = catalog._connection.CreateCommand())
+                {
+                    try
+                    {
+                        Log.WriteVerbose($"Removing all putaway entries.");
+                        List<PutawayEntry> entries = new List<PutawayEntry>();
+                        deleteAllEntryCommand.CommandText = "DELETE FROM putaway";
+                        deleteAllEntryCommand.ExecuteNonQuery();
+                    }
+                    catch (SQLiteException)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }

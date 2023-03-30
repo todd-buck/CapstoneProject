@@ -10,22 +10,24 @@ namespace DDRInventory.Controllers
     [ApiController]
     public class PutawayController : ControllerBase
     {
-        [HttpPost("/api/putaway/add")]
-        public void add(PutawayEntry newEntry)
+        [HttpPost("add")]
+        public bool Add(PutawayEntry newEntry)
         {
             try
             {
                 PutawayEntryContext.Add(newEntry);
+                return true;
             }
             catch (SQLiteException e)
             {
                 Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
+                return false;
             }
         }
 
         [HttpGet("location/{locationId}")]
-        public PutawayEntry[] getByLocation(int locationId)
+        public PutawayEntry[] GetByLocation(int locationId)
         {
             try
             {
@@ -40,7 +42,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpGet("item/{itemId}")]
-        public PutawayEntry[] getByItem(string itemId)
+        public PutawayEntry[] GetByItem(string itemId)
         {
             try
             {
@@ -55,7 +57,7 @@ namespace DDRInventory.Controllers
         }
 
         [HttpPut("update")]
-        public bool update(PutawayEntry updatedEntry)
+        public bool Update(PutawayEntry updatedEntry)
         {
             try
             {
@@ -70,16 +72,18 @@ namespace DDRInventory.Controllers
         }
 
         [HttpDelete("delete/all")]
-        public void deleteAll()
+        public bool DeleteAll()
         {
             try
             {
                 PutawayEntryContext.DeleteAll();
+                return true;
             }
             catch (SQLiteException e)
             {
                 Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
+                return false;
             }
         }
     }

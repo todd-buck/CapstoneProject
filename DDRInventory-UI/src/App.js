@@ -35,7 +35,7 @@ function App() {
                         <Box sx={{ position: "fixed", zIndex: 100, height: "100vh" }}>
                             <Sidebar selected={selected} setSelected={setSelected} />
                         </Box>
-                        <Box sx={{ width: "100vw", pl: 10, backgroundColor: colors.primary[100] }}>
+                        <Box sx={{ position: 'absolute', pb: 40, top: 0, left:0, minHeight: "100vh", width: "100vw", pl: 10, backgroundColor: colors.primary[100] }}>
                             <main className="content">
                                 <Topbar />
                                 <Routes>

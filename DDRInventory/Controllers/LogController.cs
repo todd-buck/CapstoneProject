@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SQLite;
+using System.Reflection;
 
 namespace DDRInventory.Controllers
 {
@@ -22,6 +23,17 @@ namespace DDRInventory.Controllers
                 Response.StatusCode = 512;
                 return new string[0];
             }
+        }
+
+        [HttpGet("schema")]
+        public string[] GetSchema()
+        {
+            List<string> attributeNames = new List<string>();
+            foreach (PropertyInfo property in typeof(Log).GetProperties())
+            {
+                attributeNames.Add(property.Name);
+            }
+            return attributeNames.ToArray();
         }
     }
 }

@@ -158,7 +158,7 @@ namespace DDRInventory.Controllers
             return returnValue;
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("delete/{id}")]
         public bool DeleteItem(string id)
         {
             bool returnVal;

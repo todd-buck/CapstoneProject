@@ -8,27 +8,77 @@ namespace DDRInventory.Models
     {
         static string BASE_URI = "https://localhost:7105/api";
 
-        public static async Task<bool> Test1_deleteAll()
+        public static async Task<bool> Test1_deleteAllItems()
         {
-            Console.WriteLine("RUNNING UNIT TEST 2 'DELETE ALL'...");
+            Console.WriteLine("RUNNING UNIT TEST 1.1 'DELETE ALL ITEMS'...");
             string endPoint = "/item/delete/all";
             HttpClient client = new HttpClient();
             string response = await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
             // then get catalog
-            Console.WriteLine("RUNNING UNIT TEST 2.1 'GET CATALOG'...");
+            Console.WriteLine("RUNNING UNIT TEST 1.2 'GET CATALOG'...");
             endPoint = "/item/catalog";
             response = await client.GetStringAsync(BASE_URI + endPoint);
             InventoryItem[]? data = JsonConvert.DeserializeObject<InventoryItem[]>(response);
             if (data is not null && data.Length == 0)
             {
-                Console.WriteLine("\tUNIT TEST 2 'DELETE ALL' PASSED");
+                Console.WriteLine("\tUNIT TEST 1 'DELETE ALL ITEMS' PASSED");
                 return true;
             }
             else
             {
-                Console.WriteLine("\tUNIT TEST 2 'DELETE ALL' FAILED");
-                Console.WriteLine("\tRESULT: {/*FIXME: OBJECT.TOSTRING()*/}");
-                Console.WriteLine("\tEXPECTED: {/*FIXME: OBJECT.TOSTRING()*/}");
+                Console.WriteLine("\tUNIT TEST 1 'DELETE ALL ITEMS' FAILED");
+                Console.WriteLine("\tRESULT: NON-EMPTY LIST");
+                Console.WriteLine("\tEXPECTED: []");
+                return false;
+            }
+        }
+
+        public static async Task<bool> Test2_deleteAllLocations()
+        {
+            Console.WriteLine("RUNNING UNIT TEST 2.1 'DELETE ALL LOCATIONS'...");
+            string endPoint = "/location/delete/all";
+            HttpClient client = new HttpClient();
+            string response = await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
+            // then get catalog
+            Console.WriteLine("RUNNING UNIT TEST 2.2 'GET CATALOG'...");
+            endPoint = "/location/catalog";
+            response = await client.GetStringAsync(BASE_URI + endPoint);
+            InventoryItem[]? data = JsonConvert.DeserializeObject<InventoryItem[]>(response);
+            if (data is not null && data.Length == 0)
+            {
+                Console.WriteLine("\tUNIT TEST 2 'DELETE ALL LOCATIONS' PASSED");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("\tUNIT TEST 2 'DELETE ALL LOCATIONS' FAILED");
+                Console.WriteLine("\tRESULT: NON-EMPTY LIST");
+                Console.WriteLine("\tEXPECTED: []");
+                return false;
+            }
+        }
+
+        public static async Task<bool> Test3_uploadCSV()
+        {
+            Console.WriteLine("RUNNING UNIT TEST 3.1 ''...");
+            string endPoint = "/location/delete/all";
+            HttpClient client = new HttpClient();
+            string response = await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
+            // then get catalog
+            Console.WriteLine("RUNNING UNIT TEST 2.2 'GET CATALOG'...");
+            endPoint = "/location/catalog";
+            response = await client.GetStringAsync(BASE_URI + endPoint);
+            InventoryItem[]? data = JsonConvert.DeserializeObject<InventoryItem[]>(response);
+            if (data is not null && data.Length == 0)
+            {
+                Console.WriteLine("\tUNIT TEST 2 'DELETE ALL LOCATIONS' PASSED");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("\tUNIT TEST 2 'DELETE ALL LOCATIONS' FAILED");
+                Console.WriteLine("\tRESULT: NON-EMPTY LIST");
+                Console.WriteLine("\tEXPECTED: []");
                 return false;
             }
         }

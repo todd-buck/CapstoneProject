@@ -12,9 +12,10 @@ namespace DDRInventory.Controllers
         {
             int i = 1;
             List<bool> results = new List<bool>();
-            LocationContext.DeleteAll();
             PutawayEntryContext.DeleteAll();
-            results.Add(await UnitTestsContext.Test1_deleteAll());
+            results.Add(await UnitTestsContext.Test1_deleteAllItems());
+            Console.WriteLine($"Test {i++} done.");
+            results.Add(await UnitTestsContext.Test2_deleteAllLocations());
             Console.WriteLine($"Test {i++} done.");
             return "HALTED EARLY";
             results.Add(await UnitTestsContext.Test9_getSchema());

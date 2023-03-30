@@ -34,7 +34,8 @@ namespace DDRInventory.Controllers
             Console.WriteLine($"Test {i++} done.");
             results.Add(await UnitTestsContext.Test18_getEntriesByLocation());
             Console.WriteLine($"Test {i++} done.");
-            results.TrueForAll(item => item);
+            if (results.TrueForAll(item => item))
+                Console.WriteLine("ALL TESTS PASSED");
             return "PLEASE DO NOT FORGET TO ROLL BACK ANY CATALOG CHANGES IN YOUR GIT STAGING BEFORE COMMITING";
         }
     }

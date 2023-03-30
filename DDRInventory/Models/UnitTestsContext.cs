@@ -1,5 +1,6 @@
 ﻿using DDRInventory.Objects;
 using Newtonsoft.Json;
+using System.Xml.Linq;
 
 namespace DDRInventory.Models
 {
@@ -212,24 +213,20 @@ namespace DDRInventory.Models
         }
         public static async Task<bool> Test15_addLocation()
         {
-            Console.WriteLine("RUNNING UNIT TEST 15.1 'ADD LOCATION'...");
-            Location location = new Location()
-            {
-                Name = "Freezer",
-                Id = 1
-            };
-            string endPoint = "/location/add";
+            Console.WriteLine("RUNNING UNIT TEST 15 'ADD LOCATION'...");
+            string name = "Freezer";
+            string endPoint = $"/location/add/{name}";
             HttpClient client = new HttpClient();
-            string response = await client.PostAsJsonAsync(BASE_URI + endPoint, location).GetAwaiter().GetResult().Content.ReadAsStringAsync();
-            int? data = JsonConvert.DeserializeObject<int>(response);
-            if (data is not null && data == 1)
+            string response = await client.PostAsJsonAsync(BASE_URI + endPoint, new object()).GetAwaiter().GetResult().Content.ReadAsStringAsync();
+            bool data = JsonConvert.DeserializeObject<bool>(response);
+            if (data)
             {
-                Console.WriteLine("\tUNIT TEST 15.1 'ADD ITEM LOCATION' PASSED");
+                Console.WriteLine("\tUNIT TEST 15 'ADD ITEM LOCATION' PASSED");
                 return true;
             }
             else
             {
-                Console.WriteLine("\tUNIT TEST 15.1 'ADD LOCATION' FAILED");
+                Console.WriteLine("\tUNIT TEST 15 'ADD LOCATION' FAILED");
                 Console.WriteLine($"\tRESULT: '{data}'");
                 Console.WriteLine($"\tEXPECTED: '1'");
                 return false;

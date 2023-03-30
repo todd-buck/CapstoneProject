@@ -1,5 +1,5 @@
 ﻿using DDRInventory.Models;
-
+using DDRInventory.Objects;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SQLite;
 using System.Reflection;

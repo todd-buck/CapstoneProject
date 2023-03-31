@@ -32,7 +32,6 @@ namespace DDRInventory.Models
                         Action = "Item Addition",
                         ItemName = newItem.Name,
                     }.Write($"Adding item '{newItem.Name}' to the database");
-                    insertItemCommand.ExecuteNonQuery();
                 }
             }
         }

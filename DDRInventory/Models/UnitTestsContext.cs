@@ -120,8 +120,9 @@ namespace DDRInventory.Models
             Console.WriteLine("RUNNING UNIT TEST 4.2 'GET CATALOG'...");
             endPoint = "/item/catalog";
             response = await client.GetStringAsync(BASE_URI + endPoint);
-            bool data = JsonConvert.DeserializeObject<bool>(response);
-            if (data)
+            InventoryItem[]? data = JsonConvert.DeserializeObject<InventoryItem[]>(response);
+            Console.WriteLine(data.Length);
+            if (data is not null && data.Length == 11)
             {
                 Console.WriteLine("\tUNIT TEST 4 'ADD ITEM' PASSED");
                 return true;
@@ -129,8 +130,8 @@ namespace DDRInventory.Models
             else
             {
                 Console.WriteLine("\tUNIT TEST 4 'ADD ITEM' FAILED");
-                Console.WriteLine("\tRESULT: NON-EMPTY LIST");
-                Console.WriteLine("\tEXPECTED: []");
+                Console.WriteLine("\tRESULT: LIST OF LENGTH != 11");
+                Console.WriteLine("\tEXPECTED: LIST OF LENGTH == 11");
                 return false;
             }
         }

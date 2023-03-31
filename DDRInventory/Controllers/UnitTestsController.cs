@@ -19,8 +19,8 @@ namespace DDRInventory.Controllers
             Console.WriteLine($"Test {i++} done.");
             results.Add(await UnitTestsContext.Test3_uploadCSV());
             Console.WriteLine($"Test {i++} done.");
-            return "HALTED EARLY";
             results.Add(await UnitTestsContext.Test4_addItem());
+            return "HALTED EARLY";
             Console.WriteLine($"Test {i++} done.");
             results.Add(await UnitTestsContext.Test9_getSchema());
             Console.WriteLine($"Test {i++} done.");

@@ -111,7 +111,7 @@ namespace DDRInventory.Models
                 Category = "BEER",
                 SubCategory = "DOMESTIC",
                 ParLevel = 10,
-                Id = "1"
+                Id = "20"
             };
             string endPoint = "/item/add";
             HttpClient client = new HttpClient();
@@ -132,6 +132,28 @@ namespace DDRInventory.Models
                 Console.WriteLine("\tUNIT TEST 4 'ADD ITEM' FAILED");
                 Console.WriteLine("\tRESULT: LIST OF LENGTH != 11");
                 Console.WriteLine("\tEXPECTED: LIST OF LENGTH == 11");
+                return false;
+            }
+        }
+
+        public static async Task<bool> Test5_getItem()
+        {
+            Console.WriteLine("RUNNING UNIT TEST 5.1 'GETTING ITEM'...");
+            string endPoint = "/item/20";
+            HttpClient client = new HttpClient();
+            string response = await client.GetAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
+            // then get catalog
+            InventoryItem data = JsonConvert.DeserializeObject<InventoryItem>(response);
+            if (data.Name == "Michelob Ultra")
+            { 
+                Console.WriteLine("\tUNIT TEST 5 'GET ITEM' PASSED");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("\tUNIT TEST 5 'GET ITEM' FAILED");
+                Console.WriteLine($"\tRESULT: {data.Name}");
+                Console.WriteLine("\tEXPECTED: 'Michelob Ultra'");
                 return false;
             }
         }

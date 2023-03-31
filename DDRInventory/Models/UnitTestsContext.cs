@@ -211,6 +211,32 @@ namespace DDRInventory.Models
             }
         }
 
+        public static async Task<bool> Test8_deleteItem()
+        {
+            Console.WriteLine("RUNNING UNIT TEST 8.1 'DELETE ITEM'...");
+            string endPoint = "/item/delete/20";
+            HttpClient client = new HttpClient();
+            string response = await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
+            // then get catalog
+            Console.WriteLine("RUNNING UNIT TEST 8.2 'GET CATALOG'...");
+            endPoint = "/item/catalog";
+            response = await client.GetStringAsync(BASE_URI + endPoint);
+            InventoryItem[]? data = JsonConvert.DeserializeObject<InventoryItem[]>(response);
+            Console.WriteLine(data.Length);
+            if (data is not null && data.Length == 10)
+            {
+                Console.WriteLine("\tUNIT TEST 8 'DELETE ITEM' PASSED");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("\tUNIT TEST 8 'DELETE ITEM' FAILED");
+                Console.WriteLine("\tRESULT: LIST OF LENGTH != 10");
+                Console.WriteLine("\tEXPECTED: LIST OF LENGTH == 10");
+                return false;
+            }
+        }
+
 
 
         public static async Task<bool> Test9_getSchema()

@@ -1,4 +1,5 @@
 ﻿using DDRInventory.Models;
+using DDRInventory.Objects;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DDRInventory.Controllers
@@ -11,8 +12,7 @@ namespace DDRInventory.Controllers
         public async Task<string> run()
         {
             int i = 1;
-            List<bool> results = new List<bool>();
-            PutawayEntryContext.DeleteAll();
+            List<UnitTestResult> results = new List<UnitTestResult>();
             results.Add(await UnitTestsContext.Test1_deleteAllItems());
             Console.WriteLine($"Test {i++} done.");
             results.Add(await UnitTestsContext.Test2_deleteAllLocations());
@@ -29,7 +29,6 @@ namespace DDRInventory.Controllers
             Console.WriteLine($"Test {i++} done.");
             results.Add(await UnitTestsContext.Test8_deleteItem());
             Console.WriteLine($"Test {i++} done.");
-            return "HALTED EARLY";
             results.Add(await UnitTestsContext.Test9_getSchema());
             Console.WriteLine($"Test {i++} done.");
             results.Add(await UnitTestsContext.Test10_addLocation());
@@ -50,7 +49,9 @@ namespace DDRInventory.Controllers
             Console.WriteLine($"Test {i++} done.");
             results.Add(await UnitTestsContext.Test18_getEntriesByLocation());
             Console.WriteLine($"Test {i++} done.");
-            if (results.TrueForAll(item => item))
+            foreach (var result in results)
+                Console.WriteLine(result);
+            if (results.TrueForAll(result => result.Passed))
                 Console.WriteLine("ALL TESTS PASSED");
             return "PLEASE DO NOT FORGET TO ROLL BACK ANY CATALOG CHANGES IN YOUR GIT STAGING BEFORE COMMITING";
         }

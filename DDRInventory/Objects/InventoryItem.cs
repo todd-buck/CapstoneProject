@@ -40,6 +40,32 @@ namespace DDRInventory.Objects
                 }
             }
         }
+        public override string ToString()
+        {
+            if (this is null) return "Null InventoryItem";
+            return $"Item {Id}. '{Name}': {{ QuantityOnHand: {QuantityOnHand}, Category: {Category}, Subcategory: {SubCategory}, Price: {Price}, Unit: {Unit}, ParLevel: {ParLevel}}}";
+        }
+
+        public static bool operator ==( InventoryItem lhs, InventoryItem rhs )
+        {
+            return (lhs.Name == rhs.Name) &&
+                (lhs.Unit == rhs.Unit) &&
+                (lhs.Price == rhs.Price) &&
+                (lhs.Category == rhs.Category) &&
+                (lhs.SubCategory == rhs.SubCategory) &&
+                (lhs.ParLevel == rhs.ParLevel) &&
+                (lhs.QuantityOnHand == rhs.QuantityOnHand) &&
+                (lhs.Id == rhs.Id);
+        }
+        public static bool operator !=(InventoryItem lhs, InventoryItem rhs)
+        {
+            return !(lhs == rhs);
+        }
+
+        public override bool Equals(object item)
+        {
+            return item is InventoryItem && this == item as InventoryItem;
+        }
     }
 
     public class ItemNotFoundException : Exception

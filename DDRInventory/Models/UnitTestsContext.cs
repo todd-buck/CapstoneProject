@@ -1,6 +1,8 @@
 ﻿using DDRInventory.Objects;
+using Microsoft.AspNetCore.Connections.Features;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Xml.Linq;
 
 namespace DDRInventory.Models
@@ -23,107 +25,115 @@ namespace DDRInventory.Models
         {
             using (HttpClient client = new HttpClient())
             {
-                string endPoint = "/item/location";
+                string endPoint = "/location/catalog";
                 string response = await client.GetStringAsync(BASE_URI + endPoint);
                 return JsonConvert.DeserializeObject<Location[]>(response);
             }
         }
 
-        public static async Task<bool> Test1_deleteAllItems()
+        public static async Task<UnitTestResult> Test1_deleteAllItems()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 1.1 'DELETE ALL ITEMS'...");
                 string endPoint = "/item/delete/all";
-                string response = await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
-                // then get catalog
-                Console.WriteLine("RUNNING UNIT TEST 1.2 'GET CATALOG'...");
+                await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
                 InventoryItem[] data = GetItemCatalog().GetAwaiter().GetResult();
                 if (data is not null && data.Length == 0)
                 {
-                    Console.WriteLine("\tUNIT TEST 1 'DELETE ALL ITEMS' PASSED");
-                    return true;
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "DELETE ALL ITEMS",
+                        TestNumber = 1
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 1 'DELETE ALL ITEMS' FAILED");
-                    Console.WriteLine("\tRESULT: NON-EMPTY LIST");
-                    Console.WriteLine("\tEXPECTED: []");
-                    return false;
+                    return new UnitTestResult()
+                    {
+                        Passed = false,
+                        TestName = "DELETE ALL ITEMS",
+                        TestNumber = 1,
+                        ExpectedValue = "An empty array of InventoryItem",
+                        ActualValue = string.Join(',', data.Select(item => item.ToString()))
+                    };
                 }
             }
         }
 
-        public static async Task<bool> Test2_deleteAllLocations()
+        public static async Task<UnitTestResult> Test2_deleteAllLocations()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 2.1 'DELETE ALL LOCATIONS'...");
                 string endPoint = "/location/delete/all";
-                string response = await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
-                // then get catalog
-                Console.WriteLine("RUNNING UNIT TEST 2.2 'GET CATALOG'...");
+                await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
                 InventoryItem[] data = GetItemCatalog().GetAwaiter().GetResult();
                 if (data is not null && data.Length == 0)
                 {
-                    Console.WriteLine("\tUNIT TEST 2 'DELETE ALL LOCATIONS' PASSED");
-                    return true;
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "DELETE ALL LOCATIONS",
+                        TestNumber = 2
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 2 'DELETE ALL LOCATIONS' FAILED");
-                    Console.WriteLine("\tRESULT: NON-EMPTY LIST");
-                    Console.WriteLine("\tEXPECTED: []");
-                    return false;
+                    return new UnitTestResult()
+                    {
+                        Passed = false,
+                        TestName = "DELETE ALL LOCATIONS",
+                        TestNumber = 2,
+                        ExpectedValue = "An empty array of Location",
+                        ActualValue = string.Join(',', data.Select(item => item.ToString()))
+                    };
                 }
             }
         }
 
-        public static async Task<bool> Test3_uploadCSV()
+        public static async Task<UnitTestResult> Test3_uploadCSV()
         {
-            Console.WriteLine("RUNNING UNIT TEST 3.1 'UPLOAD CSV'...");
             string endPoint = "/item/uploadCSV";
             using (HttpClient client = new HttpClient())
             {
-                using (var form = new MultipartFormDataContent())
+                using (MultipartFormDataContent form = new MultipartFormDataContent())
                 {
-                    using (var fileContent = new ByteArrayContent(File.ReadAllBytes(Directory.GetCurrentDirectory() + '\\' + "/Testing/TestItems.csv")))
+                    using (ByteArrayContent fileContent = new ByteArrayContent(File.ReadAllBytes(Directory.GetCurrentDirectory() + '\\' + "/Testing/TestItems.csv")))
                     {
                         fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
-
                         form.Add(fileContent, "file", "file.csv");
+                        await client.PostAsync(BASE_URI + endPoint, form);
 
-                        var csvResponse = await client.PostAsync(BASE_URI + endPoint, form);
-
-                        if (!csvResponse.IsSuccessStatusCode)
+                        InventoryItem[] data = GetItemCatalog().GetAwaiter().GetResult();
+                        if (data is not null && data.Length == 10)
                         {
-                            return false;
+                            return new UnitTestResult()
+                            {
+                                Passed = true,
+                                TestName = "UPLOAD CSV",
+                                TestNumber = 3
+                            };
+                        }
+                        else
+                        {
+                            return new UnitTestResult()
+                            {
+                                Passed = false,
+                                TestName = "UPLOAD CSV",
+                                TestNumber = 3,
+                                ExpectedValue = "An array of InventoryItem of length 10",
+                                ActualValue = string.Join(',', data.Select(item => item.ToString()))
+                            };
                         }
                     }
                 }
             }
-            // then get catalog
-            Console.WriteLine("RUNNING UNIT TEST 3.2 'GET CATALOG'...");
-            InventoryItem[] data = GetItemCatalog().GetAwaiter().GetResult();
-            if (data is not null && data.Length == 10)
-            {
-                Console.WriteLine("\tUNIT TEST 3 'UPLOAD CSV' PASSED");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("\tUNIT TEST 3 'UPLOAD CSV' FAILED");
-                Console.WriteLine("\tRESULT: LIST OF LENGTH != 10");
-                Console.WriteLine("\tEXPECTED: LIST OF LENGTH == 10");
-                return false;
-            }
         }
 
-        public static async Task<bool> Test4_addItem()
+        public static async Task<UnitTestResult> Test4_addItem()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 4.1 'ADDING ITEM'...");
                 InventoryItem item = new InventoryItem()
                 {
                     Name = "Michelob Ultra",
@@ -137,53 +147,85 @@ namespace DDRInventory.Models
                 };
                 string endPoint = "/item/add";
                 await client.PostAsJsonAsync(BASE_URI + endPoint, item).Result.Content.ReadAsStringAsync();
-                // then get catalog
-                Console.WriteLine("RUNNING UNIT TEST 4.2 'GET CATALOG'...");
                 InventoryItem[] data = GetItemCatalog().GetAwaiter().GetResult();
-                if (data is not null && data.Length == 11)
+                if (data.Contains(item))
                 {
-                    Console.WriteLine("\tUNIT TEST 4 'ADD ITEM' PASSED");
-                    return true;
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "ADD ITEM",
+                        TestNumber = 4
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 4 'ADD ITEM' FAILED");
-                    Console.WriteLine("\tRESULT: LIST OF LENGTH != 11");
-                    Console.WriteLine("\tEXPECTED: LIST OF LENGTH == 11");
-                    return false;
+                    return new UnitTestResult()
+                    {
+                        Passed = false,
+                        TestName = "ADD ITEM",
+                        TestNumber = 4,
+                        ExpectedValue = $"An array of InventoryItem containing {item.ToString()}",
+                        ActualValue = string.Join('\n', data.Select(item => item.ToString()))
+                    };
                 }
             }
         }
 
-        public static async Task<bool> Test5_getItem()
+        public static async Task<UnitTestResult> Test5_getItem()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 5.1 'GETTING ITEM'...");
                 string endPoint = "/item/20";
                 string response = await client.GetAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
-                // then get catalog
                 InventoryItem data = JsonConvert.DeserializeObject<InventoryItem>(response);
-                if (data.Name == "Michelob Ultra")
+                InventoryItem ev = new InventoryItem()
                 {
-                    Console.WriteLine("\tUNIT TEST 5 'GET ITEM' PASSED");
-                    return true;
+                    Name = "Michelob Ultra",
+                    QuantityOnHand = 20,
+                    Price = 300,
+                    Unit = "bottles",
+                    Category = "BEER",
+                    SubCategory = "DOMESTIC",
+                    ParLevel = 10,
+                    Id = "20"
+                };
+                if (data == ev)
+                {
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "GET ITEM",
+                        TestNumber = 5
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 5 'GET ITEM' FAILED");
-                    Console.WriteLine($"\tRESULT: {data.Name}");
-                    Console.WriteLine("\tEXPECTED: 'Michelob Ultra'");
-                    return false;
+                    return new UnitTestResult()
+                    {
+                        Passed = false,
+                        TestName = "GET ITEM",
+                        TestNumber = 5,
+                        ExpectedValue = new InventoryItem()
+                        {
+                            Name = "Michelob Ultra",
+                            QuantityOnHand = 20,
+                            Price = 300,
+                            Unit = "bottles",
+                            Category = "BEER",
+                            SubCategory = "DOMESTIC",
+                            ParLevel = 10,
+                            Id = "20"
+                        }.ToString(),
+                        ActualValue = data.ToString()
+                    };
                 }
             }
         }
 
-        public static async Task<bool> Test6_updateItem()
+        public static async Task<UnitTestResult> Test6_updateItem()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 6 'UPDATE ITEM'...");
                 InventoryItem item = new InventoryItem()
                 {
                     Name = "Miller Lite",
@@ -200,71 +242,110 @@ namespace DDRInventory.Models
                 bool data = JsonConvert.DeserializeObject<bool>(response);
                 if (data)
                 {
-                    Console.WriteLine("\tUNIT TEST 6 'UPDATE ITEM' PASSED");
-                    return true;
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "UPDATE ITEM",
+                        TestNumber = 6
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 6 'UPDATE ITEM' FAILED");
-                    Console.WriteLine($"\tRESULT: false");
-                    Console.WriteLine("\tEXPECTED: true");
-                    return false;
+                    return new UnitTestResult()
+                    {
+                        Passed = false,
+                        TestName = "UPDATE ITEM",
+                        TestNumber = 6,
+                        ExpectedValue = "true",
+                        ActualValue = data.ToString()
+                    };
                 }
             }
         }
 
-        public static async Task<bool> Test7_getItem()
+        public static async Task<UnitTestResult> Test7_getItem()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 7.1 'GETTING ITEM'...");
                 string endPoint = "/item/20";
                 string response = await client.GetAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
-                // then get catalog
                 InventoryItem data = JsonConvert.DeserializeObject<InventoryItem>(response);
-                if (data.Name == "Miller Lite")
+                InventoryItem ev = new InventoryItem()
                 {
-                    Console.WriteLine("\tUNIT TEST 7 'GET ITEM' PASSED");
-                    return true;
+                    Name = "Miller Lite",
+                    QuantityOnHand = 20,
+                    Price = 300,
+                    Unit = "bottles",
+                    Category = "BEER",
+                    SubCategory = "DOMESTIC",
+                    ParLevel = 10,
+                    Id = "20"
+                };
+                if (data == ev)
+                {
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "GET ITEM",
+                        TestNumber = 7
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 7 'GET ITEM' FAILED");
-                    Console.WriteLine($"\tRESULT: {data.Name}");
-                    Console.WriteLine("\tEXPECTED: 'Miller Lite'");
-                    return false;
+                    return new UnitTestResult()
+                    {
+                        Passed = false,
+                        TestName = "GET ITEM",
+                        TestNumber = 7,
+                        ExpectedValue = ev.ToString(),
+                        ActualValue = data.ToString()
+                    };
                 }
             }
         }
 
-        public static async Task<bool> Test8_deleteItem()
+        public static async Task<UnitTestResult> Test8_deleteItem()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 8.1 'DELETE ITEM'...");
-                string endPoint = "/item/delete/20";
-                string response = await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
-                // then get catalog
-                Console.WriteLine("RUNNING UNIT TEST 8.2 'GET CATALOG'...");
-                InventoryItem[] data = GetItemCatalog().GetAwaiter().GetResult();
-                if (data is not null && data.Length == 10)
+                InventoryItem item = new InventoryItem()
                 {
-                    Console.WriteLine("\tUNIT TEST 8 'DELETE ITEM' PASSED");
-                    return true;
+                    Name = "Miller Lite",
+                    QuantityOnHand = 20,
+                    Price = 300,
+                    Unit = "bottles",
+                    Category = "BEER",
+                    SubCategory = "DOMESTIC",
+                    ParLevel = 10,
+                    Id = "20"
+                };
+                string endPoint = "/item/delete/20";
+                await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
+                InventoryItem[] data = GetItemCatalog().GetAwaiter().GetResult();
+                if (!data.Contains(item))
+                {
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "DELETE ITEM",
+                        TestNumber = 8
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 8 'DELETE ITEM' FAILED");
-                    Console.WriteLine("\tRESULT: LIST OF LENGTH != 10");
-                    Console.WriteLine("\tEXPECTED: LIST OF LENGTH == 10");
-                    return false;
+                    return new UnitTestResult()
+                    {
+                        Passed = false,
+                        TestName = "DELETE ITEM",
+                        TestNumber = 8,
+                        ExpectedValue = "An array of InventoryItem that does not contain \"Miller Lite\"",
+                        ActualValue = string.Join('\n', data.Select(item => item.ToString()))
+                    };
                 }
             }
         }
 
-
-
-        public static async Task<bool> Test9_getSchema()
+        public static async Task<UnitTestResult> Test9_getSchema()
         {
             using (HttpClient client = new HttpClient())
             {
@@ -275,231 +356,211 @@ namespace DDRInventory.Models
                 string[]? data = JsonConvert.DeserializeObject<string[]>(response);
                 if (string.Join(", ", data) == string.Join(", ", control))
                 {
-                    Console.WriteLine("\tUNIT TEST 9 'GET SCHEMA' PASSED");
-                    return true;
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "GET ITEM SCHEMA",
+                        TestNumber = 9
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 9 'GET SCHEMA' FAILED");
-                    Console.WriteLine($"\tUNIT TEST 9: RESULT: {"\"" + string.Join(", ", data) + "\""}");
-                    Console.WriteLine($"\tUNIT TEST 9: EXPECTED: {"\"" + string.Join(", ", control) + "\""}");
-                    return false;
+                    return new UnitTestResult()
+                    {
+                        Passed = false,
+                        TestName = "GET ITEM SCHEMA",
+                        TestNumber = 9,
+                        ExpectedValue = string.Join(", ", control),
+                        ActualValue = string.Join(", ", data)
+                    };
                 }
             }
         }
 
-        public static async Task<bool> Test10_addLocation()
+        public static async Task<UnitTestResult> Test10_addLocation()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 10.1 'ADD LOCATION'...");
                 string name = "Freezer";
                 string endPoint = $"/location/add/{name}";
-                string response = await client.PostAsJsonAsync(BASE_URI + endPoint, new object()).GetAwaiter().GetResult().Content.ReadAsStringAsync();
-                bool data = JsonConvert.DeserializeObject<bool>(response);
-                if (data)
-                {
-                    Console.WriteLine("\tUNIT TEST 10.1 'ADD ITEM LOCATION' PASSED");
-                }
-                else
-                {
-                    Console.WriteLine("\tUNIT TEST 10.1 'ADD LOCATION' FAILED");
-                    Console.WriteLine($"\tRESULT: '{data}'");
-                    Console.WriteLine($"\tEXPECTED: '1'");
-                    return false;
-                }
-                Console.WriteLine("RUNNING UNIT TEST 10.2 'LOCATION CATALOG'...");
+                await client.PostAsJsonAsync(BASE_URI + endPoint, new object()).GetAwaiter().GetResult().Content.ReadAsStringAsync();
                 Location[] data2 = GetLocationCatalog().GetAwaiter().GetResult();
-                if (data2 is not null && data2.Length == 1)
+                if (data2.Select(location => location.Name).Contains(name))
                 {
-                    Console.WriteLine("\tUNIT TEST 10.2 'LOCATION CATALOG' PASSED");
-                    return true;
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "ADD LOCATION",
+                        TestNumber = 10
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 10.2 'LOCATION CATALOG' FAILED");
-                    if (data2 is null)
+                    return new UnitTestResult()
                     {
-                        Console.WriteLine("\tRESULT: A null array");
-                    }
-                    else if (data2.Length == 0)
-                    {
-                        Console.WriteLine($"\tRESULT: An array of Location object of length 0");
-                    }
-                    else
-                    {
-                        Console.WriteLine("\tRESULT: A non-one-length array of Location objects.");
-                    }
-                    Console.WriteLine("\tEXPECTED: An array of Location objects of length 1.");
-                    return false;
+                        Passed = false,
+                        TestName = "ADD LOCATION",
+                        TestNumber = 10,
+                        ExpectedValue = "An array of locations containing \"Freezer\"",
+                        ActualValue = string.Join("\n", data2.Select(location => location.ToString()))
+                    };
                 }
             }
         }
-        public static async Task<bool> Test11_getLocationName()
+        public static async Task<UnitTestResult> Test11_getLocationName()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 11 'GET LOCATION NAME'...");
                 string endPoint = "/location/getName/1";
                 string response = await client.GetStringAsync(BASE_URI + endPoint);
                 string data = response;
                 if (data == "Freezer")
                 {
-                    Console.WriteLine("\tUNIT TEST 11 'GET LOCATION NAME' PASSED");
-                    return true;
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "GET LOCATION NAME",
+                        TestNumber = 11
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 11 'GET LOCATION NAME' FAILED");
-                    Console.WriteLine($"\tRESULT: {data}");
-                    Console.WriteLine("\tEXPECTED: 'Freezer'");
-                    return false;
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "GET LOCATION NAME",
+                        TestNumber = 11,
+                        ExpectedValue = "Freezer",
+                        ActualValue = data
+                    };
                 }
             }
         }
-        public static async Task<bool> Test12_addLocation()
+        public static async Task<UnitTestResult> Test12_addLocation()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 12 'ADD LOCATION'...");
                 string name = "Shelf";
                 string endPoint = $"/location/add/{name}";
-                string response = await client.PostAsJsonAsync(BASE_URI + endPoint, new object()).GetAwaiter().GetResult().Content.ReadAsStringAsync();
-                bool data = JsonConvert.DeserializeObject<bool>(response);
-                if (data)
+                await client.PostAsJsonAsync(BASE_URI + endPoint, new object()).GetAwaiter().GetResult().Content.ReadAsStringAsync();
+                Location[] data = GetLocationCatalog().GetAwaiter().GetResult();
+                if (data.Select(location => location.Name).Contains(name))
                 {
-                    Console.WriteLine("\tUNIT TEST 12 'ADD LOCATION' PASSED");
-                    return true;
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "ADD LOCATION",
+                        TestNumber = 12
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 12 'ADD LOCATION' FAILED");
-                    Console.WriteLine($"\tRESULT: '{data}'");
-                    Console.WriteLine($"\tEXPECTED: '2'");
-                    return false;
+                    return new UnitTestResult()
+                    {
+                        Passed = false,
+                        TestName = "ADD LOCATION",
+                        TestNumber = 12,
+                        ExpectedValue = "An array of Locations that contains \"Shelf\"",
+                        ActualValue = string.Join('\n', data.Select(location => location.ToString()))
+                    };
                 }
             }
         }
-        public static async Task<bool> Test13_deleteLocation()
+
+        public static async Task<UnitTestResult> Test13_deleteLocation()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 13.1 'DELETE LOCATION'...");
-                string endPoint = "/location/delete/2";
-                string response = await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
-                bool? data = JsonConvert.DeserializeObject<bool>(response);
-                if (data is not null && data.GetValueOrDefault(false))
+                string name = "Shelf";
+                string endPoint = $"/location/delete/2";
+                await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
+                Location[] data = GetLocationCatalog().GetAwaiter().GetResult();
+                if (!data.Select(location => location.Name).Contains(name))
                 {
-                    Console.WriteLine("\tUNIT TEST 13.1 'DELETE LOCATION' PASSED");
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "DELETE LOCATION",
+                        TestNumber = 13
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 13.1 'DELETE LOCATION' FAILED");
-                    Console.WriteLine($"\tRESULT: '{data}'");
-                    Console.WriteLine($"\tEXPECTED: 'true'");
-                    return false;
-                }
-                Console.WriteLine("RUNNING UNIT TEST 13.2 'LOCATION CATALOG'...");
-                Location[] data2 = GetLocationCatalog().GetAwaiter().GetResult();
-                if (data2 is not null && data2.Length == 1)
-                {
-                    Console.WriteLine("\tUNIT TEST 13.2 'LOCATION CATALOG' PASSED");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine("\tUNIT TEST 13.2 'LOCATION CATALOG' FAILED");
-                    if (data2 is null)
+                    return new UnitTestResult()
                     {
-                        Console.WriteLine("\tRESULT: A null array");
-                    }
-                    else if (data2.Length == 0)
-                    {
-                        Console.WriteLine($"\tRESULT: An array of Location object of length 0");
-                    }
-                    else
-                    {
-                        Console.WriteLine("\tRESULT: A non-one-length array of Location objects.");
-                    }
-                    Console.WriteLine("\tEXPECTED: An array of Location objects of length 1.");
-                    return false;
+                        Passed = false,
+                        TestName = "DELETE LOCATION",
+                        TestNumber = 13,
+                        ExpectedValue = "An array of Locations that does not contain \"Shelf\"",
+                        ActualValue = string.Join('\n', data.Select(location => location.ToString()))
+                    };
                 }
             }
         }
-        public static async Task<bool> Test14_deleteAllLocations()
+
+        public static async Task<UnitTestResult> Test14_deleteAllLocations()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 14.1 'DELETE ALL LOCATIONS'...");
                 string endPoint = "/location/delete/all";
-                string response = await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
-                bool data = JsonConvert.DeserializeObject<bool>(response);
-                if (data)
+                await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
+                Location[] data = GetLocationCatalog().GetAwaiter().GetResult();
+                if (data.Length == 0)
                 {
-                    Console.WriteLine("\tUNIT TEST 14.1 'DELETE ALL LOCATIONS' PASSED");
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "DELETE ALL LOCATIONS",
+                        TestNumber = 14
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 14.1 'DELETE ALL LOCATIONS' FAILED");
-                    Console.WriteLine($"\tRESULT: '{data}'");
-                    Console.WriteLine($"\tEXPECTED: 'true'");
-                    return false;
-                }
-                Console.WriteLine("RUNNING UNIT TEST 14.2 'LOCATION CATALOG'...");
-                Location[] data2 = GetLocationCatalog().GetAwaiter().GetResult();
-                if (data2 is not null && data2.Length == 0)
-                {
-                    Console.WriteLine("\tUNIT TEST 14.2 'LOCATION CATALOG' PASSED");
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine("\tUNIT TEST 14.2 'LOCATION CATALOG' FAILED");
-                    if (data2 is null)
+                    return new UnitTestResult()
                     {
-                        Console.WriteLine("\tRESULT: A null array");
-                    }
-                    else if (data2.Length == 0)
-                    {
-                        Console.WriteLine($"\tRESULT: An array of Location object of length 0");
-                    }
-                    else
-                    {
-                        Console.WriteLine("\tRESULT: A non-one-length array of Location objects.");
-                    }
-                    Console.WriteLine("\tEXPECTED: An array of Location objects of length 1.");
-                    return false;
+                        Passed = false,
+                        TestName = "DELETE ALL LOCATIONS",
+                        TestNumber = 14,
+                        ExpectedValue = "An array of Locations of Legnth 0",
+                        ActualValue = string.Join('\n', data.Select(location => location.ToString()))
+                    };
                 }
             }
         }
-        public static async Task<bool> Test15_addLocation()
+        public static async Task<UnitTestResult> Test15_addLocation()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 15 'ADD LOCATION'...");
                 string name = "Freezer";
                 string endPoint = $"/location/add/{name}";
-                string response = await client.PostAsJsonAsync(BASE_URI + endPoint, new object()).GetAwaiter().GetResult().Content.ReadAsStringAsync();
-                bool data = JsonConvert.DeserializeObject<bool>(response);
-                if (data)
+                await client.PostAsJsonAsync(BASE_URI + endPoint, new object()).GetAwaiter().GetResult().Content.ReadAsStringAsync();
+                Location[] data = GetLocationCatalog().GetAwaiter().GetResult();
+                if (data.Select(location => location.Name).Contains(name))
                 {
-                    Console.WriteLine("\tUNIT TEST 15 'ADD ITEM LOCATION' PASSED");
-                    return true;
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "ADD LOCATION",
+                        TestNumber = 15
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 15 'ADD LOCATION' FAILED");
-                    Console.WriteLine($"\tRESULT: '{data}'");
-                    Console.WriteLine($"\tEXPECTED: '1'");
-                    return false;
+                    return new UnitTestResult()
+                    {
+                        Passed = false,
+                        TestName = "ADD LOCATION",
+                        TestNumber = 15,
+                        ExpectedValue = "An array of Locations that contains \"Freezer\"",
+                        ActualValue = string.Join('\n', data.Select(location => location.ToString()))
+                    };
                 }
             }
         }
-        public static async Task<bool> Test16_addPutawayEntry()
+        public static async Task<UnitTestResult> Test16_addPutawayEntry()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 16.1 'ADD PUTAWAY ENTRY'...");
                 PutawayEntry entry = new PutawayEntry()
                 {
                     ItemId = "5",
@@ -508,100 +569,98 @@ namespace DDRInventory.Models
                     QuantityInLocation = 10
                 };
                 string endPoint = "/putaway/add";
-                string response = await client.PostAsJsonAsync(BASE_URI + endPoint, entry).GetAwaiter().GetResult().Content.ReadAsStringAsync();
-                bool data = JsonConvert.DeserializeObject<bool>(response);
-                if (data)
-                {
-                    Console.WriteLine("\tUNIT TEST 16.1 'ADD PUTAWAY ENTRY' PASSED");
-                }
-                else
-                {
-                    Console.WriteLine("\tUNIT TEST 16.1 'ADD PUTAWAY ENTRY' FAILED");
-                    Console.WriteLine($"\tRESULT: '{data}'");
-                    Console.WriteLine($"\tEXPECTED: 'true'");
-                    return false;
-                }
-                Console.WriteLine("RUNNING UNIT TEST 16.2 'PUTAWAY ENTRIES BY ITEM'...");
+                await client.PostAsJsonAsync(BASE_URI + endPoint, entry).GetAwaiter().GetResult().Content.ReadAsStringAsync();
                 endPoint = "/putaway/item/5";
-                response = await client.GetStringAsync(BASE_URI + endPoint);
-                PutawayEntry[]? data2 = JsonConvert.DeserializeObject<PutawayEntry[]>(response);
-                if (data2 is not null && data2.Length == 1)
+                string response = await client.GetStringAsync(BASE_URI + endPoint);
+                PutawayEntry[]? data = JsonConvert.DeserializeObject<PutawayEntry[]>(response);
+                if (data.Contains(entry))
                 {
-                    if (data2[0].ItemId == entry.ItemId && data2[0].LocationId == entry.LocationId && data2[0].LocationName == entry.LocationName && data2[0].QuantityInLocation == entry.QuantityInLocation)
+                    return new UnitTestResult()
                     {
-                        Console.WriteLine("\tUNIT TEST 16.2 'PUTAWAY ENTRIES BY ITEM ID' PASSED");
-                        return true;
-                    }
-                    return false;
+                        Passed = true,
+                        TestName = "ADD PUTAWAY ENTRY",
+                        TestNumber = 16
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 16.2 'PUTAWAY ENTRIES BY ITEM ID' FAILED");
-                    if (data2 is null)
+                    return new UnitTestResult()
                     {
-                        Console.WriteLine("\tRESULT: A null array");
-                    }
-                    else if (data2.Length == 0)
-                    {
-                        Console.WriteLine($"\tRESULT: An array of PutawayEntry object of length 0");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"\tRESULT SET [0]: Item Id:{data2[0].ItemId}, Location Id:{data2[0].LocationId}, Location Name:{data2[0].LocationName}, Quantity:{data2[0].QuantityInLocation}");
-                    }
-                    Console.WriteLine("\tEXPECTED: An array of PutawayEntry objects of length 1. Item zero must be");
-                    Console.WriteLine($"Item Id:{entry.ItemId}, Location Id:{entry.LocationId}, Location Name:{entry.LocationName}, Quantity: {entry.QuantityInLocation}");
-                    return false;
+                        Passed = false,
+                        TestName = "ADD PUTAWAY ENTRY",
+                        TestNumber = 16,
+                        ExpectedValue = $"An array of PutawayEntries that contains {entry.ToString()}",
+                        ActualValue = string.Join('\n', data.Select(e => e.ToString()))
+                    };
+
                 }
             }
         }
-        public static async Task<bool> Test17_updatePutawayEntry()
+        public static async Task<UnitTestResult> Test17_updatePutawayEntry()
         {
             using (HttpClient client = new HttpClient())
             {
-                Console.WriteLine("RUNNING UNIT TEST 17 'UPDATE PUTAWAY ENTRY'...");
-                PutawayEntry entry = new PutawayEntry()
+                PutawayEntry updatedEntry = new PutawayEntry()
                 {
                     ItemId = "5",
                     LocationId = 1,
                     LocationName = "Freezer",
-                    QuantityInLocation = 20
+                    QuantityInLocation = 20 //quantity was changed to 20
                 };
                 string endPoint = "/putaway/update";
-                string response = await client.PutAsJsonAsync(BASE_URI + endPoint, entry).GetAwaiter().GetResult().Content.ReadAsStringAsync();
-                bool data = JsonConvert.DeserializeObject<bool>(response);
-                if (data)
+                await client.PutAsJsonAsync(BASE_URI + endPoint, updatedEntry).GetAwaiter().GetResult().Content.ReadAsStringAsync();
+                endPoint = "/putaway/item/5";
+                string response = await client.GetStringAsync(BASE_URI + endPoint);
+                PutawayEntry[]? data = JsonConvert.DeserializeObject<PutawayEntry[]>(response);
+                if (data.Contains(updatedEntry))
                 {
-                    Console.WriteLine("\tUNIT TEST 17 'UPDATE PUTAWAY ENTRY' PASSED");
-                    return true;
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "UPDATE PUTAWAY ENTRY",
+                        TestNumber = 17
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 17 'UPDATE PUTAWAY ENTRY' FAILED");
-                    Console.WriteLine($"\tRESULT: '{data}'");
-                    Console.WriteLine($"\tEXPECTED: 'true'");
-                    return false;
+                    return new UnitTestResult()
+                    {
+                        Passed = false,
+                        TestName = "UPDATE PUTAWAY ENTRY",
+                        TestNumber = 17,
+                        ExpectedValue = $"An array of PutawayEntries that contains {updatedEntry.ToString()}",
+                        ActualValue = string.Join('\n', data.Select(e => e.ToString()))
+                    };
+
                 }
             }
         }
-        public static async Task<bool> Test18_getEntriesByLocation()
+        public static async Task<UnitTestResult> Test18_getEntriesByLocation()
         {
             using (HttpClient client = new HttpClient())
             {
                 string endPoint = "/putaway/location/1";
                 string response = await client.GetStringAsync(BASE_URI + endPoint);
                 PutawayEntry[]? data = JsonConvert.DeserializeObject<PutawayEntry[]?>(response);
-                if (data is not null && data.Length == 1 && data[0].LocationName == "Freezer" && data[0].ItemId == "5")
+                if (data.Select(pe => pe.LocationName).Contains("Freezer"))
                 {
-                    Console.WriteLine("\tUNIT TEST 18 'PUTAWAY ENTRIES BY LOCATION' PASSED");
-                    return true;
+                    return new UnitTestResult()
+                    {
+                        Passed = true,
+                        TestName = "GET PUTAWAY BY LOCATION",
+                        TestNumber = 18
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("\tUNIT TEST 18 'PUTAWAY ENTRIES BY LOCATION FAILED");
-                    Console.WriteLine($"\tRESULT: '{response}'");
-                    Console.WriteLine($"\tEXPECTED: 'true'");
-                    return false;
+                    return new UnitTestResult()
+                    {
+                        Passed = false,
+                        TestName = "GET PUTAWAY BY LOCATION",
+                        TestNumber = 18,
+                        ExpectedValue = $"An array of PutawayEntries with 1 item that is in location \"Freeezer\"",
+                        ActualValue = string.Join('\n', data.Select(e => e.ToString()))
+                    };
                 }
             }
         }

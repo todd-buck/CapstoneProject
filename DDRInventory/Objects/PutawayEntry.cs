@@ -1,4 +1,6 @@
-﻿namespace DDRInventory.Objects
+﻿using System.Xml.Linq;
+
+namespace DDRInventory.Objects
 {
     public class PutawayEntry
     {
@@ -6,7 +8,29 @@
             public int LocationId { get; set; }
             public string LocationName { get; set; }
             public int QuantityInLocation { get; set; }
+        public override string ToString()
+        {
+            if (this is null) return "Null PutawayEntry";
+            return $"Putaway Entry {{ Location: {LocationId}, Item: {ItemId}, Quantity: {QuantityInLocation} }}";
+        }
+        public static bool operator ==(PutawayEntry lhs, PutawayEntry rhs)
+        {
+            return (lhs.ItemId == rhs.ItemId) &&
+                (lhs.LocationId == rhs.LocationId) &&
+                (lhs.LocationName == rhs.LocationName) &&
+                (lhs.QuantityInLocation == rhs.QuantityInLocation);
+        }
+        public static bool operator !=(PutawayEntry lhs, PutawayEntry rhs)
+        {
+            return !(lhs == rhs);
+        }
+
+        public override bool Equals(object entry)
+        {
+            return entry is PutawayEntry && this == entry as PutawayEntry;
+        }
     }
+
     public class PutawayEntryNotFoundException : Exception
     {
         public string ItemId { get; }

@@ -23,6 +23,27 @@ namespace DDRInventory.Objects
                 }
             }
         }
+        public override string ToString()
+        {
+            if (this is null) return "Null Location";
+            return $"Location {Id}. '{Name}'";
+        }
+
+        public static bool operator ==(Location lhs, Location rhs)
+        {
+            return (lhs.Name == rhs.Name) &&
+                (lhs.Id == rhs.Id);
+        }
+
+        public static bool operator !=(Location lhs, Location rhs)
+        {
+            return !(lhs == rhs);
+        }
+
+        public override bool Equals(object location)
+        {
+            return location is Location && this == location as Location;
+        }
     }
 
     public class LocationNotFoundException : Exception

@@ -189,6 +189,30 @@ namespace DDRInventory.Models
             }
         }
 
+        public static async Task<bool> Test7_getItem()
+        {
+            Console.WriteLine("RUNNING UNIT TEST 7.1 'GETTING ITEM'...");
+            string endPoint = "/item/20";
+            HttpClient client = new HttpClient();
+            string response = await client.GetAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
+            // then get catalog
+            InventoryItem data = JsonConvert.DeserializeObject<InventoryItem>(response);
+            if (data.Name == "Miller Lite")
+            {
+                Console.WriteLine("\tUNIT TEST 7 'GET ITEM' PASSED");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("\tUNIT TEST 7 'GET ITEM' FAILED");
+                Console.WriteLine($"\tRESULT: {data.Name}");
+                Console.WriteLine("\tEXPECTED: 'Miller Lite'");
+                return false;
+            }
+        }
+
+
+
         public static async Task<bool> Test9_getSchema()
         {
             string[] control = { "Id", "Name", "QuantityOnHand", "Price", "Unit", "Category", "SubCategory", "ParLevel" };

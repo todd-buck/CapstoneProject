@@ -18,7 +18,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
     const [activeItem, setActiveItem] = useState(null);
     const [options, setOptions] = useState([])
     const [putawayTableData, setPutawayTableData] = useState([])
-    
+
 
     //Gets items for dropdown search bar
     useEffect(() => {
@@ -30,9 +30,9 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
 
     useEffect(() => {
         if (activeItem != null) {
-        fetch("https://localhost:7105/api/putaway/item/" + activeItem.substring(0, activeItem.indexOf(' ')))
-            .then((response) => response.json())
-            .then((object) => setPutawayTableData(object))
+            fetch("https://localhost:7105/api/putaway/item/" + activeItem.substring(0, activeItem.indexOf(' ')))
+                .then((response) => response.json())
+                .then((object) => setPutawayTableData(object))
         }
     }, [activeItem]);
 
@@ -82,11 +82,11 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
                 height: "100vh",
                 justifyContent: "center",
                 alignItems: "center",
-                }}
+            }}
         >
-            <Box sx={{ position: "relative", backgroundColor: "white", p: 3, minHeight: "60vh", minWidth: "40vw"}}>
-                { /*Search Bar*/ }
-                <Box sx={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", pb: 3, borderBottom: 1}}>
+            <Box sx={{ position: "relative", backgroundColor: "white", p: 3, minHeight: "60vh", minWidth: "40vw" }}>
+                { /*Search Bar*/}
+                <Box sx={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", pb: 3, borderBottom: 1 }}>
                     <Autocomplete
                         sx={{ width: "40%" }}
                         autoComplete
@@ -100,7 +100,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
                     />
                 </Box>
 
-                { /*Item Information */ }
+                { /*Item Information */}
                 {activeItem && <Box sx={{ py: 2 }}>
                     <Typography variant="h2">
                         {getTableItem(activeItem).name}
@@ -110,7 +110,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
                     </Typography>
                 </Box>}
 
-                { /*Table*/ }
+                { /*Table*/}
                 {activeItem && putawayTableData != [] && <Box>
                     <MaterialReactTable
                         columns={columns}
@@ -119,7 +119,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
                         //Options
                         enableStickyHeader
                         enableRowActions
-                        
+
                         enableColumnActions={false}
                         enableBottomToolbar={false}
                         positionActionsColumn="last"
@@ -131,10 +131,10 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
                                 <Tooltip arrow title="Add New Product">
                                     <Button
                                         style={{ backgroundColor: colors.addAccent[500] }}
-                                        onClick={() => {}}
+                                        onClick={() => { console.log("implement functionality to pre-fill item ID, dropdown (all locations), and field for quantity change (in modal, submit calls api/putaway/add)")}}
                                         variant="contained"
                                     >
-                                        + New Product
+                                        + New Location
                                     </Button>
                                 </Tooltip>
                             </div>
@@ -144,14 +144,14 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
                         renderRowActions={({ row }) => (
                             <Box sx={{ display: 'flex' }} >
                                 <IconButton
-                                    onClick={() => console.log("Add: find a way to open nested modal and pass row to the component")}
+                                    onClick={() => console.log("Add: find a way to open nested modal and pass row " + row.getValue('locationName') + " to the component")}
                                     sx={{ color: colors.addAccent[500] }}
                                     variant="contained"
                                 >
                                     <Add />
                                 </IconButton>
                                 <IconButton
-                                    onClick={() => console.log("Remove: find a way to open nested modal and pass row to the component")}
+                                    onClick={() => console.log("Remove: find a way to open nested modal and pass row " + row.getValue('locationName') + " to the component")}
                                     sx={{ color: colors.removeAccent[500] }}
                                     variant="contained"
                                 >
@@ -174,7 +174,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
                     <Button
                         onClick={() => {
                             console.log("Submitted " + activeItem)
-                            
+
                         }}
                         sx={{ p: 1, mb: 1, mx: 1 }}
                         variant="contained"

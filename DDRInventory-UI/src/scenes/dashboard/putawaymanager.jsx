@@ -8,12 +8,12 @@ import { Select, MenuItem } from '@mui/material';
 import { Box } from '../../../node_modules/@mui/material/index';
 import { Button } from '@mui/material';
 import UpdatePutawayItemComponent from "./updateputawayitem.jsx";
+import UpdatePutawayLocationComponent from "./updateputawaylocation.jsx";
 
 const PutAwayManagerComponent = ({ scheme, setScheme }) => {
     const [updatePutawayItemComponentVisibility, setUpdatePutawayItemComponentVisibility] = useState(false);
-
-
-    const AddByItem = () => {
+    const [updatePutawayLocationComponentVisibility, setUpdatePutawayLocationComponentVisibility] = useState(false);
+/*    const AddByItem = () => {
         const [showAddByItemSearchbar, setShowByItemSearchBar] = useState(null);
         return (
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
@@ -36,7 +36,6 @@ const PutAwayManagerComponent = ({ scheme, setScheme }) => {
             </Box>
         );
     }
-
     const RemoveByItem = () => {
         const [showRemoveByItemSearchbar, setShowByItemSearchBar] = useState(false);
         return (
@@ -60,7 +59,6 @@ const PutAwayManagerComponent = ({ scheme, setScheme }) => {
             </Box>
         );
     }
-
     const AddByLocation = () => {
         const [showAddByLocationSearchbar, setShowByLocationSearchBar] = useState(false);
         return (
@@ -84,7 +82,6 @@ const PutAwayManagerComponent = ({ scheme, setScheme }) => {
             </Box>
         );
     }
-
     const RemoveByLocation = () => {
         const [showRemoveByLocationSearchbar, setShowByLocationSearchBar] = useState(false);
         return (
@@ -110,25 +107,17 @@ const PutAwayManagerComponent = ({ scheme, setScheme }) => {
             </Box>
         );
     }
-
+*/
     return (
         <Box>
             {updatePutawayItemComponentVisibility ? (<UpdatePutawayItemComponent updatePutawayItemComponentVisibility={updatePutawayItemComponentVisibility} setUpdatePutawayItemComponentVisibility={setUpdatePutawayItemComponentVisibility} />) : null}
+            {updatePutawayLocationComponentVisibility ? (<UpdatePutawayLocationComponent updatePutawayLocationComponentVisibility={updatePutawayLocationComponentVisibility} setUpdatePutawayLocationComponentVisibility={setUpdatePutawayLocationComponentVisibility} />) : null}
 
             <Typography variant="h1" sx={{p:2}}>
                 Put Away Manager
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', juatifyContent: 'flex-start', alignItems: 'flex-start' }}>
 
-                <AddByItem />
-
-                <RemoveByItem />
-
-                <AddByLocation />
-
-                <RemoveByLocation />
-
-                
                 <Button
                     onClick={() => {
                         setUpdatePutawayItemComponentVisibility(true)
@@ -136,7 +125,17 @@ const PutAwayManagerComponent = ({ scheme, setScheme }) => {
                     sx={{ p: 1, mb: 1, mx: 1 }}
                     variant="contained"
                 >
-                    Modal Test
+                    Find By Item
+                </Button>
+
+                <Button
+                    onClick={() => {
+                        setUpdatePutawayLocationComponentVisibility(true)
+                    }}
+                    sx={{ p: 1, mb: 1, mx: 1 }}
+                    variant="contained"
+                >
+                    Find By Location
                 </Button>
             </Box>
         </Box>

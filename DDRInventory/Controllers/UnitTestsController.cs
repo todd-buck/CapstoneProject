@@ -10,10 +10,26 @@ namespace DDRInventory.Controllers
         [HttpGet("run")]
         public async Task<string> run()
         {
-            int i = 9;
+            int i = 1;
             List<bool> results = new List<bool>();
-            LocationContext.DeleteAll();
             PutawayEntryContext.DeleteAll();
+            results.Add(await UnitTestsContext.Test1_deleteAllItems());
+            Console.WriteLine($"Test {i++} done.");
+            results.Add(await UnitTestsContext.Test2_deleteAllLocations());
+            Console.WriteLine($"Test {i++} done.");
+            results.Add(await UnitTestsContext.Test3_uploadCSV());
+            Console.WriteLine($"Test {i++} done.");
+            results.Add(await UnitTestsContext.Test4_addItem());
+            Console.WriteLine($"Test {i++} done.");
+            results.Add(await UnitTestsContext.Test5_getItem());
+            Console.WriteLine($"Test {i++} done.");
+            results.Add(await UnitTestsContext.Test6_updateItem());
+            Console.WriteLine($"Test {i++} done.");
+            results.Add(await UnitTestsContext.Test7_getItem());
+            Console.WriteLine($"Test {i++} done.");
+            results.Add(await UnitTestsContext.Test8_deleteItem());
+            Console.WriteLine($"Test {i++} done.");
+            return "HALTED EARLY";
             results.Add(await UnitTestsContext.Test9_getSchema());
             Console.WriteLine($"Test {i++} done.");
             results.Add(await UnitTestsContext.Test10_addLocation());
@@ -34,7 +50,8 @@ namespace DDRInventory.Controllers
             Console.WriteLine($"Test {i++} done.");
             results.Add(await UnitTestsContext.Test18_getEntriesByLocation());
             Console.WriteLine($"Test {i++} done.");
-            results.TrueForAll(item => item);
+            if (results.TrueForAll(item => item))
+                Console.WriteLine("ALL TESTS PASSED");
             return "PLEASE DO NOT FORGET TO ROLL BACK ANY CATALOG CHANGES IN YOUR GIT STAGING BEFORE COMMITING";
         }
     }

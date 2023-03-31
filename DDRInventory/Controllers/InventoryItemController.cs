@@ -124,7 +124,6 @@ namespace DDRInventory.Controllers
             try
             {
                 InventoryItem[] returnValue = InventoryItemContext.GetAllItems().ToArray();
-                if (returnValue.Length == 0) Response.StatusCode = 204; //if the list is empty throw http 204
                 return returnValue;
             }
             catch (SQLiteException e)

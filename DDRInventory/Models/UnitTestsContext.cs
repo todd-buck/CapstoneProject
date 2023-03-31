@@ -1,5 +1,6 @@
 ﻿using DDRInventory.Objects;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Xml.Linq;
 
 namespace DDRInventory.Models
@@ -60,28 +61,81 @@ namespace DDRInventory.Models
 
         public static async Task<bool> Test3_uploadCSV()
         {
-            Console.WriteLine("RUNNING UNIT TEST 3.1 ''...");
-            string endPoint = "/location/delete/all";
+            Console.WriteLine("RUNNING UNIT TEST 3.1 'UPLOAD CSV'...");
+            string endPoint = "/item/uploadCSV";
             HttpClient client = new HttpClient();
-            string response = await client.DeleteAsync(BASE_URI + endPoint).Result.Content.ReadAsStringAsync();
-            // then get catalog
-            Console.WriteLine("RUNNING UNIT TEST 2.2 'GET CATALOG'...");
-            endPoint = "/location/catalog";
-            response = await client.GetStringAsync(BASE_URI + endPoint);
-            InventoryItem[]? data = JsonConvert.DeserializeObject<InventoryItem[]>(response);
-            if (data is not null && data.Length == 0)
+            using (var form = new MultipartFormDataContent())
             {
-                Console.WriteLine("\tUNIT TEST 2 'DELETE ALL LOCATIONS' PASSED");
+                using (var fileContent = new ByteArrayContent(File.ReadAllBytes(Directory.GetCurrentDirectory() + '\\' + "/Testing/TestItems.csv")))
+                {
+                    fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
+
+                    form.Add(fileContent, "file", "file.csv");
+
+                    var csvResponse = await client.PostAsync(BASE_URI + endPoint, form);
+
+                    if (!csvResponse.IsSuccessStatusCode)
+                    {
+                        return false;
+                    }
+                }
+            }
+            // then get catalog
+            Console.WriteLine("RUNNING UNIT TEST 3.2 'GET CATALOG'...");
+            endPoint = "/item/catalog";
+            string response = await client.GetStringAsync(BASE_URI + endPoint);
+            InventoryItem[]? data = JsonConvert.DeserializeObject<InventoryItem[]>(response);
+            if (data is not null && data.Length == 10)
+            {
+                Console.WriteLine("\tUNIT TEST 3 'UPLOAD CSV' PASSED");
                 return true;
             }
             else
             {
-                Console.WriteLine("\tUNIT TEST 2 'DELETE ALL LOCATIONS' FAILED");
+                Console.WriteLine("\tUNIT TEST 3 'UPLOAD CSV' FAILED");
+                Console.WriteLine("\tRESULT: LIST OF LENGTH != 10");
+                Console.WriteLine("\tEXPECTED: LIST OF LENGTH == 10");
+                return false;
+            }
+        }
+
+        public static async Task<bool> Test4_addItem()
+        {
+            Console.WriteLine("RUNNING UNIT TEST 4.1 'ADDING ITEM'...");
+            InventoryItem item = new InventoryItem()
+            {
+                Name = "Michelob Ultra",
+                QuantityOnHand = 20,
+                Price = 300,
+                Unit = "bottles",
+                Category = "BEER",
+                SubCategory = "DOMESTIC",
+                ParLevel = 10,
+                Id = "1"
+            };
+            string endPoint = "/item/add";
+            HttpClient client = new HttpClient();
+            string response = await client.PostAsJsonAsync(BASE_URI + endPoint, item).Result.Content.ReadAsStringAsync();
+            // then get catalog
+            Console.WriteLine("RUNNING UNIT TEST 4.2 'GET CATALOG'...");
+            endPoint = "/item/catalog";
+            response = await client.GetStringAsync(BASE_URI + endPoint);
+            bool data = JsonConvert.DeserializeObject<bool>(response);
+            if (data)
+            {
+                Console.WriteLine("\tUNIT TEST 4 'ADD ITEM' PASSED");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("\tUNIT TEST 4 'ADD ITEM' FAILED");
                 Console.WriteLine("\tRESULT: NON-EMPTY LIST");
                 Console.WriteLine("\tEXPECTED: []");
                 return false;
             }
         }
+
+
 
         public static async Task<bool> Test9_getSchema()
         {

@@ -121,7 +121,6 @@ namespace DDRInventory.Models
             endPoint = "/item/catalog";
             response = await client.GetStringAsync(BASE_URI + endPoint);
             InventoryItem[]? data = JsonConvert.DeserializeObject<InventoryItem[]>(response);
-            Console.WriteLine(data.Length);
             if (data is not null && data.Length == 11)
             {
                 Console.WriteLine("\tUNIT TEST 4 'ADD ITEM' PASSED");
@@ -158,7 +157,37 @@ namespace DDRInventory.Models
             }
         }
 
-
+        public static async Task<bool> Test6_updateItem()
+        {
+            Console.WriteLine("RUNNING UNIT TEST 6 ''...");
+            InventoryItem item = new InventoryItem()
+            {
+                Name = "Miller Lite",
+                QuantityOnHand = 20,
+                Price = 300,
+                Unit = "bottles",
+                Category = "BEER",
+                SubCategory = "DOMESTIC",
+                ParLevel = 10,
+                Id = "20"
+            };
+            string endPoint = "/item/update";
+            HttpClient client = new HttpClient();
+            string response = await client.PutAsJsonAsync(BASE_URI + endPoint, item).Result.Content.ReadAsStringAsync();
+            bool data = JsonConvert.DeserializeObject<bool>(response);
+            if (data)
+            {
+                Console.WriteLine("\tUNIT TEST 6 'UPDATE ITEM' PASSED");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("\tUNIT TEST 6 'UPDATE ITEM' FAILED");
+                Console.WriteLine($"\tRESULT: false");
+                Console.WriteLine("\tEXPECTED: true");
+                return false;
+            }
+        }
 
         public static async Task<bool> Test9_getSchema()
         {

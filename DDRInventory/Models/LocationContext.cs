@@ -12,7 +12,7 @@ namespace DDRInventory.Models
                 using (SQLiteCommand allLocationQuery = catalog._connection.CreateCommand())
                 {
                     List<Location> locations = new List<Location>();
-                    allLocationQuery.CommandText = "SELECT * FROM locations";
+                    allLocationQuery.CommandText = "SELECT * FROM locations ORDER BY name asc";
                     SQLiteDataReader reader = allLocationQuery.ExecuteReader();
                     while (reader.Read())
                     {

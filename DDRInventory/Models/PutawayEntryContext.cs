@@ -119,7 +119,7 @@ namespace DDRInventory.Models
                 {
                     Log.WriteVerbose($"Retrieving all putaway entries for item {itemId}");
                     List<PutawayEntry> entries = new List<PutawayEntry>();
-                    putawayByItemQuery.CommandText = "SELECT * FROM putaway WHERE item_id = $item_id ORDER BY quantity asc;";
+                    putawayByItemQuery.CommandText = "SELECT * FROM putaway WHERE item_id = $item_id ORDER BY location_name asc;";
                     putawayByItemQuery.Parameters.AddWithValue("$item_id", itemId);
                     using (SQLiteDataReader reader = putawayByItemQuery.ExecuteReader())
                     {
@@ -147,7 +147,7 @@ namespace DDRInventory.Models
                 {
                     Log.WriteVerbose($"Retrieving all putaway entries for item {locationId}");
                     List<PutawayEntry> entries = new List<PutawayEntry>();
-                    putawayByLocationQuery.CommandText = "SELECT * FROM putaway WHERE location_id = $location_id ORDER BY quantity asc;";
+                    putawayByLocationQuery.CommandText = "SELECT * FROM putaway WHERE location_id = $location_id ORDER BY location_name asc;";
                     putawayByLocationQuery.Parameters.AddWithValue("$location_id", locationId);
                     using (SQLiteDataReader reader = putawayByLocationQuery.ExecuteReader())
                     {

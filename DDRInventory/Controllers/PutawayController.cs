@@ -3,6 +3,7 @@ using DDRInventory.Objects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SQLite;
+using System.Reflection;
 
 namespace DDRInventory.Controllers
 {
@@ -54,6 +55,17 @@ namespace DDRInventory.Controllers
                 Response.StatusCode = 512;
                 return new PutawayEntry[0];
             }
+        }
+
+        [HttpGet("schema")]
+        public string[] GetSchema()
+        {
+            List<string> attributeNames = new List<string>();
+            foreach (PropertyInfo property in typeof(PutawayEntry).GetProperties())
+            {
+                attributeNames.Add(property.Name);
+            }
+            return attributeNames.ToArray();
         }
 
         [HttpPut("update")]

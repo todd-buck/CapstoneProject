@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using DDRInventory.Models;
 using System.Data.SQLite;
+using System.Reflection;
 
 namespace DDRInventory.Controllers
 {
@@ -43,6 +44,7 @@ namespace DDRInventory.Controllers
                 return new Location[0];
             }
         }
+
         [HttpGet("getName/{id}")]
         public string GetName(int id)
         {
@@ -61,6 +63,18 @@ namespace DDRInventory.Controllers
                 return "";
             }
         }
+
+        [HttpGet("schema")]
+        public string[] GetSchema()
+        {
+            List<string> attributeNames = new List<string>();
+            foreach (PropertyInfo property in typeof(Location).GetProperties())
+            {
+                attributeNames.Add(property.Name);
+            }
+            return attributeNames.ToArray();
+        }
+
         [HttpDelete("delete/{id}")]
         public bool Delete(int id)
         {
@@ -83,6 +97,7 @@ namespace DDRInventory.Controllers
             }
             return returnVal;
         }
+
         [HttpDelete("delete/all")]
         public bool DeleteAll()
         {

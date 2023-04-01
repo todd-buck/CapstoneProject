@@ -6,6 +6,7 @@ namespace DDRInventory.Objects
     {
             public string ItemId { get; set; }
             public int LocationId { get; set; }
+            public string ItemName { get; set; }
             public string LocationName { get; set; }
             public int QuantityInLocation { get; set; }
         public override string ToString()
@@ -17,6 +18,7 @@ namespace DDRInventory.Objects
         {
             return (lhs.ItemId == rhs.ItemId) &&
                 (lhs.LocationId == rhs.LocationId) &&
+                (lhs.LocationName == rhs.ItemName) &&
                 (lhs.LocationName == rhs.LocationName) &&
                 (lhs.QuantityInLocation == rhs.QuantityInLocation);
         }

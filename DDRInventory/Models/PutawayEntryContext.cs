@@ -20,21 +20,22 @@ namespace DDRInventory.Models
             {
                 using (SQLiteCommand insertEntryCommand = catalog._connection.CreateCommand())
                 {
-                    insertEntryCommand.CommandText = "INSERT INTO putaway (item_id, location_id, location_name, quantity) VALUES($iid, $lid, $ln, $quantity);";
-                    insertEntryCommand.Parameters.AddWithValue("$iid", newEntry.ItemId);
-                    insertEntryCommand.Parameters.AddWithValue("$lid", newEntry.LocationId);
-                    insertEntryCommand.Parameters.AddWithValue("$ln", newEntry.LocationName);
+                    insertEntryCommand.CommandText = "INSERT INTO putaway (item_id, location_id, location_name, quantity, item_name) VALUES($item_id, $location_id, $location_name, $quantity, $item_name);";
+                    insertEntryCommand.Parameters.AddWithValue("$item_id", newEntry.ItemId);
+                    insertEntryCommand.Parameters.AddWithValue("$location_id", newEntry.LocationId);
+                    insertEntryCommand.Parameters.AddWithValue("$location_name", newEntry.LocationName);
                     insertEntryCommand.Parameters.AddWithValue("$quantity", newEntry.QuantityInLocation);
-                    Console.WriteLine($"Putting away {newEntry.QuantityInLocation} of item {newEntry.ItemId} in location {newEntry.LocationName}");
+                    insertEntryCommand.Parameters.AddWithValue("$item_name", newEntry.ItemName);
+                    Console.WriteLine($"Putting away {newEntry.QuantityInLocation} of item {newEntry.ItemName} in location {newEntry.LocationName}");
                     insertEntryCommand.ExecuteNonQuery();
                     new Log
                     {
                         User = "DummyUser",
                         Action = "Putaway Adjustment",
-                        ItemName = InventoryItemContext.GetItem(newEntry.ItemId).Name,
+                        ItemName = newEntry.ItemName,
                         LocationName = newEntry.LocationName,
                         Adjustment = newEntry.QuantityInLocation.ToString()
-                    }.Write($"Putting away {newEntry.QuantityInLocation} of item {newEntry.ItemId} in location {newEntry.LocationName}");
+                    }.Write($"Putting away {newEntry.QuantityInLocation} of item {newEntry.ItemName} in location {newEntry.LocationName}");
                 }
             }
         }
@@ -68,16 +69,16 @@ namespace DDRInventory.Models
                     updatePutawayCommand.Parameters.AddWithValue("$quantity", updatedEntry.QuantityInLocation);
                     updatePutawayCommand.Parameters.AddWithValue("$item_id", updatedEntry.ItemId);
                     updatePutawayCommand.Parameters.AddWithValue("$location_id", updatedEntry.LocationId);
-                    Console.WriteLine($"Updating putway for {updatedEntry.ItemId} in {updatedEntry.LocationName} to {updatedEntry.QuantityInLocation}");
+                    Console.WriteLine($"Updating putway for {updatedEntry.ItemName} in {updatedEntry.LocationName} to {updatedEntry.QuantityInLocation}");
                     updatePutawayCommand.ExecuteNonQuery();
                     new Log
                     {
                         User = "DummyUser",
                         Action = "Putaway Adjustment",
-                        ItemName = InventoryItemContext.GetItem(updatedEntry.ItemId).Name,
+                        ItemName = updatedEntry.ItemName,
                         LocationName = updatedEntry.LocationName,
                         Adjustment = (updatedEntry.QuantityInLocation - GetEntry(updatedEntry.ItemId, updatedEntry.LocationId).QuantityInLocation).ToString()
-                    }.Write($"Putting away {updatedEntry.QuantityInLocation} of item {updatedEntry.ItemId} in location {updatedEntry.LocationName}");
+                    }.Write($"Putting away {updatedEntry.QuantityInLocation} of item {updatedEntry.ItemName} in location {updatedEntry.LocationName}");
                     return true;
                 }
             }
@@ -99,10 +100,12 @@ namespace DDRInventory.Models
                         {
                             return new PutawayEntry
                             {
-                                ItemId = reader.GetString(0),
-                                LocationId = reader.GetInt32(1),
-                                LocationName = reader.GetString(2),
-                                QuantityInLocation = reader.GetInt32(3)
+                                ItemName = reader.GetString(0),
+                                ItemId = reader.GetString(1),
+                                LocationId = reader.GetInt32(2),
+                                LocationName = reader.GetString(3),
+                                QuantityInLocation = reader.GetInt32(4)
+                                
                             };
                         }
                         throw new PutawayEntryNotFoundException($"Putaway entry for item {itemId} in location {locationId} not found.",itemId, locationId);
@@ -127,10 +130,11 @@ namespace DDRInventory.Models
                         {
                             entries.Add(new PutawayEntry
                             {
-                                ItemId = reader.GetString(0),
-                                LocationId = reader.GetInt32(1),
-                                LocationName = reader.GetString(2),
-                                QuantityInLocation = reader.GetInt32(3)
+                                ItemName= reader.GetString(0),
+                                ItemId = reader.GetString(1),
+                                LocationId = reader.GetInt32(2),
+                                LocationName = reader.GetString(3),
+                                QuantityInLocation = reader.GetInt32(4)
                             });
                         }
                         return entries;
@@ -155,10 +159,11 @@ namespace DDRInventory.Models
                         {
                             entries.Add(new PutawayEntry
                             {
-                                ItemId = reader.GetString(0),
-                                LocationId = reader.GetInt32(1),
-                                LocationName = reader.GetString(2),
-                                QuantityInLocation = reader.GetInt32(3)
+                                ItemName = reader.GetString(0),
+                                ItemId = reader.GetString(1),
+                                LocationId = reader.GetInt32(2),
+                                LocationName = reader.GetString(3),
+                                QuantityInLocation = reader.GetInt32(4)
                             });
                         }
                         return entries;

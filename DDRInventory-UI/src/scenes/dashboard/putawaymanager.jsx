@@ -10,7 +10,7 @@ import { Button } from '@mui/material';
 import UpdatePutawayItemComponent from "./updateputawayitem.jsx";
 import UpdatePutawayLocationComponent from "./updateputawaylocation.jsx";
 
-const PutAwayManagerComponent = ({ scheme, setScheme }) => {
+const PutAwayManagerComponent = () => {
     const [updatePutawayItemComponentVisibility, setUpdatePutawayItemComponentVisibility] = useState(false);
     const [updatePutawayLocationComponentVisibility, setUpdatePutawayLocationComponentVisibility] = useState(false);
 /*    const AddByItem = () => {
@@ -113,10 +113,7 @@ const PutAwayManagerComponent = ({ scheme, setScheme }) => {
             {updatePutawayItemComponentVisibility ? (<UpdatePutawayItemComponent updatePutawayItemComponentVisibility={updatePutawayItemComponentVisibility} setUpdatePutawayItemComponentVisibility={setUpdatePutawayItemComponentVisibility} />) : null}
             {updatePutawayLocationComponentVisibility ? (<UpdatePutawayLocationComponent updatePutawayLocationComponentVisibility={updatePutawayLocationComponentVisibility} setUpdatePutawayLocationComponentVisibility={setUpdatePutawayLocationComponentVisibility} />) : null}
 
-            <Typography variant="h1" sx={{p:2}}>
-                Put Away Manager
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', juatifyContent: 'flex-start', alignItems: 'flex-start' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
 
                 <Button
                     onClick={() => {

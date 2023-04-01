@@ -48,6 +48,9 @@ export const themeSettings = (mode, scheme) => {
         palette: {
             mode: mode,
             scheme: scheme,
+            background: {
+                default: colors.primary[100]
+            }
         },
         typography: {
             fontFamily: ["Source Sans Pro", "sans-serif"].join(","),

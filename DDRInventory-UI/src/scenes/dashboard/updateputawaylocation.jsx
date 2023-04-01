@@ -78,6 +78,10 @@ const UpdatePutawayLocationComponent = ({ updatePutawayLocationComponentVisibili
                 header: 'Item ID',
             },
             {
+                accessorKey: 'itemName',
+                header: 'Item Name',
+            },
+            {
                 accessorKey: 'quantityInLocation',
                 header: 'Quantity',
             },

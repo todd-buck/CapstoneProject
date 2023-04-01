@@ -1,9 +1,9 @@
 ﻿using DDRInventory.Objects;
-using Microsoft.AspNetCore.Connections.Features;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
-using System.Reflection;
-using System.Xml.Linq;
+using System.Drawing;
+using System;
+using Console = Colorful.Console;
 
 namespace DDRInventory.Models
 {
@@ -563,6 +563,7 @@ namespace DDRInventory.Models
             {
                 PutawayEntry entry = new PutawayEntry()
                 {
+                    ItemName = "Soda Ginger Ale",
                     ItemId = "5",
                     LocationId = 1,
                     LocationName = "Freezer",
@@ -602,6 +603,7 @@ namespace DDRInventory.Models
             {
                 PutawayEntry updatedEntry = new PutawayEntry()
                 {
+                    ItemName = "Soda Ginger Ale",
                     ItemId = "5",
                     LocationId = 1,
                     LocationName = "Freezer",

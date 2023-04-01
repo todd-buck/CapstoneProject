@@ -12,13 +12,13 @@ namespace DDRInventory.Objects
         public override string ToString()
         {
             if (this is null) return "Null PutawayEntry";
-            return $"Putaway Entry {{ Location: {LocationId}, Item: {ItemId}, Quantity: {QuantityInLocation} }}";
+            return $"Putaway Entry {{ Location: {LocationName}({LocationId}), Item: {ItemName}({ItemId}), Quantity: {QuantityInLocation} }}";
         }
         public static bool operator ==(PutawayEntry lhs, PutawayEntry rhs)
         {
             return (lhs.ItemId == rhs.ItemId) &&
                 (lhs.LocationId == rhs.LocationId) &&
-                (lhs.LocationName == rhs.ItemName) &&
+                (lhs.ItemName == rhs.ItemName) &&
                 (lhs.LocationName == rhs.LocationName) &&
                 (lhs.QuantityInLocation == rhs.QuantityInLocation);
         }

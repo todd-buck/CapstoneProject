@@ -38,7 +38,7 @@ const Dashboard = ({ selected, scheme, setScheme }) => {
     }
 
     return (
-        <Box sx={{mt:1,ml:3, mr: 3, mb: 1}}>{Content()}</Box>
+        <Box sx={{mt:2, ml:2, pr:3}}>{Content()}</Box>
     )
 }
 

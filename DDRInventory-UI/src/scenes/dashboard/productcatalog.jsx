@@ -96,7 +96,15 @@ const DashboardComponent = () => {
             {updateInventoryComponentVisibility ? (<UpdateInventoryComponent item={updateInventoryComponentVisibility.original} setUpdateInventoryComponentVisibility={setUpdateInventoryComponentVisibility} refetch={refetch} />) : null}
             <MaterialReactTable
                 columns={columns}
-                data={data ? data : []} //displays an empty table if no row data from API call
+                data={data ? data : []} //displays an empty table if no row data from API call}
+
+                muiTableBodyProps={{
+                    sx: {
+                        '& tr:nth-of-type(odd)': {
+                            backgroundColor: colors.primary[200],
+                        },
+                    },
+                }}
 
                 //Options
                 enableColumnOrdering

@@ -28,6 +28,7 @@ make it your own!
 	- Daisy
 
 ##Getting Started
+
 `Note: Due to development restraints on behalf of Microsoft, Breeze IMS cannot
 currently be run on Visual Studio for Mac`
 
@@ -49,6 +50,7 @@ allow you to successfully run the application. After this is complete, simply na
 DDRInventory-UI.sln file, and select "Start" from the top menu.
 
 ##Developer Notes
+
 If you plan to make contributions to the project,Github commit messages should follow the
 following format (roughly):
 	

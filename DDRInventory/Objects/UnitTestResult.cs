@@ -1,4 +1,5 @@
-﻿namespace DDRInventory.Objects
+﻿using Console = Colorful.Console;
+namespace DDRInventory.Objects
 {
     public class UnitTestResult
     {
@@ -12,7 +13,7 @@
         {
             if (Passed)
                 return $"UNIT TEST {TestNumber}. {TestName} PASSED";
-            else 
+            else
                 return $"UNIT TEST {TestNumber}. {TestName} FAILED\nThe expected value was: {ExpectedValue}\nThe result was: {ActualValue}";
         }
     }

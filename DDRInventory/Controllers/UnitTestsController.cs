@@ -1,6 +1,9 @@
 ﻿using DDRInventory.Models;
 using DDRInventory.Objects;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
+using System;
+using Console = Colorful.Console;
 
 namespace DDRInventory.Controllers
 {
@@ -50,7 +53,12 @@ namespace DDRInventory.Controllers
             results.Add(await UnitTestsContext.Test18_getEntriesByLocation());
             Console.WriteLine($"Test {i++} done.");
             foreach (var result in results)
-                Console.WriteLine(result);
+            {
+                if (result.Passed)
+                    Console.WriteLine(result, Color.Green);
+                else
+                    Console.WriteLine(result, Color.Red);
+            }
             if (results.TrueForAll(result => result.Passed))
                 Console.WriteLine("ALL TESTS PASSED");
             return "PLEASE DO NOT FORGET TO ROLL BACK ANY CATALOG CHANGES IN YOUR GIT STAGING BEFORE COMMITING";

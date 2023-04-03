@@ -264,11 +264,14 @@ const addModal = (colors, addModalObject, setAddModalObject, quantityBuffer, set
                 alignItems: "center",
             }}
         >
-            <Box sx={{ backgroundColor: colors.primary[100], p: 2, minHeight: "20vh", minWidth: "20vw" }}>
-                <Typography variant="h3">
-                    Item {addModalObject.original.itemId}:
-                </Typography>
-                <Box sx={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", pl:2, pr:6, pt:1, mt:1, borderTop: 1 }}>
+            <Box sx={{ backgroundColor: colors.primary[100], p: 2, minWidth: "20vw" }}>
+                <Box sx={{mb: 2, borderBottom: 1} }>
+                    <Typography variant="h3" sx={{mb: 1}}>
+                        Item {addModalObject.original.itemId}:
+                    </Typography>
+
+                </Box>
+                <Box sx={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", pl:2, pr:6, pt:1 }}>
                     <Typography variant="h6">
                         Quantity
                     </Typography>
@@ -297,7 +300,7 @@ const addModal = (colors, addModalObject, setAddModalObject, quantityBuffer, set
                 </Box>
 
                 { /*Buttons*/}
-                <Box sx={{ display: "flex", alignItems: "flex-end", justifyContent: "flex-end", mt: 2 }} >
+                <Box sx={{ display: "flex", alignItems: "flex-end", justifyContent: "flex-end", mt: 4 }} >
                     <Button
                         onClick={() => {
                             setQuantityBuffer(0)
@@ -354,11 +357,14 @@ const removeModal = (colors, removeModalObject, setRemoveModalObject, quantityBu
                 alignItems: "center",
             }}
         >
-            <Box sx={{ backgroundColor: colors.primary[100], p: 2, minHeight: "20vh", minWidth: "20vw" }}>
-                <Typography variant="h3">
-                    Item {removeModalObject.original.itemId}:
-                </Typography>
-                <Box sx={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", pl: 2, pr: 5, pt: 1, mt: 1, borderTop: 1 }}>
+            <Box sx={{ backgroundColor: colors.primary[100], p: 2, minWidth: "20vw" }}>
+                <Box sx={{mb: 2, borderBottom: 1} }>
+                    <Typography variant="h3" sx={{mb: 1} }>
+                        Item {removeModalObject.original.itemId}:
+                    </Typography>
+
+                </Box>
+                <Box sx={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", pl: 2, pr: 5, pt: 1 }}>
                     <Typography variant="h6">
                         Quantity
                     </Typography>
@@ -387,13 +393,16 @@ const removeModal = (colors, removeModalObject, setRemoveModalObject, quantityBu
                 </Box>
 
                 { /*Buttons*/}
-                <Box sx={{ display: "flex", alignItems: "flex-end", justifyContent: "flex-end", mt: 2 }} >
+                <Box sx={{ display: "flex", alignItems: "flex-end", justifyContent: "flex-end", mt: 4 }} >
                     <Button
                         onClick={() => {
                             setQuantityBuffer(0)
                             setRemoveModalObject(null)
                         }}
-                        sx={{ mx: 1 }}
+                        sx={{
+                            backgroundColor: colors.changeAccent[500],
+                            mx: 1
+                        }}
                         variant="contained"
                     >
                         Cancel
@@ -453,11 +462,13 @@ const updateModal = (colors, activeItem, setActiveItem, itemData, updateModalObj
                 }}
             >
                 <Box sx={{ backgroundColor: colors.primary[100], p: 2, minHeight: "20vh", minWidth: "20vw" }}>
-                    <Typography variant="h3">
-                        Add to {updateModalObject.locationName}:
-                    </Typography>
+                    <Box sx={{ borderBottom: 1, mb: 2 }}>
+                        <Typography variant="h3">
+                            Add to {updateModalObject.locationName}:
+                        </Typography>
+                    </Box>
                     <Autocomplete
-                        sx={{ width: "40%" }}
+                        sx={{ width: "40%", mb: 3 }}
                         autoComplete
                         options={Array.isArray(itemOptions) ? itemOptions : []}
                         renderInput={(data) => (
@@ -476,6 +487,11 @@ const updateModal = (colors, activeItem, setActiveItem, itemData, updateModalObj
                             InputProps={{
                                 readOnly: true,
                             }}
+                            sx={{
+                                mr: 1,
+                                mt: 1,
+                                mb: 1
+                            }}
                         />
                         <TextField
                             id="outlined-read-only-input"
@@ -484,6 +500,11 @@ const updateModal = (colors, activeItem, setActiveItem, itemData, updateModalObj
                             defaultValue={updateModalObject.locationName}
                             InputProps={{
                                 readOnly: true,
+                            }}
+                            sx={{
+                                mr: 1,
+                                mt: 1,
+                                mb: 1
                             }}
                         />
                     </Box>
@@ -496,6 +517,11 @@ const updateModal = (colors, activeItem, setActiveItem, itemData, updateModalObj
                             InputProps={{
                                 readOnly: true,
                             }}
+                            sx={{
+                                mr: 1,
+                                mt: 1,
+                                mb: 1
+                            }}
                         />
                         <TextField
                             id="outlined-read-only-input"
@@ -505,16 +531,19 @@ const updateModal = (colors, activeItem, setActiveItem, itemData, updateModalObj
                             InputProps={{
                                 readOnly: true,
                             }}
+                            sx={{
+                                mr: 1,
+                                mt: 1,
+                                mb: 1
+                            }}
                         />
-                        <Box>
+                        <Box sx={{ width: '33%', mt: 5, mr: 1, mb: 1 }}>
                             <TextField
-                                id="outlined-read-only-input"
-                                label="Quantity"
-                                defaultValue={null}
+                                error={quantityBuffer < 0}
+                                value={quantityBuffer}
                                 disabled
-                                InputProps={{
-                                    readOnly: true,
-                                }}
+                                label="Quantity"
+                                type="number"
                             />
                         </Box>
                     </Box>}
@@ -527,6 +556,11 @@ const updateModal = (colors, activeItem, setActiveItem, itemData, updateModalObj
                             InputProps={{
                                 readOnly: true,
                             }}
+                            sx={{
+                                mr: 1,
+                                mt: 1,
+                                mb: 1
+                            }}
                         />
                         <TextField
                             id="outlined-read-only-input"
@@ -536,19 +570,19 @@ const updateModal = (colors, activeItem, setActiveItem, itemData, updateModalObj
                             InputProps={{
                                 readOnly: true,
                             }}
+                            sx={{
+                                mr: 1,
+                                mt: 1,
+                                mb: 1
+                            }}
                         />
-                        <Box>
+                        <Box sx={{ width: '33%', mt: 5, mr: 1, mb: 1 }}>
                             <TextField
                                 error={quantityBuffer < 0}
                                 value={quantityBuffer}
                                 label="Quantity"
                                 onChange={(event) => setQuantityBuffer(Number(event.target.value))}
                                 type="number"
-                                size='small'
-                                sx={{ width: '33%' }}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
                             />
                         </Box>
                     </Box>}

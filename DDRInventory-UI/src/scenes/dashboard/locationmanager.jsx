@@ -181,15 +181,16 @@ const newLocationModal = (colors, newLocationName, setNewLocationName, addNewLoc
                     alignItems: "center",
                 }}
             >
-                <Box sx={{ backgroundColor: colors.primary[100], p: 2, minHeight: "20vh", minWidth: "20vw" }}>
-                    <Typography variant="h3">
+                <Box sx={{ backgroundColor: colors.primary[100], p: 2, minWidth: "20vw" }}>
+                    <Typography variant="h3" sx={{borderBottom: 1, mb: 3}}>
                         New Location
                     </Typography>
 
                     <Box>
                         <TextField
-                            id="outlined-basic"
+                            id="standard-helperText"
                             label="Location Name"
+                            focused
                             onChange={(e) => setNewLocationName(e.target.value) }
                         />
                     </Box>

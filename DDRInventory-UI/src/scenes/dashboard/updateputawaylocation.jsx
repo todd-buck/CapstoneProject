@@ -468,125 +468,27 @@ const updateModal = (colors, activeItem, setActiveItem, itemData, updateModalObj
                         </Typography>
                     </Box>
                     <Autocomplete
-                        sx={{ width: "40%", mb: 3 }}
+                        sx={{ width: "100%", mb: 3 }}
                         autoComplete
                         options={Array.isArray(itemOptions) ? itemOptions : []}
                         renderInput={(data) => (
-                            <TextField {...data} variant="outlined" label="Search Box" />
+                            <TextField {...data} variant="outlined" label="Items" />
                         )}
                         onChange={(event, newValue) => {
                             setActiveItem(newValue);
                         }}
                     />
-                    <Box>
+                    <Box sx={{ width: '33%', mt: 3, mr: 1, mb: 1 }}>
                         <TextField
-                            id="outlined-read-only-input"
-                            label="Location ID"
-                            disabled
-                            defaultValue={updateModalObject.locationId}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            sx={{
-                                mr: 1,
-                                mt: 1,
-                                mb: 1
-                            }}
-                        />
-                        <TextField
-                            id="outlined-read-only-input"
-                            label="Location Name"
-                            disabled
-                            defaultValue={updateModalObject.locationName}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            sx={{
-                                mr: 1,
-                                mt: 1,
-                                mb: 1
-                            }}
+                            error={quantityBuffer < 0}
+                            value={quantityBuffer}
+                            label="Quantity"
+                            autoFocus
+                            disabled={!activeItem}
+                            onChange={(event) => setQuantityBuffer(Number(event.target.value))}
+                            type="number"
                         />
                     </Box>
-                    {!activeItem && <Box>
-                        <TextField
-                            id="outlined-read-only-input"
-                            label="Item ID"
-                            disabled
-                            defaultValue={null}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            sx={{
-                                mr: 1,
-                                mt: 1,
-                                mb: 1
-                            }}
-                        />
-                        <TextField
-                            id="outlined-read-only-input"
-                            label="Item Name"
-                            defaultValue={null}
-                            disabled
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            sx={{
-                                mr: 1,
-                                mt: 1,
-                                mb: 1
-                            }}
-                        />
-                        <Box sx={{ width: '33%', mt: 5, mr: 1, mb: 1 }}>
-                            <TextField
-                                error={quantityBuffer < 0}
-                                value={quantityBuffer}
-                                disabled
-                                label="Quantity"
-                                type="number"
-                            />
-                        </Box>
-                    </Box>}
-                    {activeItem && <Box>
-                        <TextField
-                            id="outlined-read-only-input"
-                            label="Item ID"
-                            defaultValue={activeItem ? getItem(activeItem).id : null}
-                            disabled
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            sx={{
-                                mr: 1,
-                                mt: 1,
-                                mb: 1
-                            }}
-                        />
-                        <TextField
-                            id="outlined-read-only-input"
-                            label="Item Name"
-                            defaultValue={activeItem ? getItem(activeItem).name : null}
-                            disabled
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            sx={{
-                                mr: 1,
-                                mt: 1,
-                                mb: 1
-                            }}
-                        />
-                        <Box sx={{ width: '33%', mt: 5, mr: 1, mb: 1 }}>
-                            <TextField
-                                error={quantityBuffer < 0}
-                                value={quantityBuffer}
-                                label="Quantity"
-                                onChange={(event) => setQuantityBuffer(Number(event.target.value))}
-                                type="number"
-                            />
-                        </Box>
-                    </Box>}
-
                     { /*Buttons*/}
                     <Box sx={{ display: "flex", alignItems: "flex-end", justifyContent: "flex-end", mt: 2 }} >
                         <Button

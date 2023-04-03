@@ -160,7 +160,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
                             options={Array.isArray(itemOptions) ? itemOptions : []}
                             defaultValue={ row ? row['id'].toString() + " - " + row['name']: null}
                             renderInput={(data) => (
-                                <TextField {...data} variant="outlined" label="Search Box"/>
+                                <TextField {...data} variant="outlined" label="Items"/>
                             )}
                             disabled={row}
                             onChange={(event, newValue) => {
@@ -273,7 +273,7 @@ const addModal = (colors, addModalObject, setAddModalObject, quantityBuffer, set
 
     return (
         <Modal
-            open={addModalObject}
+            open={addModalObject != null}
             onClose={() => setAddModalObject(null)}
             sx={{
                 display: "flex",
@@ -365,7 +365,7 @@ const removeModal = (colors, removeModalObject, setRemoveModalObject, quantityBu
 
     return (
         <Modal
-            open={removeModalObject}
+            open={removeModalObject != null}
             onClose={() => setRemoveModalObject(null)}
             sx={{
                 display: "flex",
@@ -481,122 +481,32 @@ const updateModal = (colors, activeLocation, setActiveLocation, locationData, up
                 }}
             >
                 <Box sx={{ backgroundColor: colors.primary[100], p: 2, minHeight: "20vh", minWidth: "20vw" }}>
-                    <Box sx={{borderBottom: 1, mb: 2}}>
+                    <Box sx={{borderBottom: 1, mb: 3}}>
                         <Typography variant="h3">
                             Add {updateModalObject.itemName} to Location:
                         </Typography>
                     </Box>
                     <Autocomplete
-                        sx={{ width: "40%", mb: 3 }}
+                        sx={{ width: "40%", mb: 2 }}
                         autoComplete
                         options={Array.isArray(locationOptions) ? locationOptions : []}
                         renderInput={(data) => (
-                            <TextField {...data} variant="outlined" label="Items" />
+                            <TextField {...data} variant="outlined" label="Locations" />
                         )}
                         onChange={(event, newValue) => {
                             setActiveLocation(newValue);
                         }}
                     />
-                    {activeLocation && <Box>
+                    <Box sx={{width: '33%',mt: 4, mr: 1,mb: 1}}>
                         <TextField
-                            id="outlined-read-only-input"
-                            label="Location ID"
-                            disabled
-                            defaultValue={activeLocation ? getItem(activeLocation).id : null}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            sx={{
-                                mr: 1,
-                                mt: 1,
-                                mb: 1
-                            }}
-                        />
-                        <TextField
-                            id="outlined-read-only-input"
-                            label="Location Name"
-                            disabled
-                            defaultValue={activeLocation ? getItem(activeLocation).name : null}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            sx={{
-                                mr: 1,
-                                mt: 1,
-                                mb: 1
-                            }}
-                        />
-                    </Box>}
-                    {!activeLocation && <Box>
-                        <TextField
-                            id="outlined-read-only-input"
-                            label="Location ID"
-                            disabled
-                            defaultValue={null}
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            sx={{
-                                mr: 1,
-                                mt: 1,
-                                mb: 1
-                            }}
-                        />
-                        <TextField
-                            id="outlined-read-only-input"
-                            label="Location Name"
-                            defaultValue={null}
-                            disabled
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            sx={{
-                                mr: 1,
-                                mt: 1,
-                                mb: 1
-                            }}
-                        />
-                    </Box>}
-                    <Box>
-                        <TextField
-                            id="outlined-read-only-input"
-                            label="Item ID"
-                            defaultValue={updateModalObject.itemId}
-                            disabled
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            sx={{
-                                mr: 1,
-                                mt: 1,
-                                mb: 1
-                            }}
-                        />
-                        <TextField
-                            id="outlined-read-only-input"
-                            label="Item Name"
-                            defaultValue={updateModalObject.itemName}
-                            disabled
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            sx={{
-                                mr: 1,
-                                mt: 1,
-                                mb: 1
-                            }}
-                        />
-                        <Box sx={{width: '33%',mt: 5, mr: 1,mb: 1}}>
-                            <TextField
-                                error={quantityBuffer < 0}
-                                value={quantityBuffer}
-                                label="Quantity"
-                                onChange={(event) => setQuantityBuffer(Number(event.target.value))}
-                                type="number"
-                                disabled={!activeLocation}
+                            error={quantityBuffer < 0}
+                            value={quantityBuffer}
+                            label="Quantity"
+                            onChange={(event) => setQuantityBuffer(Number(event.target.value))}
+                            type="number"
+                            disabled={!activeLocation}
                                 
-                            />
-                        </Box>
+                        />
                     </Box>
 
                     { /*Buttons*/}

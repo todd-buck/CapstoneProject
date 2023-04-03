@@ -67,11 +67,13 @@ namespace DDRInventory.Controllers
         [HttpPost("add")]
         public string Add(InventoryItem newItem)
         {
+            Log.WriteVerbose($"Received {newItem}");
             if (newItem.Id == "-1")
             {
                 Log.WriteVerbose($"New item '{newItem.Name}' inserted with no UPC. Generating id...");
                 newItem.Id = InventoryItem.GenerateId();
             }
+            Log.WriteVerbose($"Generated ID. New Item: {newItem}");
             try
             {
                 InventoryItemContext.AddItem(newItem);

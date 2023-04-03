@@ -9,7 +9,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import DialogTitle from '@mui/material/DialogTitle';
 
 const newProduct = {
-    "id": -1,
+    "id": "-1",
     "name": null,
     "price": null,
     "unit": null,
@@ -58,10 +58,10 @@ const AddNewProductComponent = ({ addNewProductComponentVisibility, setAddNewPro
                         id="idField"
                         label="UPC (Optional)"
                         onChange={(e) => {
-                            if (e.target.value != "")
+                            if (e.target.value != null)
                                 newProduct.id = e.target.value;
                             else
-                                newProduct.id = -1;
+                                newProduct.id = "-1";
                         }}
                         sx={{ width:"45%", pb: 2, mt: 2}}
                     />

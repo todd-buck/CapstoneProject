@@ -39,7 +39,7 @@ const DashboardComponent = () => {
     //API DELETE for Product Catalog Item
     const deleteItem = useMutation({
         mutationFn: (itemId) => {
-            fetch("https://localhost:7105/api/item/delete/?id=" + itemId.toString(), {
+            fetch("https://localhost:7105/api/item/delete/" + itemId.toString(), {
                 method: 'DELETE',
                 mode: 'cors',
             }).then(() => {

@@ -12,7 +12,7 @@ This IMS was built using frameworks from Visual Studio's ASP.NET Web API alongsi
 We have elected to pre-fill the embedded database with some preliminary data, but by all means,
 make it your own!
 
-##Key Features
+## Key Features
 - CRUD Features
 	- Inventory Items (CRUD)
 	- On-Site Storage Location (CRD)
@@ -27,8 +27,7 @@ make it your own!
 	- Desert
 	- Daisy
 
-##Getting Started
-
+## Getting Started
 `Note: Due to development restraints on behalf of Microsoft, Breeze IMS cannot
 currently be run on Visual Studio for Mac`
 
@@ -49,8 +48,7 @@ Finally, you should navigate to a terminal within this file structure and run th
 allow you to successfully run the application. After this is complete, simply navigate to the
 DDRInventory-UI.sln file, and select "Start" from the top menu.
 
-##Developer Notes
-
+## Developer Notes
 If you plan to make contributions to the project,Github commit messages should follow the
 following format (roughly):
 	

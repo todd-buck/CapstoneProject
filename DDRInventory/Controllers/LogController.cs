@@ -11,7 +11,7 @@ namespace DDRInventory.Controllers
     public class LogController : ControllerBase
     {
         [HttpGet("all")]
-        public string[] GetAll()
+        public Log[] GetAll()
         {
             try
             {
@@ -21,7 +21,7 @@ namespace DDRInventory.Controllers
             {
                 Console.WriteLine($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
-                return new string[0];
+                return new Log[0];
             }
         }
 

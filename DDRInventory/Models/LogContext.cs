@@ -6,7 +6,7 @@ namespace DDRInventory.Models
 {
     public class LogContext
     {
-        public static List<string> GetAll()
+        public static List<Log> GetAll()
         {
             {
                 using (Database db = new Database())
@@ -16,7 +16,7 @@ namespace DDRInventory.Models
                         allLogsQuery.CommandText = "SELECT * FROM log";
                         allLogsQuery.ExecuteNonQuery();
                         SQLiteDataReader reader = allLogsQuery.ExecuteReader();
-                        List<string> logEntries = new List<string>();
+                        List<Log> logEntries = new List<Log>();
                         while (reader.Read())
                         {
                             logEntries.Add(new Log()
@@ -29,7 +29,7 @@ namespace DDRInventory.Models
                                 LocationName = reader.GetValue(5).ToString(),
                                 Adjustment = reader.GetValue(6).ToString(),
                                 Reason = reader.GetValue(7).ToString()
-                            }.ToString());
+                            });
                         }
                         return logEntries;
                     }

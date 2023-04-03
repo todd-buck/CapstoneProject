@@ -1,4 +1,4 @@
-import { Box, IconButton, useTheme, Link, Typography } from "@mui/material";
+import { Box, IconButton, useTheme, Link, Typography, Select, MenuItem } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
@@ -10,23 +10,13 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const Topbar = () => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
     const colorMode = useContext(ColorModeContext);
+    const iconStyle = {color: colors.gray[100]}
 
 
     return (
-        <Box display="flex" justifyContent="space-between" p={2}>
-            {/* Search Bar*/}
-            {/*<Box
-                display="flex"
-                backgroundColor={colors.primary[400]}
-                borderRadius="3px"
-            >
-                <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-                <IconButton type="button" sx={{ p:1 }}>
-                    <SearchIcon />
-                </IconButton>
-            </Box>*/}
+        <Box display="flex" justifyContent="space-between" p={2} sx={{backgroundColor: colors.primary[200]}}>
             <Link
                 href="/"
                 underline="none"
@@ -41,7 +31,8 @@ const Topbar = () => {
 
             {/* Icons */}
             <Box display="flex">
-                <IconButton onClick={colorMode.toggleColorMode}>
+                <IconButton onClick={colorMode.toggleColorMode}
+                    style={iconStyle}>
                     {theme.palette.mode === 'dark' ? (
                         <DarkModeOutlinedIcon />
                     ) : (
@@ -49,13 +40,13 @@ const Topbar = () => {
                     )}
                 </IconButton>
                 <IconButton>
-                    <NotificationsOutlinedIcon />
+                    <NotificationsOutlinedIcon style={iconStyle} />
                 </IconButton>
                 <IconButton>
-                    <SettingsOutlinedIcon />
+                    <SettingsOutlinedIcon style={iconStyle} />
                 </IconButton>
                 <IconButton>
-                    <PersonOutlinedIcon />
+                    <PersonOutlinedIcon style={iconStyle} />
                 </IconButton>
             </Box>
         </Box>    

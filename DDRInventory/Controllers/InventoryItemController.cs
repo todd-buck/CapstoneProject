@@ -5,18 +5,18 @@ using DDRInventory.Objects;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SQLite;
 using System.Globalization;
-using System.Linq.Expressions;
+using System.Reflection;
 
 namespace DDRInventory.Controllers
 {
+    [Route("api/item")]
     [ApiController]
-    [Route("database")]
     public class InventoryItemController : ControllerBase
     {
-        [HttpPost("/api/item/uploadCSV")]
+        [HttpPost("uploadCSV")]
         public bool UploadCSV(IFormFile file)
         {
-            Console.WriteLine($"{file.FileName} uploaded successfully");
+            Log.WriteVerbose($"{file.FileName} uploaded successfully");
             List<InventoryItem> items = new List<InventoryItem>();
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
@@ -40,12 +40,12 @@ namespace DDRInventory.Controllers
                             Category = csv.GetField(csv.GetFieldIndex("category")),
                             SubCategory = csv.GetField(csv.GetFieldIndex("subcategory")),
                             ParLevel = csv.GetField<int>(csv.GetFieldIndex("par level")),
-                            Id = csv.GetField<int>(csv.GetFieldIndex("id"))
+                            Id = csv.GetField(csv.GetFieldIndex("id"))
                         });
                     }
                     catch (CsvHelperException e)
                     {
-                        Console.WriteLine($"Error when proccessing CSV file. Exception: {e.Message}");
+                        Log.WriteVerbose($"Error when proccessing CSV file. Exception: {e.Message}");
                         Response.StatusCode = 400;
                         return false;
                     }
@@ -56,7 +56,7 @@ namespace DDRInventory.Controllers
                 }
                 catch (SQLiteException e)
                 {
-                    Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                    Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                     Response.StatusCode = 512;
                     return false;
                 }
@@ -64,29 +64,31 @@ namespace DDRInventory.Controllers
             return true;
         }
 
-        [HttpPost("/api/item/add")]
-        public int Add(InventoryItem newItem)
+        [HttpPost("add")]
+        public string Add(InventoryItem newItem)
         {
-            if (newItem.Id == -1)
+            Log.WriteVerbose($"Received {newItem}");
+            if (newItem.Id == "-1")
             {
-                Console.WriteLine($"New item '{newItem.Name}' inserted with no UPC. Generating id...");
+                Log.WriteVerbose($"New item '{newItem.Name}' inserted with no UPC. Generating id...");
                 newItem.Id = InventoryItem.GenerateId();
             }
+            Log.WriteVerbose($"Generated ID. New Item: {newItem}");
             try
             {
                 InventoryItemContext.AddItem(newItem);
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return newItem.Id;
             }
             return newItem.Id;
         }
 
-        [HttpPut("/api/item/update")]
-        public bool update(InventoryItem updatedItem)
+        [HttpPut("update")]
+        public bool Update(InventoryItem updatedItem)
         {
             try
             {
@@ -94,38 +96,48 @@ namespace DDRInventory.Controllers
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return false;
             }
             catch (ItemNotFoundException e)
             {
-                Console.WriteLine($"Item not found. Exception: {e.Message}");
+                Log.WriteVerbose($"Item not found. Exception: {e.Message}");
                 Response.StatusCode = 451;
                 return false;
             }
         }
 
+        [HttpGet("schema")]
+        public string[] GetSchema()
+        {
+            List<string> attributeNames = new List<string>();
+            foreach (PropertyInfo property in typeof(InventoryItem).GetProperties())
+            {
+                attributeNames.Add(property.Name);
+            }
+            return attributeNames.ToArray();
+        }
 
-        [HttpGet("/api/item/catalog")]
-        public InventoryItem[] getCatalog()
+
+        [HttpGet("catalog")]
+        public InventoryItem[] GetCatalog()
         {
             try
             {
                 InventoryItem[] returnValue = InventoryItemContext.GetAllItems().ToArray();
-                if (returnValue.Length == 0) Response.StatusCode = 204; //if the list is empty throw http 204
                 return returnValue;
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return new InventoryItem[0];
             }
         }
 
-        [HttpGet("/api/item/{id}")]
-        public InventoryItem getById(int id)
+        [HttpGet("{id}")]
+        public InventoryItem GetById(string id)
         {
             InventoryItem returnValue = new InventoryItem();
             try
@@ -134,21 +146,21 @@ namespace DDRInventory.Controllers
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return new InventoryItem();
             }
             catch (ItemNotFoundException e)
             {
-                Console.WriteLine($"Item not found. Exception: {e.Message}");
+                Log.WriteVerbose($"Item not found. Exception: {e.Message}");
                 Response.StatusCode = 451;
                 return new InventoryItem();
             }
             return returnValue;
         }
 
-        [HttpDelete("/api/item/delete/{id}")]
-        public bool deleteItem(int id)
+        [HttpDelete("delete/{id}")]
+        public bool DeleteItem(string id)
         {
             bool returnVal;
             try
@@ -157,21 +169,21 @@ namespace DDRInventory.Controllers
             }
             catch (ItemNotFoundException e)
             {
-                Console.WriteLine($"Item not found. Exception: {e.Message}");
+                Log.WriteVerbose($"Item not found. Exception: {e.Message}");
                 Response.StatusCode = 451;
                 return false;
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
                 return false;
             }
             return returnVal;
         }
 
-        [HttpDelete("/api/item/deleteMany")]
-        public void deleteMany(int[] ids)
+        [HttpDelete("deleteMany")]
+        public void DeleteMany(int[] ids)
         {
             Response.StatusCode = 501;
             try
@@ -180,13 +192,13 @@ namespace DDRInventory.Controllers
             }
             catch (ItemNotFoundException e)
             {
-                Console.WriteLine($"Item not found. Exception: {e.Message}");
+                Log.WriteVerbose($"Item not found. Exception: {e.Message}");
                 Response.StatusCode = 451;
             }
         }
 
-        [HttpDelete("/api/item/delete/all")]
-        public void deleteAll()
+        [HttpDelete("delete/all")]
+        public void DeleteAll()
         {
             try
             {
@@ -194,7 +206,7 @@ namespace DDRInventory.Controllers
             }
             catch (SQLiteException e)
             {
-                Console.WriteLine($"SQL Error. Exception: {e.Message}");
+                Log.WriteVerbose($"SQL Error. Exception: {e.Message}");
                 Response.StatusCode = 512;
             }
         }

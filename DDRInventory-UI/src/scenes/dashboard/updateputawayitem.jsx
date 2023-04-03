@@ -11,15 +11,17 @@ import { tokens } from "../../theme";
 //  Code Search Bar Button onClick
 //  Call API/Fill Item Information Box based on select (if this is not an option, do it based on search button in search bar)
 
-const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setUpdatePutawayItemComponentVisibility }) => {
+const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setUpdatePutawayItemComponentVisibility, row, refetch }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode, theme.palette.scheme);
 
     // This is for the dropdown in the top right corner of the modal
+    const [activeLocation, setActiveLocation] = useState(null);
     const [activeItem, setActiveItem] = useState(null);
 
     //This is the list of locations in the dropdown box
-    const [options, setOptions] = useState([])
+    const [locationOptions, setLocationOptions] = useState([])
+    const [itemOptions, setItemOptions] = useState([])
 
     //This is the data rows for the table that appears when an item is selected from the dropdown
     const [putawayTableData, setPutawayTableData] = useState([])
@@ -30,16 +32,32 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
     value to the current row making the modal visible */
     const [addModalObject, setAddModalObject] = useState(null)
     const [removeModalObject, setRemoveModalObject] = useState(null)
+    const [updateModalObject, setUpdateModalObject] = useState(null)
 
     //used in addModal and removeModal
     const [quantityBuffer, setQuantityBuffer] = useState(0)
 
     //Gets items for dropdown search bar (this doesn't need to be here, declare const object that remaps locationData')
     useEffect(() => {
+        if (row) {
+            setActiveItem(row['id'].toString() + " - " + row['name'])
+        }
+    }, []);
+
+    //Gets items for dropdown search bar (this doesn't need to be here, declare const object that remaps locationData')
+    useEffect(() => {
         fetch("https://localhost:7105/api/item/catalog")
             .then((response) => response.json())
             .then((object) => object.map(item => item.id.toString() + " - " + item.name))
-            .then((options) => setOptions(options))
+            .then((itemOptions) => setItemOptions(itemOptions))
+    }, []);
+
+    //Gets items for dropdown search bar (this doesn't need to be here, declare const object that remaps locationData')
+    useEffect(() => {
+        fetch("https://localhost:7105/api/location/catalog")
+            .then((response) => response.json())
+            .then((object) => object.map(item => item.id.toString() + " - " + item.name))
+            .then((locationOptions) => setLocationOptions(locationOptions))
     }, []);
 
     //Gets items in dropdown-selected location 
@@ -51,7 +69,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
         }
     }, [activeItem, putawayTableTrigger]);
 
-    //Gets list of all locations (might be useful to take this up a level)
+    //Gets list of all items (might be useful to take this up a level)
     const itemData = useQuery({
         queryKey: [
             'item-data',
@@ -59,6 +77,23 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
         queryFn: async () => {
             const fetchURL = new URL(
                 '/api/item/catalog',
+                'https://localhost:7105',
+            );
+
+            const response = await fetch(fetchURL.href);
+            const json = await response.json();
+            return json;
+        }
+    });
+
+    //Gets list of all locations (might be useful to take this up a level)
+    const locationData = useQuery({
+        queryKey: [
+            'location-data',
+        ],
+        queryFn: async () => {
+            const fetchURL = new URL(
+                '/api/location/catalog',
                 'https://localhost:7105',
             );
 
@@ -87,19 +122,27 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
         [],
     );
 
-    //gets a single location object from the list of locations in locationData
+    //gets a single item object from the list of items in itemData
     function getTableItem(option) {
-        return itemData.data.find(item => item.id.toString() === option.substring(0, option.indexOf(' ')))
+        const item = itemData.data.find(item => item.id.toString() === option.substring(0, option.indexOf(' ')))
+        return item
     }
 
     return (
         <Box>
             {addModalObject ? (addModal(colors, addModalObject, setAddModalObject, quantityBuffer, setQuantityBuffer, putawayTableTrigger, setPutawayTableTrigger)) : null}
             {removeModalObject ? (removeModal(colors, removeModalObject, setRemoveModalObject, quantityBuffer, setQuantityBuffer, putawayTableTrigger, setPutawayTableTrigger)) : null}
+            {updateModalObject ? (updateModal(colors, activeLocation, setActiveLocation, locationData, updateModalObject, setUpdateModalObject, putawayTableTrigger, setPutawayTableTrigger, locationOptions, quantityBuffer, setQuantityBuffer)) : null}
+
 
             <Modal
-                open={updatePutawayItemComponentVisibility}
-                onClose={() => setUpdatePutawayItemComponentVisibility(false)}
+                open={updatePutawayItemComponentVisibility != null}
+                onClose={() => {
+                    if (row) {
+                        refetch()
+                    }
+                    setUpdatePutawayItemComponentVisibility(null)
+                }}
                 sx={{
                     display: "flex",
                     width: "100vw",
@@ -114,10 +157,12 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
                         <Autocomplete
                             sx={{ width: "40%" }}
                             autoComplete
-                            options={Array.isArray(options) ? options : []}
+                            options={Array.isArray(itemOptions) ? itemOptions : []}
+                            defaultValue={ row ? row['id'].toString() + " - " + row['name']: null}
                             renderInput={(data) => (
-                                <TextField {...data} variant="outlined" label="Search Box" />
+                                <TextField {...data} variant="outlined" label="Search Box"/>
                             )}
+                            disabled={row}
                             onChange={(event, newValue) => {
                                 setActiveItem(newValue);
                             }}
@@ -134,12 +179,18 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
                     { /*Location Information */}
                     {activeItem && <Box sx={{ py: 2 }}>
                         <Typography variant="h2">
-                            {getTableItem(activeItem).itemName}
+                            {getTableItem(activeItem).name}
+                        </Typography>
+                        <Typography variant="h4">
+                            {getTableItem(activeItem).category}, {getTableItem(activeItem).subCategory}
+                        </Typography>
+                        <Typography variant="h4">
+                            Units: {getTableItem(activeItem).unit}
                         </Typography>
                     </Box>}
 
                     { /*Table*/}
-                    <Box sx={{ minHeight: "50vh" }}>
+                    <Box sx={{ minHeight: "50vh", pt:2 }}>
                     {activeItem && 
                         <MaterialReactTable
                             muiTableContainerProps={{ sx: { maxHeight: '45vh' } }}
@@ -160,6 +211,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
                             //Options
                             enableStickyHeader
                             enableRowActions
+                            enablePagination={false}
 
                             enableColumnActions={false}
                             enableBottomToolbar={false}
@@ -172,10 +224,18 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
                                     <Tooltip arrow title="Add New Product">
                                         <Button
                                             style={{ backgroundColor: colors.addAccent[600] }}
-                                            onClick={() => { console.log("not implemented") }}
+                                            onClick={() => {
+                                                setUpdateModalObject({
+                                                    itemId: getTableItem(activeItem).id,
+                                                    locationId: null,
+                                                    itemName: getTableItem(activeItem).name,
+                                                    locationName: null,
+                                                    quantityInLocation: null
+                                                })
+                                            }}
                                             variant="contained"
                                         >
-                                            + New Product
+                                            + New Location
                                         </Button>
                                     </Tooltip>
                                 </div>
@@ -385,5 +445,166 @@ const removeModal = (colors, removeModalObject, setRemoveModalObject, quantityBu
         </Modal>
     )
 }
+
+
+const updateModal = (colors, activeLocation, setActiveLocation, locationData, updateModalObject, setUpdateModalObject, putawayTableTrigger, setPutawayTableTrigger, locationOptions, quantityBuffer, setQuantityBuffer) => {
+    //gets a single location object from the list of locations in locationData
+    function getItem(option) {
+        const item = locationData.data.find(item => item.id.toString() === option.substring(0, option.indexOf(' ')))
+        return item
+    }
+
+    return (
+        <Box>
+            <Modal
+                open={updateModalObject != null}
+                onClose={() => {
+                    setActiveLocation(null)
+                    setQuantityBuffer(0)
+                    setUpdateModalObject(null)
+                }}
+
+                sx={{
+                    display: "flex",
+                    width: "100vw",
+                    height: "100vh",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+            >
+                <Box sx={{ backgroundColor: colors.primary[100], p: 2, minHeight: "20vh", minWidth: "20vw" }}>
+                    <Typography variant="h3">
+                        Add {updateModalObject.itemName} to location:
+                    </Typography>
+                    <Autocomplete
+                        sx={{ width: "40%" }}
+                        autoComplete
+                        options={Array.isArray(locationOptions) ? locationOptions : []}
+                        renderInput={(data) => (
+                            <TextField {...data} variant="outlined" label="Items" />
+                        )}
+                        onChange={(event, newValue) => {
+                            setActiveLocation(newValue);
+                        }}
+                    />
+                    {activeLocation && <Box>
+                        <TextField
+                            id="outlined-read-only-input"
+                            label="Location ID"
+                            disabled
+                            defaultValue={activeLocation ? getItem(activeLocation).id : null}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <TextField
+                            id="outlined-read-only-input"
+                            label="Location Name"
+                            disabled
+                            defaultValue={activeLocation ? getItem(activeLocation).name : null}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                    </Box>}
+                    {!activeLocation && <Box>
+                        <TextField
+                            id="outlined-read-only-input"
+                            label="Location ID"
+                            disabled
+                            defaultValue={null}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <TextField
+                            id="outlined-read-only-input"
+                            label="Location Name"
+                            defaultValue={null}
+                            disabled
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                    </Box>}
+                    <Box>
+                        <TextField
+                            id="outlined-read-only-input"
+                            label="Item ID"
+                            defaultValue={updateModalObject.itemId}
+                            disabled
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <TextField
+                            id="outlined-read-only-input"
+                            label="Item Name"
+                            defaultValue={updateModalObject.itemName}
+                            disabled
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                        />
+                        <Box>
+                            <TextField
+                                error={quantityBuffer < 0}
+                                value={quantityBuffer}
+                                label="Quantity"
+                                onChange={(event) => setQuantityBuffer(Number(event.target.value))}
+                                type="number"
+                                size='small'
+                                disabled={!activeLocation}
+                                sx={{ width: '33%' }}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                        </Box>
+                    </Box>
+
+                    { /*Buttons*/}
+                    <Box sx={{ display: "flex", alignItems: "flex-end", justifyContent: "flex-end", mt: 2 }} >
+                        <Button
+                            onClick={() => {
+                                setActiveLocation(null)
+                                setQuantityBuffer(0)
+                                setUpdateModalObject(null)
+                            }}
+                            sx={{ mx: 1 }}
+                            variant="contained"
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                updateModalObject.locationName = getItem(activeLocation).name
+                                updateModalObject.locationId = getItem(activeLocation).id
+                                updateModalObject.quantityInLocation = quantityBuffer
+
+                                fetch("https://localhost:7105/api/putaway/add", {
+                                    accept: 'application/json',
+                                    method: 'POST',
+                                    mode: 'cors',
+                                    headers: { 'content-type': 'application/json' },
+                                    body: JSON.stringify(updateModalObject)
+                                }).then(() => setQuantityBuffer(0))
+                                    .then(() => setActiveLocation(null))
+                                    .then(() => setUpdateModalObject(null))
+                                    .then(() => setPutawayTableTrigger(!putawayTableTrigger))
+                            }}
+                            sx={{ mx: 1 }}
+                            variant="contained"
+                            disabled={quantityBuffer < 0 || !activeLocation}
+                        >
+                            Submit
+                        </Button>
+                    </Box>
+                </Box>
+            </Modal>
+        </Box>
+    )
+}
+
 
 export default UpdatePutawayItemComponent

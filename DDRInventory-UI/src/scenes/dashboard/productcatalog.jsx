@@ -6,9 +6,10 @@ import {
     useQuery, useMutation
 } from '@tanstack/react-query';
 import { tokens } from "../../theme";
-import { Delete, Mode } from '@mui/icons-material';
+import { Delete, Mode, Info } from '@mui/icons-material';
 import AddNewProductComponent from "./addnewproduct.jsx"
 import UpdateInventoryComponent from "./updateinventory.jsx"
+import UpdatePutawayItemComponent from "./updateputawayitem.jsx"
 
 const DashboardComponent = () => {
     const theme = useTheme();
@@ -16,6 +17,7 @@ const DashboardComponent = () => {
 
     const [addNewProductComponentVisibility, setAddNewProductComponentVisibility] = useState(null);
     const [updateInventoryComponentVisibility, setUpdateInventoryComponentVisibility] = useState(null);
+    const [updatePutawayItemComponentVisibility, setUpdatePutawayItemComponentVisibility] = useState(null);
 
     //API GET for Product Catalog
     const { data, isFetchError, isFetching, refetch } = useQuery({
@@ -94,6 +96,8 @@ const DashboardComponent = () => {
         <Box>
             {addNewProductComponentVisibility ? (<AddNewProductComponent addNewProductComponentVisibility={addNewProductComponentVisibility} setAddNewProductComponentVisibility={setAddNewProductComponentVisibility} refetch={refetch} />) : null}
             {updateInventoryComponentVisibility ? (<UpdateInventoryComponent item={updateInventoryComponentVisibility.original} setUpdateInventoryComponentVisibility={setUpdateInventoryComponentVisibility} refetch={refetch} />) : null}
+            {updatePutawayItemComponentVisibility ? (<UpdatePutawayItemComponent updatePutawayItemComponentVisibility={updatePutawayItemComponentVisibility} setUpdatePutawayItemComponentVisibility={setUpdatePutawayItemComponentVisibility} row={updatePutawayItemComponentVisibility.original} refetch={refetch} />) : null}
+
             <MaterialReactTable
                 columns={columns}
                 data={data ? data : []} //displays an empty table if no row data from API call}
@@ -127,7 +131,7 @@ const DashboardComponent = () => {
                         {/*Add New Product Button*/}
                         <Tooltip arrow title="Add New Product">
                             <Button
-                                style={{ /*backgroundColor: colors.greenAccent[500]*/}}
+                                sx={{ backgroundColor: colors.addAccent[600] }}
                                 onClick={() => {setAddNewProductComponentVisibility(true);}} 
                                 variant="contained"
                             >
@@ -137,9 +141,12 @@ const DashboardComponent = () => {
 
                         {/*Delete Button*/}
                         <Button
-                            ///BUG: THIS SHOULD BE COLORS.REDACCENT[500], but it can't read that for some reason//////
-                            color="secondary"
-                            //////////////////////////////////////////////////////////////////////////////////////////
+                            sx={{
+                                backgroundColor: colors.removeAccent[500],
+                                "&.Mui-disabled": {
+                                    backgroundColor: ''
+                                }
+                            }}
                             onClick={() => {
                                 handleDeleteMany(table.getSelectedRowModel().rows)
                                 table.reset()
@@ -162,12 +169,30 @@ const DashboardComponent = () => {
                 //Buttons that appear on every row
                 renderRowActions={({ row }) => (
                     <Box sx={{ display: 'flex', flexDirextion: 'row' }} >
+                        {/*Item Info Button*/}
+                        <IconButton
+                            onClick={() => {
+                                setUpdatePutawayItemComponentVisibility(row)
+                            }}
+                            sx={{
+                                "&:hover": {
+                                    color: colors.changeAccent[500]
+                                }
+                            }}
+                        >
+                            <Info />
+                        </IconButton>
+
                         {/*Delete Button*/}
                         <IconButton
                             onClick={() => {
                                 deleteItem.mutate(row.getValue('id'))
                             }}
-                            sx={{ "&:hover": { /*color: colors.redAccent[500]*/ } }}
+                            sx={{
+                                "&:hover": {
+                                    color: colors.removeAccent[500]
+                                }
+                            }}
                         >
                             <Delete />
                         </IconButton>
@@ -177,7 +202,11 @@ const DashboardComponent = () => {
                             onClick={() => {
                                 setUpdateInventoryComponentVisibility(row);
                             }}
-                            sx={{ "&:hover": { /*color: colors.blueAccent[500]*/ } }}
+                            sx={{
+                                "&:hover": {
+                                    color: colors.changeAccent[500]
+                                }
+                            }}
                         >
                             <Mode />
                         </IconButton>

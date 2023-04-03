@@ -57,7 +57,7 @@ const defaultScheme = (mode) => ({
                 900: "#D9ECFF"
             },
             splashAccent: {
-                500: "#CD0000"
+                500: "#7408FF"
             }
         } : {
             gray: {
@@ -116,7 +116,7 @@ const defaultScheme = (mode) => ({
                 900: "#00478E"
             },
             splashAccent: {
-                500: "#CD0000"
+                500: "#7480FF"
             }
         }
     )

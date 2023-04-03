@@ -4,7 +4,8 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
-import logo from '../../assets/DillardsLogoV2.png'
+/*import logo from '../../assets/DillardsLogoV2.png'*/
+import logo from '../../assets/BreezeLogo.png';
 
 /*Menu Collapse Icon*/
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";

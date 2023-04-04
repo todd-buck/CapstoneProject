@@ -13,7 +13,7 @@ namespace DDRInventory.Models
                 {
                     using (SQLiteCommand allLogsQuery = db._connection.CreateCommand())
                     {
-                        allLogsQuery.CommandText = "SELECT * FROM log";
+                        allLogsQuery.CommandText = "SELECT * FROM log ORDER BY date DESC, time DESC";
                         allLogsQuery.ExecuteNonQuery();
                         SQLiteDataReader reader = allLogsQuery.ExecuteReader();
                         List<Log> logEntries = new List<Log>();

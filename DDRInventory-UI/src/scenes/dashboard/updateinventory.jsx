@@ -11,6 +11,8 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import { tokens } from "../../theme";
 
+import { target_URL } from "../../App.js"
+
 const UpdateInventoryComponent = ({ item, setUpdateInventoryComponentVisibility, refetch } ) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode, theme.palette.scheme);
@@ -20,7 +22,7 @@ const UpdateInventoryComponent = ({ item, setUpdateInventoryComponentVisibility,
     };
 
     const handleSubmit = () => {
-        fetch("https://localhost:7105/api/item/update", {
+        fetch(target_URL + "/api/item/update", {
             accept: 'application/json',
             method: 'PUT',
             mode: 'cors',

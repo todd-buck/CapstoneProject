@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import UnderConstructionComponent from '../global/underConstruction.jsx'
 
+import { target_URL } from "../../App.js"
+
 const isFinished = false;
 
 
@@ -13,7 +15,7 @@ const ImportCSVComponent = () => {
     }
 
     function handleSubmit(event) {
-        fetch("https://localhost:7105/api/uploadCSV", {
+        fetch(target_URL + "/api/uploadCSV", {
             accept: 'text/plain',
             method: 'POST',
             mode: 'cors',

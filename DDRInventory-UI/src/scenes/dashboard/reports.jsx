@@ -10,6 +10,8 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import { tokens } from "../../theme";
 
+import { target_URL } from "../../App.js"
+
 import MaterialReactTable from 'material-react-table';
 
 import {
@@ -69,7 +71,7 @@ const ReportsComponent = () => {
         queryFn: async () => {
             const fetchURL = new URL(
                 '/api/log/all',
-                'https://localhost:7105',
+                target_URL,
             );
 
             const response = await fetch(fetchURL.href);

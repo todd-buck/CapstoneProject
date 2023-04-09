@@ -21,6 +21,8 @@ import {
 
 import { tokens } from "../../theme";
 
+import { target_URL } from "../../App.js"
+
 /* POPUP COMPONENTS */
 import AddNewProductComponent from "./addnewproduct.jsx"
 import UpdateInventoryComponent from "./updateinventory.jsx"
@@ -40,9 +42,10 @@ const DashboardComponent = () => {
             'table-data',
         ],
         queryFn: async () => {
+            console.log(target_URL)
             const fetchURL = new URL(
                 '/api/item/catalog',
-                'https://localhost:7105',
+                target_URL,
             );
 
             const response = await fetch(fetchURL.href);
@@ -54,7 +57,7 @@ const DashboardComponent = () => {
     //API DELETE for Product Catalog Item
     const deleteItem = useMutation({
         mutationFn: (itemId) => {
-            fetch("https://localhost:7105/api/item/delete/" + itemId.toString(), {
+            fetch(target_URL + "/api/item/delete/" + itemId.toString(), {
                 method: 'DELETE',
                 mode: 'cors',
             }).then(() => {

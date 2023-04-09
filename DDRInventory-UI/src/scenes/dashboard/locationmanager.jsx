@@ -23,6 +23,8 @@ import {
 
 import { tokens } from "../../theme";
 
+import { target_URL } from "../../App.js"
+
 const LocationManagerComponent = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode, theme.palette.scheme);
@@ -38,7 +40,7 @@ const LocationManagerComponent = () => {
         queryFn: async () => {
             const fetchURL = new URL(
                 '/api/location/catalog',
-                'https://localhost:7105',
+                target_URL,
             );
 
             const response = await fetch(fetchURL.href);
@@ -50,7 +52,7 @@ const LocationManagerComponent = () => {
     //API DELETE for Product Catalog Item
     const deleteItem = useMutation({
         mutationFn: (locationId) => {
-            fetch("https://localhost:7105/api/location/delete/" + locationId.toString(), {
+            fetch(target_URL + "/api/location/delete/" + locationId.toString(), {
                 method: 'DELETE',
                 mode: 'cors',
             }).then(() => {
@@ -224,7 +226,7 @@ const newLocationModal = (colors, newLocationName, setNewLocationName, addNewLoc
                         <Button
                             onClick={() => {
 
-                                fetch("https://localhost:7105/api/location/add/" + newLocationName, {
+                                fetch(target_URL + "/api/location/add/" + newLocationName, {
                                     accept: 'application/json',
                                     method: 'POST',
                                     mode: 'cors',

@@ -25,6 +25,8 @@ import {
 
 import { tokens } from "../../theme";
 
+import { target_URL } from "../../App.js"
+
 //TODO:
 //  Code Search Bar Button onClick
 //  Call API/Fill Item Information Box based on select (if this is not an option, do it based on search button in search bar)
@@ -64,7 +66,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
 
     //Gets items for dropdown search bar (this doesn't need to be here, declare const object that remaps locationData')
     useEffect(() => {
-        fetch("https://localhost:7105/api/item/catalog")
+        fetch(target_URL + "/api/item/catalog")
             .then((response) => response.json())
             .then((object) => object.map(item => item.id.toString() + " - " + item.name))
             .then((itemOptions) => setItemOptions(itemOptions))
@@ -72,7 +74,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
 
     //Gets items for dropdown search bar (this doesn't need to be here, declare const object that remaps locationData')
     useEffect(() => {
-        fetch("https://localhost:7105/api/location/catalog")
+        fetch(target_URL + "/api/location/catalog")
             .then((response) => response.json())
             .then((object) => object.map(item => item.id.toString() + " - " + item.name))
             .then((locationOptions) => setLocationOptions(locationOptions))
@@ -81,7 +83,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
     //Gets items in dropdown-selected location 
     useEffect(() => {
         if (activeItem != null) {
-            fetch("https://localhost:7105/api/putaway/item/" + activeItem.substring(0, activeItem.indexOf(' ')))
+            fetch(target_URL + "/api/putaway/item/" + activeItem.substring(0, activeItem.indexOf(' ')))
                 .then((response) => response.json())
                 .then((object) => setPutawayTableData(object))
         }
@@ -95,7 +97,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
         queryFn: async () => {
             const fetchURL = new URL(
                 '/api/item/catalog',
-                'https://localhost:7105',
+                target_URL,
             );
 
             const response = await fetch(fetchURL.href);
@@ -112,7 +114,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
         queryFn: async () => {
             const fetchURL = new URL(
                 '/api/location/catalog',
-                'https://localhost:7105',
+                target_URL,
             );
 
             const response = await fetch(fetchURL.href);
@@ -357,7 +359,7 @@ const addModal = (colors, addModalObject, setAddModalObject, quantityBuffer, set
                         }}
                         onClick={() => {
                             addModalObject.original.quantityInLocation = addModalObject.original.quantityInLocation + quantityBuffer
-                            fetch("https://localhost:7105/api/putaway/add", {
+                            fetch(target_URL + "/api/putaway/add", {
                                 accept: 'application/json',
                                 method: 'POST',
                                 mode: 'cors',
@@ -450,7 +452,7 @@ const removeModal = (colors, removeModalObject, setRemoveModalObject, quantityBu
                             } else {
                                 removeModalObject.original.quantityInLocation = 0
                             }
-                            fetch("https://localhost:7105/api/putaway/add", {
+                            fetch(target_URL + "/api/putaway/add", {
                                 accept: 'application/json',
                                 method: 'POST',
                                 mode: 'cors',
@@ -546,7 +548,7 @@ const updateModal = (colors, activeLocation, setActiveLocation, locationData, up
                                 updateModalObject.locationId = getItem(activeLocation).id
                                 updateModalObject.quantityInLocation = quantityBuffer
 
-                                fetch("https://localhost:7105/api/putaway/add", {
+                                fetch(target_URL + "/api/putaway/add", {
                                     accept: 'application/json',
                                     method: 'POST',
                                     mode: 'cors',

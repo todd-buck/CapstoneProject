@@ -12,6 +12,8 @@ import useTheme from "@mui/material/styles/useTheme";
 
 import { tokens } from "../../theme";
 
+import { target_URL } from "../../App.js"
+
 const newProduct = {
     "id": "-1",
     "name": null,
@@ -24,6 +26,7 @@ const newProduct = {
 }
 
 const AddNewProductComponent = ({ addNewProductComponentVisibility, setAddNewProductComponentVisibility, refetch }) => {
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode, theme.palette.scheme);
 
@@ -39,7 +42,7 @@ const AddNewProductComponent = ({ addNewProductComponentVisibility, setAddNewPro
             }
         }
 
-        fetch("https://localhost:7105/api/item/add", {
+        fetch(target_URL + "/api/item/add", {
             accept: 'application/json',
             method: 'POST',
             mode: 'cors',

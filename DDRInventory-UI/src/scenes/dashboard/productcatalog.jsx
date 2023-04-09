@@ -1,12 +1,27 @@
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import MaterialReactTable from 'material-react-table';
-import { Box, Button, IconButton, Tooltip, useTheme } from '@mui/material';
+
+/* MUI COMPONENTS */
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+
+import useTheme from "@mui/material/styles/useTheme";
+
+/* MUI ICONS*/
+import DeleteIcon from '@mui/icons-material/Delete';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import ModeIcon from '@mui/icons-material/Mode';
+import InfoIcon from '@mui/icons-material/Info';
+
 import {
     useQuery, useMutation
 } from '@tanstack/react-query';
+
 import { tokens } from "../../theme";
-import { Delete, Mode, Info } from '@mui/icons-material';
+
+/* POPUP COMPONENTS */
 import AddNewProductComponent from "./addnewproduct.jsx"
 import UpdateInventoryComponent from "./updateinventory.jsx"
 import UpdatePutawayItemComponent from "./updateputawayitem.jsx"
@@ -180,7 +195,7 @@ const DashboardComponent = () => {
                                 }
                             }}
                         >
-                            <Info />
+                            <InfoIcon />
                         </IconButton>
 
                         {/*Delete Button*/}
@@ -194,7 +209,7 @@ const DashboardComponent = () => {
                                 }
                             }}
                         >
-                            <Delete />
+                            <DeleteIcon />
                         </IconButton>
 
                         {/*Edit Button*/}
@@ -208,7 +223,7 @@ const DashboardComponent = () => {
                                 }
                             }}
                         >
-                            <Mode />
+                            <ModeIcon />
                         </IconButton>
                     </Box>
                 )}

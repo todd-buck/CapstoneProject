@@ -1,8 +1,15 @@
-import React from 'react';
+/* MUI COMPONENTS */
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
 
-import { useTheme, Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
-import { tokens } from "../../theme";
+import useTheme from "@mui/material/styles/useTheme";
+
+/* ICONS */
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import { tokens } from "../../theme";
 
 const FAQsComponent = () => {
     const theme = useTheme();

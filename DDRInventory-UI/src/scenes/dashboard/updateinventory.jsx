@@ -1,12 +1,15 @@
-import { React, Box, useState, useEffect } from 'react';
-import { Button, useTheme } from '@mui/material';
-import { tokens } from "../../theme";
+/* MUI COMPONENTS */
+import Button from "@mui/material/Button";
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import InputAdornment from '@mui/material/InputAdornment';
 import DialogTitle from '@mui/material/DialogTitle';
+
+import useTheme from "@mui/material/styles/useTheme";
+
+import { tokens } from "../../theme";
 
 const UpdateInventoryComponent = ({ item, setUpdateInventoryComponentVisibility, refetch } ) => {
     const theme = useTheme();
@@ -25,7 +28,7 @@ const UpdateInventoryComponent = ({ item, setUpdateInventoryComponentVisibility,
             body: JSON.stringify(item)
         }).then((response) => response.status)
             .then((responseStatus) => {
-                if (responseStatus == 451) {
+                if (responseStatus === 451) {
                     console.log("Item not found. Response: " + responseStatus.toString())
                 }
                 else {

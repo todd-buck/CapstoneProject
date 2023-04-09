@@ -1,4 +1,9 @@
-import { Box, Typography, useTheme } from "@mui/material";
+/* MUI COMPONENTS */
+import Box from "@mui/material/Box";
+import Typography from '@mui/material/Typography';
+
+import useTheme from "@mui/material/styles/useTheme";
+
 import { tokens } from "../../theme";
 
 import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';

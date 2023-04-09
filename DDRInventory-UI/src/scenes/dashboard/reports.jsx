@@ -1,9 +1,19 @@
-import React, { useMemo, useState, useEffect } from 'react'
-import { Autocomplete, Box, Button, IconButton, Modal, Tooltip, TextField, Typography, useTheme } from '@mui/material';
+import { useMemo, useState } from 'react'
+
+/* MUI COMPONENTS */
+import Autocomplete from "@mui/material/Autocomplete";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+
+import useTheme from "@mui/material/styles/useTheme";
+
 import { tokens } from "../../theme";
+
 import MaterialReactTable from 'material-react-table';
+
 import {
-    useQuery, useMutation
+    useQuery
 } from '@tanstack/react-query';
 
 const ReportsComponent = () => {

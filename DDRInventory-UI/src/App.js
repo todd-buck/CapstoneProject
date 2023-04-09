@@ -1,13 +1,16 @@
-
 import { useState } from "react";
 import { Routes, Route } from 'react-router-dom';
 
+/* USER BUILT COMPONENTS */
 import Topbar from './scenes/global/Topbar';
 import Sidebar from "./scenes/global/Sidebar";
-
 import Dashboard from "./scenes/dashboard";
 
-import { Box, CssBaseline, ThemeProvider, useTheme } from '@mui/material';
+/* MUI COMPONENTS */
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
+
 import { ColorModeContext, useMode, tokens } from './theme';
 
 import {

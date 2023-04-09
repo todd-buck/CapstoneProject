@@ -1,4 +1,8 @@
-import { Box, Typography, useTheme } from "@mui/material";
+/* MUI COMPONENTS */
+import Box from "@mui/material/Box";
+import Typography from '@mui/material/Typography';
+import useTheme from "@mui/material/useTheme";
+
 import { tokens } from "../../theme";
 
 import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";

@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-import { useContext } from "react";
-import { Typography, useTheme } from '@mui/material';
-import { ColorModeContext, tokens } from "../../theme";
-import { Select, MenuItem } from '@mui/material';
-import { Box } from '../../../node_modules/@mui/material/index';
+/* MUI COMPONENTS */
+import Box from "@mui/material/Box";
+import Typography from '@mui/material/Typography';
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 const SettingsComponent = ({ scheme, setScheme }) => {
-    const theme = useTheme();
 
     const handleChange = event => {
         setScheme(event.target.value);

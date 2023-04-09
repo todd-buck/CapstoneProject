@@ -1,12 +1,27 @@
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
+
 import MaterialReactTable from 'material-react-table';
-import { Box, Button, IconButton, Tooltip, useTheme, Modal, Typography, TextField } from '@mui/material';
+
+/* MUI COMPONENTS */
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+
+import useTheme from "@mui/material/styles/useTheme";
+
+/* MUI ICONS*/
 import RefreshIcon from '@mui/icons-material/Refresh';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 import {
     useQuery, useMutation
 } from '@tanstack/react-query';
+
 import { tokens } from "../../theme";
-import { Delete, Mode } from '@mui/icons-material';
 
 const LocationManagerComponent = () => {
     const theme = useTheme();
@@ -149,7 +164,7 @@ const LocationManagerComponent = () => {
                                 }
                             }}
                         >
-                            <Delete />
+                            <DeleteIcon />
                         </IconButton>
                     </Box>
                 )}

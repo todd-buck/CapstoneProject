@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import UnderConstructionComponent from '../global/underConstruction.jsx'
 
 const isFinished = false;
 
 
 const ImportCSVComponent = () => {
+    // eslint-disable-next-line
     const [file, setFile] = useState()
 
     function handleChange(event) {
@@ -30,6 +31,7 @@ const ImportCSVComponent = () => {
             })
 
     }
+
     if (isFinished) {
         return (
             <div className="ImportCSVComponent">

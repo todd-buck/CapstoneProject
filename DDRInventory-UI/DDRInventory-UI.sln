@@ -4,8 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ddrinventory-ui", "ddrinventory-ui.esproj", "{78EBC2A4-BBCC-44D7-9651-C2C92CC4C53A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DA23BA7E-E337-4FF5-B469-CF98C3208DED} = {DA23BA7E-E337-4FF5-B469-CF98C3208DED}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDRInventory", "..\DDRInventory\DDRInventory.csproj", "{DA23BA7E-E337-4FF5-B469-CF98C3208DED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDRInventory", "..\DDRInventory\DDRInventory.csproj", "{DA23BA7E-E337-4FF5-B469-CF98C3208DED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

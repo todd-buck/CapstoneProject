@@ -31,7 +31,7 @@ import { target_URL } from "../../App.js"
 //  Code Search Bar Button onClick
 //  Call API/Fill Item Information Box based on select (if this is not an option, do it based on search button in search bar)
 
-const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setUpdatePutawayItemComponentVisibility, row, refetch }) => {
+const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setUpdatePutawayItemComponentVisibility, row, refetch, productCatalogData }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode, theme.palette.scheme);
 
@@ -144,8 +144,12 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
 
     //gets a single item object from the list of items in itemData
     function getTableItem(option) {
-        const item = itemData.data.find(item => item.id.toString() === option.substring(0, option.indexOf(' ')))
-        return item
+        if (productCatalogData) {
+            const returnVal = productCatalogData.find(item => item.id.toString() === option.substring(0, option.indexOf(' ')))
+            return returnVal
+        }
+        const returnVal = itemData.data.find(item => item.id.toString() === option.substring(0, option.indexOf(' ')))
+        return returnVal
     }
 
     return (
@@ -156,7 +160,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
 
 
             <Modal
-                open={updatePutawayItemComponentVisibility != null}
+                open={updatePutawayItemComponentVisibility !== null}
                 onClose={() => {
                     if (row) {
                         refetch()
@@ -182,7 +186,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
                             renderInput={(data) => (
                                 <TextField {...data} variant="outlined" label="Items"/>
                             )}
-                            disabled={row}
+                            disabled={row !== null}
                             onChange={(event, newValue) => {
                                 setActiveItem(newValue);
                             }}

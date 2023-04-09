@@ -42,7 +42,6 @@ const DashboardComponent = () => {
             'table-data',
         ],
         queryFn: async () => {
-            console.log(target_URL)
             const fetchURL = new URL(
                 '/api/item/catalog',
                 target_URL,
@@ -114,7 +113,7 @@ const DashboardComponent = () => {
         <Box>
             {addNewProductComponentVisibility ? (<AddNewProductComponent addNewProductComponentVisibility={addNewProductComponentVisibility} setAddNewProductComponentVisibility={setAddNewProductComponentVisibility} refetch={refetch} />) : null}
             {updateInventoryComponentVisibility ? (<UpdateInventoryComponent item={updateInventoryComponentVisibility.original} setUpdateInventoryComponentVisibility={setUpdateInventoryComponentVisibility} refetch={refetch} />) : null}
-            {updatePutawayItemComponentVisibility ? (<UpdatePutawayItemComponent updatePutawayItemComponentVisibility={updatePutawayItemComponentVisibility} setUpdatePutawayItemComponentVisibility={setUpdatePutawayItemComponentVisibility} row={updatePutawayItemComponentVisibility.original} refetch={refetch} />) : null}
+            {updatePutawayItemComponentVisibility ? (<UpdatePutawayItemComponent updatePutawayItemComponentVisibility={updatePutawayItemComponentVisibility} setUpdatePutawayItemComponentVisibility={setUpdatePutawayItemComponentVisibility} row={updatePutawayItemComponentVisibility.original} refetch={refetch} productCatalogData={data} />) : null}
 
             <MaterialReactTable
                 columns={columns}

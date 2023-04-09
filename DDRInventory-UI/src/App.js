@@ -22,6 +22,7 @@ const queryClient = new QueryClient();
 
 /* FOR CONNECTING TO BACK-END SERVER, SHOULD BE CHANGED PER DEVICE (FOR DEPLOYMENT) */
 const target_IPv4 = "192.168.1.181"
+//const target_IPv4 = "localhost"
 const target_port = ":7105"
 export const target_URL = "https://" + target_IPv4 + target_port
 

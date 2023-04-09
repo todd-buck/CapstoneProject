@@ -21,7 +21,6 @@ import Typography from '@mui/material/Typography';
 
 import useTheme from "@mui/material/styles/useTheme";
 
-/*import logo from '../../assets/DillardsLogoV2.png'*/
 import logo from '../../assets/BreezeLogo.png';
 
 /*Menu Collapse Icon*/

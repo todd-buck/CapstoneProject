@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import { useContext } from "react";
-import { Typography, useTheme } from '@mui/material';
-import { ColorModeContext, tokens } from "../../theme";
-import { Select, MenuItem } from '@mui/material';
-import { Box } from '../../../node_modules/@mui/material/index';
-import { Button } from '@mui/material';
+import { useState } from 'react';
+
+/* MUI COMPONENTS */
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+
+/* POPUP COMPONENTS */
 import UpdatePutawayItemComponent from "./updateputawayitem.jsx";
 import UpdatePutawayLocationComponent from "./updateputawaylocation.jsx";
 

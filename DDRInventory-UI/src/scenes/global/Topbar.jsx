@@ -1,12 +1,20 @@
-import { Box, IconButton, useTheme, Link, Typography, Select, MenuItem } from "@mui/material";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
+
+/* MUI COMPONENTS */
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Link from "@mui/material/Link"
+import Typography from '@mui/material/Typography';
+
+import useTheme from "@mui/material/styles/useTheme";
+
+/* MUI ICONS */
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import SearchIcon from "@mui/icons-material/Search";
 
 const Topbar = () => {
     const theme = useTheme();

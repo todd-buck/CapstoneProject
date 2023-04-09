@@ -1,6 +1,15 @@
 import { tokens } from "../../theme";
-import { Box, Typography, useTheme } from '@mui/material';
-import { Accordion, AccordionSummary, AccordionDetails} from "@mui/material";
+
+/* MUI COMPONENTS */
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+
+import useTheme from "@mui/material/styles/useTheme";
+
+/* MUI ICONS */
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const DocumentationComponent = () => {

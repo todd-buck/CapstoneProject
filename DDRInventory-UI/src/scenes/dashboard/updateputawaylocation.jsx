@@ -1,10 +1,28 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import { useMemo, useState, useEffect } from 'react'
+
 import MaterialReactTable from 'material-react-table';
-import { Autocomplete, Box, Button, IconButton, Modal, Tooltip, TextField, Typography, useTheme } from '@mui/material';
-import { Add, Remove, DisabledByDefault } from '@mui/icons-material';
+
+/* MUI COMPONENTS */
+import Autocomplete from "@mui/material/Autocomplete";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Modal from "@mui/material/Modal";
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+
+import useTheme from "@mui/material/styles/useTheme";
+
+/* MUI ICONS*/
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
+
 import {
     useQuery,
 } from '@tanstack/react-query';
+
 import { tokens } from "../../theme";
 
 //TODO:
@@ -159,7 +177,7 @@ const UpdatePutawayLocationComponent = ({ updatePutawayLocationComponentVisibili
                             variant="contained"
                             sx={{ color: colors.primary[900] }}
                         >
-                            <DisabledByDefault />
+                            <DisabledByDefaultIcon />
                         </IconButton>
                     </Box>
 
@@ -230,14 +248,14 @@ const UpdatePutawayLocationComponent = ({ updatePutawayLocationComponentVisibili
                                         sx={{ color: colors.addAccent[700] }}
                                         variant="contained"
                                     >
-                                        <Add />
+                                        <AddIcon />
                                     </IconButton>
                                     <IconButton
                                         onClick={() => setRemoveModalObject(row)}
                                         sx={{ color: colors.removeAccent[500] }}
                                         variant="contained"
                                     >
-                                        <Remove />
+                                        <RemoveIcon />
                                     </IconButton>
                                 </Box>
                             )}

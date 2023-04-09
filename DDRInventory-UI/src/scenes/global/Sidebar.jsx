@@ -1,9 +1,26 @@
 import { useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+
+/* REACT PRO SIDEBAR COMPONENTS */
+/*
+import ProSidebar from "react-pro-sidebar/ProSidebar";
+import Menu from "react-pro-sidebar/Menu";
+import MenuItem from "react-pro-sidebar/MenuItem"
+;*/
+
 import { Link } from "react-router-dom";
+//import Link from "react-router-dom/Link";
+
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
+
+/* MUI COMPONENTS */
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Typography from '@mui/material/Typography';
+
+import useTheme from "@mui/material/styles/useTheme";
+
 /*import logo from '../../assets/DillardsLogoV2.png'*/
 import logo from '../../assets/BreezeLogo.png';
 
@@ -48,7 +65,6 @@ import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
 
 /*FAQs Icon*/
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import { ManageSearchOutlined, NotListedLocationOutlined } from "../../../node_modules/@mui/icons-material/index";
 
 const Item = ({ title, to, icon, selected, setSelected, isCollapsed, setIsCollapsed }) => {
     const theme = useTheme();
@@ -227,7 +243,7 @@ const Sidebar = ({selected, setSelected}) => {
                         <Item
                             title="Location Manager"
                             to="/"
-                            icon={<NotListedLocationOutlined />}
+                            icon={<NotListedLocationOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                             isCollapsed={isCollapsed}
@@ -238,7 +254,7 @@ const Sidebar = ({selected, setSelected}) => {
                         <Item
                             title="Put Away Manager"
                             to="/"
-                            icon={<ManageSearchOutlined />}
+                            icon={<ManageSearchOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                             isCollapsed={isCollapsed}

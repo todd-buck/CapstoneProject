@@ -1,12 +1,16 @@
-import { React, Box, useState, useEffect } from 'react';
-import { Button, Grid ,useTheme } from '@mui/material';
-import { tokens } from "../../theme";
+/* MUI COMPONENTS */
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import InputAdornment from '@mui/material/InputAdornment';
 import DialogTitle from '@mui/material/DialogTitle';
+
+import useTheme from "@mui/material/styles/useTheme";
+
+import { tokens } from "../../theme";
 
 const newProduct = {
     "id": "-1",
@@ -29,7 +33,7 @@ const AddNewProductComponent = ({ addNewProductComponentVisibility, setAddNewPro
 
     const handleSubmit = () => {
         for (var prop in newProduct) {
-            if (prop != "id" && !newProduct[prop]) {
+            if (prop !== "id" && !newProduct[prop]) {
                 alert("Required field missing: " + prop);
                 return;
             }
@@ -43,7 +47,7 @@ const AddNewProductComponent = ({ addNewProductComponentVisibility, setAddNewPro
             body: JSON.stringify(newProduct)
         }).then((response) => response.status)
             .then((responseStatus) => {
-                if (responseStatus == 451) {
+                if (responseStatus === 451) {
                     alert("Critical Error: Item not found. Reloading Database.\nResponse: " + responseStatus.toString())
                 }
             }).then(setAddNewProductComponentVisibility(false)).then(() => refetch())

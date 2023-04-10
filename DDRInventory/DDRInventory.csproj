@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <ContainerImageName>Breeze-IMS</ContainerImageName>
     <ContainerImageTags>latest</ContainerImageTags>
 	<PublishProfile>DefaultContainer</PublishProfile>
-	<RuntimeIdentifier>linux-x64</RuntimeIdentifier>
     <TargetFramework>net6.0</TargetFramework>
+	<RuntimeIdentifier>linux-x64</RuntimeIdentifier>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>

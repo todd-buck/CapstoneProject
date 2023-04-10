@@ -1,10 +1,15 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine as build
-WORKDIR /app
-COPY . .
-RUN dotnet restore
-RUN dotnet publish -o /app/published-app
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+WORKDIR /DDRInventory
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine as runtime
-WORKDIR /app
-COPY --from=build /app/published-app /app
-ENTRYPOINT [ "dotnet", "/app/DDRInventory.dll" ]
+# Copy everything
+COPY . ./
+# Restore as distinct layers
+RUN dotnet restore
+# Build and publish a release
+RUN dotnet publish -c Release -o out
+
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR /App
+COPY --from=build-env /App/out .
+ENTRYPOINT ["dotnet", "DDRInventory.dll"]

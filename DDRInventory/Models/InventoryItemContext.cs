@@ -143,11 +143,7 @@ namespace DDRInventory.Models
                                 ParLevel = reader.GetInt32(7)
                             });
                         }
-                        new Log
-                        {
-                            User = "User",
-                            Action = "Open Item Catalog",
-                        }.Write("Retrieving all items from the database");
+                        Log.WriteVerbose("Retrieving all items from the database");
                         return items;
                     }
 
@@ -220,7 +216,7 @@ namespace DDRInventory.Models
                 using (SQLiteCommand updateItemCommand = catalog._connection.CreateCommand())
                 {
                     updateItemCommand.CommandText = $"UPDATE items SET quantity = $quantity WHERE id = $id;";
-                    updateItemCommand.Parameters.AddWithValue("$name", updatedItem.Name);
+                    updateItemCommand.Parameters.AddWithValue("$quantity", updatedItem.QuantityOnHand);
                     updateItemCommand.Parameters.AddWithValue("$id", updatedItem.Id);
                     updateItemCommand.ExecuteNonQuery();
                     new Log
@@ -228,8 +224,9 @@ namespace DDRInventory.Models
                         User = "User",
                         Action = "Item Update",
                         Reason = "Sale",
-                        ItemName= updatedItem.Name,
-                    }.Write($"User sold {amountsold}{(amountsold > 1 ? "s" : "")} {oldItem.Unit}(s) of {updatedItem.Name}");
+                        ItemName = updatedItem.Name,
+                        Adjustment = (-1 * amountsold).ToString()
+                    }.Write($"User sold {amountsold} {oldItem.Unit}{(amountsold > 1 ? "s" : "")} of {updatedItem.Name}");
                     return true;
                 }
             }

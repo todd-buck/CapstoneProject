@@ -213,26 +213,23 @@ namespace DDRInventory.Models
 
         public static bool UpdateItem(InventoryItem updatedItem)
         {
-            GetItem(updatedItem.Id); // this throw exception if the item does not exist.
+            InventoryItem oldItem = GetItem(updatedItem.Id); // this throw exception if the item does not exist.
+            int amountsold = oldItem.QuantityOnHand - updatedItem.QuantityOnHand;
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand updateItemCommand = catalog._connection.CreateCommand())
                 {
-                    updateItemCommand.CommandText = $"UPDATE items SET name = $name, quantity = $quantity, price = $price, unit = $unit, category = $category, subcategory = $subcategory, par_level = $par_level WHERE id = {updatedItem.Id};";
+                    updateItemCommand.CommandText = $"UPDATE items SET quantity = $quantity WHERE id = $id;";
                     updateItemCommand.Parameters.AddWithValue("$name", updatedItem.Name);
-                    updateItemCommand.Parameters.AddWithValue("$quantity", updatedItem.QuantityOnHand);
-                    updateItemCommand.Parameters.AddWithValue("$price", updatedItem.Price);
-                    updateItemCommand.Parameters.AddWithValue("$unit", updatedItem.Unit);
-                    updateItemCommand.Parameters.AddWithValue("$category", updatedItem.Category);
-                    updateItemCommand.Parameters.AddWithValue("$subcategory", updatedItem.SubCategory);
-                    updateItemCommand.Parameters.AddWithValue("$par_level", updatedItem.ParLevel);
+                    updateItemCommand.Parameters.AddWithValue("$id", updatedItem.Id);
                     updateItemCommand.ExecuteNonQuery();
                     new Log
                     {
-                        User = "DummyUser",
+                        User = "User",
                         Action = "Item Update",
+                        Reason = "Sale",
                         ItemName= updatedItem.Name,
-                    }.Write($"Updating {updatedItem.Name}'s item properties");
+                    }.Write($"User sold {amountsold}{(amountsold > 1 ? "s" : "")} {oldItem.Unit}(s) of {updatedItem.Name}");
                     return true;
                 }
             }

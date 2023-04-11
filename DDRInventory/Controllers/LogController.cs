@@ -10,6 +10,20 @@ namespace DDRInventory.Controllers
     [ApiController]
     public class LogController : ControllerBase
     {
+        [HttpDelete("clear")]
+        public bool clear()
+        {
+            try
+            {
+                LogContext.Clear();
+            }
+            catch (SQLiteException e)
+            {
+                Response.StatusCode = 512;
+            }
+            return true;
+        }
+
         [HttpGet("all")]
         public Log[] GetAll()
         {

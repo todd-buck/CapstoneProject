@@ -25,6 +25,7 @@ const UpdateInventoryComponent = ({ item, setUpdateInventoryComponentVisibility,
     const handleClose = () => {
         setQuantitySold(0);
         setUpdateInventoryComponentVisibility(null);
+        refetch()
     };
 
     const handleSubmit = () => {

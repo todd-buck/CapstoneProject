@@ -12,8 +12,8 @@ import useTheme from "@mui/material/styles/useTheme";
 /* MUI ICONS*/
 import DeleteIcon from '@mui/icons-material/Delete';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import ModeIcon from '@mui/icons-material/Mode';
 import InfoIcon from '@mui/icons-material/Info';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 import {
     useQuery, useMutation
@@ -186,6 +186,20 @@ const DashboardComponent = () => {
                 //Buttons that appear on every row
                 renderRowActions={({ row }) => (
                     <Box sx={{ display: 'flex', flexDirextion: 'row' }} >
+                        {/*Edit Button*/}
+                        <IconButton
+                            onClick={() => {
+                                setUpdateInventoryComponentVisibility(row);
+                            }}
+                            sx={{
+                                "&:hover": {
+                                    color: colors.addAccent[500]
+                                }
+                            }}
+                        >
+                            <AttachMoneyIcon />
+                        </IconButton>
+
                         {/*Item Info Button*/}
                         <IconButton
                             onClick={() => {
@@ -214,19 +228,6 @@ const DashboardComponent = () => {
                             <DeleteIcon />
                         </IconButton>
 
-                        {/*Edit Button*/}
-                        <IconButton
-                            onClick={() => {
-                                setUpdateInventoryComponentVisibility(row);
-                            }}
-                            sx={{
-                                "&:hover": {
-                                    color: colors.changeAccent[500]
-                                }
-                            }}
-                        >
-                            <ModeIcon />
-                        </IconButton>
                     </Box>
                 )}
 

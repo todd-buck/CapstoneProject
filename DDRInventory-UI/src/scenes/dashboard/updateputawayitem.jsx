@@ -186,7 +186,7 @@ const UpdatePutawayItemComponent = ({ updatePutawayItemComponentVisibility, setU
                             renderInput={(data) => (
                                 <TextField {...data} variant="outlined" label="Items"/>
                             )}
-                            disabled={row !== null}
+                            disabled={row}
                             onChange={(event, newValue) => {
                                 setActiveItem(newValue);
                             }}
@@ -298,7 +298,10 @@ const addModal = (colors, addModalObject, setAddModalObject, quantityBuffer, set
     return (
         <Modal
             open={addModalObject != null}
-            onClose={() => setAddModalObject(null)}
+            onClose={() => {
+                setQuantityBuffer(0)
+                setAddModalObject(null)
+            }}
             sx={{
                 display: "flex",
                 width: "100vw",
@@ -390,7 +393,10 @@ const removeModal = (colors, removeModalObject, setRemoveModalObject, quantityBu
     return (
         <Modal
             open={removeModalObject != null}
-            onClose={() => setRemoveModalObject(null)}
+            onClose={() => {
+                setQuantityBuffer(0)
+                setRemoveModalObject(null)
+            }}
             sx={{
                 display: "flex",
                 width: "100vw",
@@ -466,7 +472,10 @@ const removeModal = (colors, removeModalObject, setRemoveModalObject, quantityBu
                                 .then(() => setRemoveModalObject(null))
                                 .then(() => setPutawayTableTrigger(!putawayTableTrigger))
                         }}
-                        sx={{ mx: 1 }}
+                        sx={{
+                            backgroundColor: colors.removeAccent[500],
+                            mx: 1
+                        }}
                         variant="contained"
                         disabled={quantityBuffer <= 0}
                     >

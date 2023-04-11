@@ -1,11 +1,14 @@
 /* MUI COMPONENTS */
+import { useState } from 'react'
+
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import InputAdornment from '@mui/material/InputAdornment';
 import DialogTitle from '@mui/material/DialogTitle';
+import Typography from '@mui/material/Typography';
 
 import useTheme from "@mui/material/styles/useTheme";
 
@@ -17,11 +20,20 @@ const UpdateInventoryComponent = ({ item, setUpdateInventoryComponentVisibility,
     const theme = useTheme();
     const colors = tokens(theme.palette.mode, theme.palette.scheme);
 
+    const [quantitySold, setQuantitySold] = useState(0)
+
     const handleClose = () => {
+        setQuantitySold(0);
         setUpdateInventoryComponentVisibility(null);
     };
 
     const handleSubmit = () => {
+        if (quantitySold < item.quantityOnHand) {
+            item.quantityOnHand = item.quantityOnHand - quantitySold
+        } else {
+            item.quantityOnHand = 0
+        }
+
         fetch(target_URL + "/api/item/update", {
             accept: 'application/json',
             method: 'PUT',
@@ -36,7 +48,7 @@ const UpdateInventoryComponent = ({ item, setUpdateInventoryComponentVisibility,
                 else {
                     console.log(`Exiting fetch post without error. ${item.name} has been udpated. Response: ` + responseStatus.toString())
                 }
-            }).then(setUpdateInventoryComponentVisibility(null)).then(() => {refetch()})
+            }).then(setUpdateInventoryComponentVisibility(null)).then(() => { setQuantitySold(0) }).then(() => {refetch()})
     };
 
     if (!item) return (
@@ -47,81 +59,38 @@ const UpdateInventoryComponent = ({ item, setUpdateInventoryComponentVisibility,
 
     return (
             <Dialog open={item !== null} onClose={handleClose}>
-            <DialogTitle>Update {item.name}</DialogTitle>
-                <DialogContent>
+            <DialogTitle variant="h2">{item.name}</DialogTitle>
+            <DialogContent>
+                <Typography variant="h3" sx={{mb:1}}>
+                    {item.unit + "(s) Sold:"}
+                </Typography>
                 <TextField
-                    margin="dense"
-                    id="nameField"
-                    label="Item Name"
-                    defaultValue={item.name}
-                    style={{ width: 200 }}
-                    onChange={(e) => { item.name = e.target.value} }
-                        />
-                <TextField
-                    margin="dense"
-                    id="categoryField"
-                    label="Category"
-                    defaultValue={item.category}
-                    style={{ width: 200, float: 'right' }}
-                    onChange={(e) => { item.category = e.target.value }}
-                        />
-                <TextField
-                    margin="normal"
-                    id="subCategoryField"
-                    label="Subcategory"
-                    defaultValue={item.subCategory}
-                    style={{ width: 200 }}
-                    onChange={(e) => { item.subCategory = e.target.value }}
-                />
-                <TextField
-                    margin="normal"
-                    id="onHandField"
-                    InputProps={{
-                        endAdornment: <InputAdornment position="end">units</InputAdornment>,
-                    }}
-                    label="On-Hand"
-                    defaultValue={item.quantityOnHand}
-                    style={{ width: 200, float: 'right' }}
-                    onChange={(e) => { item.quantityOnHand = e.target.value }}
-                />
-                <TextField
-                    margin="normal"
-                    id="priceField"
-                    InputProps={{
-                        startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    }}
-                    label="Price"
-                    defaultValue={parseFloat(item.price).toFixed(2)}
-                    style={{ width: 200 }}
-                    onChange={(e) => { item.price = e.target.value }}
-                />
-                <TextField
-                    margin="normal"
-                    id="unitField"
-                    label="Unit"
-                    defaultValue={item.unit}
-                    style={{ width: 200, float: 'right' }}
-                    onChange={(e) => { item.unit = e.target.value }}
-                />
-                <TextField
-                    margin="normal"
-                    id="parLevelField"
-                    label="Par Level"
-                    defaultValue={item.parLevel}
-                    style={{ width: 200, float: 'center' }}
-                    onChange={(e) => { item.parLevel = e.target.value }}
+                    id="quantitySoldlField"
+                    error={quantitySold > item.quantityOnHand || quantitySold < 0}
+                    value={quantitySold}
+                    onChange={(event) => setQuantitySold(Number(event.target.value))}
+                    type="number"
                 />
                 </DialogContent>
                 <DialogActions>
                     <Button
+                        variant="contained"
                         onClick={handleClose}
-                        style={{ backgroundColor: colors.primary[300], color: colors.gray[100] }}
+                        sx={{
+                            backgroundColor: colors.changeAccent[500],
+                            mx: 1
+                        }}
                     >
                         Cancel
                     </Button>
                     <Button
+                        variant="contained"
                         onClick={handleSubmit}
-                        style={{ backgroundColor: colors.primary[300], color: colors.gray[100] }}
+                        disabled={quantitySold > item.quantityOnHand || quantitySold <= 0}
+                        sx={{
+                            backgroundColor: colors.addAccent[500],
+                            mx: 1
+                        }}
                     >
                         Submit
                     </Button>

@@ -275,7 +275,10 @@ const addModal = (colors, addModalObject, setAddModalObject, quantityBuffer, set
     return (
         <Modal
             open={addModalObject != null}
-            onClose={() => setAddModalObject(null)}
+            onClose={() => {
+                setQuantityBuffer(0)
+                setAddModalObject(null)
+            }}
             sx={{
                 display: "flex",
                 width: "100vw",
@@ -368,7 +371,10 @@ const removeModal = (colors, removeModalObject, setRemoveModalObject, quantityBu
     return (
         <Modal
             open={removeModalObject != null}
-            onClose={() => setRemoveModalObject(null)}
+            onClose={() => {
+                setQuantityBuffer(0)
+                setRemoveModalObject(null)
+            }}
             sx={{
                 display: "flex",
                 width: "100vw",

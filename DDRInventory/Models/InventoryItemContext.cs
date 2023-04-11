@@ -143,11 +143,7 @@ namespace DDRInventory.Models
                                 ParLevel = reader.GetInt32(7)
                             });
                         }
-                        new Log
-                        {
-                            User = "User",
-                            Action = "Open Item Catalog",
-                        }.Write("Retrieving all items from the database");
+                        Log.WriteVerbose("Retrieving all items from the database");
                         return items;
                     }
 
@@ -228,7 +224,8 @@ namespace DDRInventory.Models
                         User = "User",
                         Action = "Item Update",
                         Reason = "Sale",
-                        ItemName= updatedItem.Name,
+                        ItemName = updatedItem.Name,
+                        Adjustment = (-1 * amountsold).ToString()
                     }.Write($"User sold {amountsold}{(amountsold > 1 ? "s" : "")} {oldItem.Unit}(s) of {updatedItem.Name}");
                     return true;
                 }

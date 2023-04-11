@@ -28,7 +28,7 @@ namespace DDRInventory.Models
                     insertItemCommand.ExecuteNonQuery();
                     new Log
                     {
-                        User = "DummyUser",
+                        User = "User",
                         Action = "Item Addition",
                         ItemName = newItem.Name,
                     }.Write($"Adding item '{newItem.Name}' to the database");
@@ -60,7 +60,7 @@ namespace DDRInventory.Models
                         insertItemCommand.Parameters.AddWithValue("$par_level", newItem.ParLevel);
                         new Log
                         {
-                            User = "DummyUser",
+                            User = "User",
                             Action = "Item Addition",
                             ItemName = newItem.Name,
                             Reason = "CSV Import",
@@ -82,7 +82,7 @@ namespace DDRInventory.Models
                     deleteAllItemsCommand.ExecuteNonQuery();
                     new Log
                     {
-                        User = "DummyUser",
+                        User = "User",
                         Action = "All Item Deletion"
                     }.Write("Deleting all items from the database");
                     return true;
@@ -110,7 +110,7 @@ namespace DDRInventory.Models
                     insertItemCommand.ExecuteNonQuery();
                     new Log
                     {
-                        User = "DummyUser",
+                        User = "User",
                         Action = "Item Deleted",
                         ItemName = GetItem(id).Name,
                         Reason = "DummyReason"
@@ -145,7 +145,7 @@ namespace DDRInventory.Models
                         }
                         new Log
                         {
-                            User = "DummyUser",
+                            User = "User",
                             Action = "Open Item Catalog",
                         }.Write("Retrieving all items from the database");
                         return items;

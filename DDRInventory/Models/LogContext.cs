@@ -6,6 +6,20 @@ namespace DDRInventory.Models
 {
     public class LogContext
     {
+        public static void Clear()
+        {
+            {
+                using (Database db = new Database())
+                {
+                    using (SQLiteCommand clearLogsQuery = db._connection.CreateCommand())
+                    {
+                        clearLogsQuery.CommandText = "DELETE FROM log;";
+                        clearLogsQuery.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
         public static List<Log> GetAll()
         {
             {

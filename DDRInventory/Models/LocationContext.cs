@@ -24,7 +24,7 @@ namespace DDRInventory.Models
                     }
                     new Log
                     {
-                        User = "DummyUser",
+                        User = "User",
                         Action = "Opened Location Catalog"
                     }.Write($"Retrieving all locations from the database");
                     return locations;
@@ -51,7 +51,7 @@ namespace DDRInventory.Models
                     addLocationCommand.ExecuteNonQuery();
                     new Log
                     {
-                        User = "DummyUser",
+                        User = "User",
                         Action = "Location Addition",
                         LocationName = newLocation.Name
                     }.Write($"Adding location '{newLocation.Name}' to the database");
@@ -102,7 +102,7 @@ namespace DDRInventory.Models
                     deleteLocationsCommand.ExecuteNonQuery();
                     new Log
                     {
-                        User = "DummyUser",
+                        User = "User",
                         Action = "All Location Deletion"
                     }.Write("Deleting all locations from the database");
                     return true;
@@ -135,7 +135,7 @@ namespace DDRInventory.Models
                     Log.WriteVerbose($"Location with id {id} removed from the database.");
                     new Log
                     {
-                        User = "DummyUser",
+                        User = "User",
                         Action = "Location Deletion",
                         LocationName = locationName
                     }.Write($"Deleted a location from the database");

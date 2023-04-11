@@ -30,7 +30,7 @@ namespace DDRInventory.Models
                     insertEntryCommand.ExecuteNonQuery();
                     new Log
                     {
-                        User = "DummyUser",
+                        User = "User",
                         Action = "Putaway Adjustment",
                         ItemName = newEntry.ItemName,
                         LocationName = newEntry.LocationName,
@@ -51,7 +51,7 @@ namespace DDRInventory.Models
                     deleteAllPutawayEntriesCommand.ExecuteNonQuery();
                     new Log
                     {
-                        User = "DummyUser",
+                        User = "User",
                         Action = "All Putaway Deletion"
                     }.Write("Deleting all putaway entries from the database");
                     return true;
@@ -73,7 +73,7 @@ namespace DDRInventory.Models
                     updatePutawayCommand.ExecuteNonQuery();
                     new Log
                     {
-                        User = "DummyUser",
+                        User = "User",
                         Action = "Putaway Adjustment",
                         ItemName = updatedEntry.ItemName,
                         LocationName = updatedEntry.LocationName,

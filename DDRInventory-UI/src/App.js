@@ -21,9 +21,9 @@ import {
 const queryClient = new QueryClient();
 
 /* FOR CONNECTING TO BACK-END SERVER, SHOULD BE CHANGED PER DEVICE (FOR DEPLOYMENT) */
-const target_IPv4 = "3.138.184.38"
-const target_port = ":443"
-export const target_URL = "https://" + target_IPv4 + target_port
+const target_IPv4 = "18.216.165.46"
+const target_port = ":80"
+export const target_URL = "http://" + target_IPv4 + target_port
 
 function App() {
     const [mode, setMode] = useState("light");

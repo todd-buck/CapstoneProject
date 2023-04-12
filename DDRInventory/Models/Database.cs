@@ -1,8 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using System.Data.SQLite;
-using System.IO;
-using System.Reflection;
-using System.Text;
+﻿using System.Data.SQLite;
+using Console = Colorful.Console;
+using System.Drawing;
 namespace DDRInventory.Models
 {
     public class Database : IDisposable
@@ -19,8 +17,8 @@ namespace DDRInventory.Models
      
         //Database version notes
         //2. Added category, subcategory, par_level
-        const string DATABASE_NAME = "catalogV5.db";
-        string DATABASE_PATH = Directory.GetCurrentDirectory();
+        static string DATABASE_NAME = "catalogV5.db";
+        static string DATABASE_PATH = Directory.GetCurrentDirectory();
 
         //MEMBER ATTRIBUTES
         public SQLiteConnection _connection;
@@ -42,7 +40,7 @@ namespace DDRInventory.Models
 
         private void CheckVersion()
         {
-            foreach (string dbFile in Directory.GetFiles(DATABASE_PATH, "*.db"))
+            foreach (string dbFile in Directory.GetFiles(DATABASE_PATH, "catalog*.db"))
             {
                 if (Path.GetFileName(dbFile) != DATABASE_NAME)
                 {
@@ -101,6 +99,46 @@ namespace DDRInventory.Models
             createTableCommand.CommandText = "CREATE TABLE " + name + " " + types;
             //Console.WriteLine("The sql command is " + createTableCommand.CommandText);
             createTableCommand.ExecuteNonQuery();
+        }
+
+        public static async void RefreshAsync()
+        {
+            while (true)
+            {
+                // Get the current time
+                DateTime now = DateTime.Now;
+
+                // Calculate the time until the next 2:30 AM
+                TimeSpan timeUntil230AM = new DateTime(now.Year, now.Month, now.Day, 2, 30, 0) - now;
+
+                // If it's already past 2:30 AM, add a day to the time until the next 2:30 AM
+                if (timeUntil230AM < TimeSpan.Zero)
+                {
+                    timeUntil230AM += TimeSpan.FromDays(1);
+                }
+
+                // Sleep until 2:30 AM
+                await Task.Delay(timeUntil230AM);
+
+                // Print "30 more minutes"
+                Console.WriteLine("INFO: The database will be refreshed to its default state in 30 minutes", Color.Red);
+
+                // Sleep for 30 minutes
+                await Task.Delay(TimeSpan.FromMinutes(30));
+
+                // actually do the refresh
+                Console.WriteLine("Initiating database refresh...");
+                Console.WriteLine($"DEFAULT DATABASE PATH: {DATABASE_PATH}\\DefaultDatabase.db");
+                Console.WriteLine($"WORKING DATABASE PATH: {DATABASE_PATH}\\{DATABASE_NAME}");
+                File.Copy($"{DATABASE_PATH}\\DefaultDatabase.db", $"{DATABASE_PATH}\\{DATABASE_NAME}", true);
+                Console.WriteLine("INFO: Database refresh complete. Next reset in 24 hours.");
+
+                // Calculate the time until the next 2:30 AM
+                TimeSpan timeUntilNext230AM = TimeSpan.FromDays(1) - timeUntil230AM - TimeSpan.FromMinutes(30);
+
+                // Sleep until the next 2:30 AM
+                await Task.Delay(timeUntilNext230AM);
+            }
         }
     }
 }

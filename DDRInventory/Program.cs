@@ -1,5 +1,6 @@
 using DDRInventory.Models;
 
+Database.RefreshAsync();
 Database initializer = new Database();
 initializer.Init();
 
@@ -11,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.WebHost.UseKestrel();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -45,7 +45,11 @@ namespace DDRInventory.Models
                     insertItemCommand.CommandText = "INSERT INTO items (id, name, quantity, price, unit, category, subcategory, par_level) VALUES($id, $name, $quantity, $price, $unit, $category, $subcategory, $par_level); ";
                     foreach (InventoryItem newItem in newItems)
                     {
-                        if (GetAllIds().Contains(newItem.Id))
+                        if (newItem.Id == "")
+                        {
+                            newItem.Id = InventoryItem.GenerateId();
+                        }
+                        else if (GetAllIds().Contains(newItem.Id))
                         {
                             UpdateItem(newItem);
                             continue;
@@ -92,10 +96,11 @@ namespace DDRInventory.Models
 
         public static bool DeleteItem(string id)
         {
+            string deletedItemName;
             Log.WriteVerbose($"Deleting item with ID {id}");
             try
             {
-                GetItem(id);
+                deletedItemName = GetItem(id).Name;
             }
             catch (ItemNotFoundException e)
             {
@@ -112,7 +117,7 @@ namespace DDRInventory.Models
                     {
                         User = "User",
                         Action = "Item Deleted",
-                        ItemName = GetItem(id).Name,
+                        ItemName = deletedItemName,
                         Reason = "DummyReason"
                     }.Write($"Item with id {id} removed from the database.");
                     return true;

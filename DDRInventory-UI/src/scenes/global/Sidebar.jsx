@@ -9,7 +9,6 @@ import MenuItem from "react-pro-sidebar/MenuItem"
 ;*/
 
 import { Link } from "react-router-dom";
-//import Link from "react-router-dom/Link";
 
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
@@ -32,12 +31,6 @@ import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 /*Dashboard Icon*/
 import DvrOutlinedIcon from "@mui/icons-material/DvrOutlined";
 
-/*Add Inventory Icon*/
-//import PostAddOutlinedIcon from "@mui/icons-material/PostAddOutlined";
-
-/*Add New Item Icon*/
-//import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
-
 /*Reports Icon*/
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 
@@ -55,9 +48,6 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 
 /*Your Profile Icon*/
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-
-/*Add New Users Icon*/
-//import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 
 /*Documentation Icon*/
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
@@ -98,11 +88,9 @@ const Sidebar = ({selected, setSelected}) => {
     return (
         <Box
             sx={{
-                //height: "150vh",
                 "& .pro-sidebar-inner": {
                     background: `${colors.primary[300]} !important`,
-                    height: "100vh",
-                    //position: 'fixed',   
+                    height: "100vh", 
                 },
                 "& .pro-icon-wrapper": {
                     backgroundColor: "transparent !important",
@@ -205,21 +193,6 @@ const Sidebar = ({selected, setSelected}) => {
                             isCollapsed={isCollapsed}
                             setIsCollapsed={setIsCollapsed}
                         />
-
-                       {/* <Item
-                            title="Update Inventory"
-                            to="/"
-                            icon={<PostAddOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Add New Product"
-                            to="/"
-                            icon={<AddBoxOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />*/}
                         <Item
                             title="Reports"
                             to="/"
@@ -271,32 +244,7 @@ const Sidebar = ({selected, setSelected}) => {
                             setIsCollapsed={setIsCollapsed}
                         />
 
-                        {/* Pages/User Manipulation*/}
-                        {!isCollapsed && (
-                            <Typography
-                                variant="h6"
-                                color={colors.gray[300]}
-                                sx={{ m: "15px 0 5px 20px" }}
-                            >
-                                Users
-                            </Typography>
-                        )}
-                        <Item
-                            title="Your Profile"
-                            to="/"
-                            icon={<PersonOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                            isCollapsed={isCollapsed}
-                            setIsCollapsed={setIsCollapsed}
-                        />
-                        {/*<Item
-                            title="Add New Users"
-                            to="/"
-                            icon={<PersonAddAltOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />*/}
+                        
 
                         {/* Information */}
                         {!isCollapsed && (

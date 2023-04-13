@@ -52,6 +52,7 @@ namespace DDRInventory.Models
 
         public void Init()
         {
+            File.Copy($"{DATABASE_PATH}{Path.PathSeparator}DefaultDatabase.db", $"{DATABASE_PATH}{Path.PathSeparator}{DATABASE_NAME}", true);
             CheckVersion();
             List<string> tablesInDatabase = GetTableNames();
 

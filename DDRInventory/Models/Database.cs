@@ -26,7 +26,7 @@ namespace DDRInventory.Models
         //CONSTRUCTORS
         public Database()
         {
-            _connection = new SQLiteConnection($"Data Source={DATABASE_PATH + '\\' + DATABASE_NAME}; Version = 3; New = True; Compress = True; ");
+            _connection = new SQLiteConnection($"Data Source={DATABASE_PATH}{Path.PathSeparator}{DATABASE_NAME}; Version = 3; New = True; Compress = True; ");
             // Open the connection:
             try
             {
@@ -128,9 +128,9 @@ namespace DDRInventory.Models
 
                 // actually do the refresh
                 Console.WriteLine("Initiating database refresh...");
-                Console.WriteLine($"DEFAULT DATABASE PATH: {DATABASE_PATH}\\DefaultDatabase.db");
-                Console.WriteLine($"WORKING DATABASE PATH: {DATABASE_PATH}\\{DATABASE_NAME}");
-                File.Copy($"{DATABASE_PATH}\\DefaultDatabase.db", $"{DATABASE_PATH}\\{DATABASE_NAME}", true);
+                Console.WriteLine($"DEFAULT DATABASE PATH: {DATABASE_PATH}{Path.PathSeparator}DefaultDatabase.db");
+                Console.WriteLine($"WORKING DATABASE PATH: {DATABASE_PATH}{Path.PathSeparator}{DATABASE_NAME}");
+                File.Copy($"{DATABASE_PATH}{Path.PathSeparator}DefaultDatabase.db", $"{DATABASE_PATH}{Path.PathSeparator}{DATABASE_NAME}", true);
                 Console.WriteLine("INFO: Database refresh complete. Next reset in 24 hours.");
 
                 // Calculate the time until the next 2:30 AM

@@ -43,24 +43,23 @@ const Topbar = () => {
 
             {/* Icons */}
             <Box display="flex">
-                <Switch onClick={colorMode.toggleColorMode}
+                <Switch
+                    onClick={colorMode.toggleColorMode}
+                    icon={<LightModeOutlinedIcon sx={{ color: colors.gray[100], backgroundColor: colors.primary[400], borderRadius: '50%', p: "15%" }} /> }
+                    checkedIcon={<DarkModeOutlinedIcon sx={{ color: colors.gray[100], backgroundColor: colors.primary[400], borderRadius: '50%', p:"10%" }} />}
                     sx={{
                         '& .MuiSwitch-switchBase': {
                             transitionDuration: '300ms',
-                            color: colors.primary[400],
                             '& + .MuiSwitch-track': {
                                     backgroundColor: colors.primary[700],
                                     opacity: 1,
                                 },
                             '&.Mui-checked': {
-                                color: colors.primary[400],
                                 '& + .MuiSwitch-track': {
                                     backgroundColor: colors.primary[800],
                                     opacity: 1,
                                 },
-                                '&.Mui-disabled + .MuiSwitch-track': {
-                                    opacity: 0.1,
-                                },
+                                
                             },
                         }
                     }}>

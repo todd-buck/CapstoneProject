@@ -27,7 +27,7 @@ const Topbar = () => {
     const isPhone = useMediaQuery('(max-width:600px)')
 
     return (
-        <Box display="flex" justifyContent="space-between" p={2} sx={{backgroundColor: colors.primary[200]}}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" p={2} sx={{backgroundColor: colors.primary[200]}}>
             <Link
                 href="/"
                 underline="none"
@@ -43,16 +43,6 @@ const Topbar = () => {
 
             {/* Icons */}
             <Box display="flex">
-                {/*
-                <IconButton onClick={colorMode.toggleColorMode}
-                    style={iconStyle}>
-                    {theme.palette.mode === 'dark' ? (
-                        <DarkModeOutlinedIcon />
-                    ) : (
-                        <LightModeOutlinedIcon />
-                    )}
-                </IconButton>
-                */}
                 <Switch onClick={colorMode.toggleColorMode}
                     sx={{
                         '& .MuiSwitch-switchBase': {
@@ -62,7 +52,6 @@ const Topbar = () => {
                                     backgroundColor: colors.primary[700],
                                     opacity: 1,
                                 },
-                            //backgroundColor: colors.primary[800],
                             '&.Mui-checked': {
                                 color: colors.primary[400],
                                 '& + .MuiSwitch-track': {
@@ -77,21 +66,6 @@ const Topbar = () => {
                     }}>
                     
                 </Switch>
-                {/*
-                <IconButton>
-                    <NotificationsOutlinedIcon style={iconStyle} />
-                </IconButton>
-                */}
-                {/*
-                <IconButton>
-                    <SettingsOutlinedIcon style={iconStyle} />
-                </IconButton>
-                */}
-                {/*
-                <IconButton>
-                    <PersonOutlinedIcon style={iconStyle} />
-                </IconButton>
-                */}
             </Box>
         </Box>    
     )

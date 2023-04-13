@@ -60,7 +60,7 @@ namespace DDRInventory.Models
         }
         public static bool UpdateEntry(PutawayEntry updatedEntry)
         {
-            GetEntry(updatedEntry.ItemId, updatedEntry.LocationId);
+            PutawayEntry oldEntry = GetEntry(updatedEntry.ItemId, updatedEntry.LocationId);
             using (Database catalog = new Database())
             {
                 using (SQLiteCommand updatePutawayCommand = catalog._connection.CreateCommand())
@@ -77,7 +77,7 @@ namespace DDRInventory.Models
                         Action = "Putaway Adjustment",
                         ItemName = updatedEntry.ItemName,
                         LocationName = updatedEntry.LocationName,
-                        Adjustment = (updatedEntry.QuantityInLocation - GetEntry(updatedEntry.ItemId, updatedEntry.LocationId).QuantityInLocation).ToString()
+                        Adjustment = (updatedEntry.QuantityInLocation - oldEntry.QuantityInLocation).ToString()
                     }.Write($"Putting away {updatedEntry.QuantityInLocation} of item {updatedEntry.ItemName} in location {updatedEntry.LocationName}");
                     return true;
                 }

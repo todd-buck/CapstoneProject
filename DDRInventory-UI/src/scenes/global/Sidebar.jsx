@@ -20,7 +20,8 @@ import Typography from '@mui/material/Typography';
 
 import useTheme from "@mui/material/styles/useTheme";
 
-import logo from '../../assets/BreezeLogo.png';
+import darkLogo from '../../assets/DarkLogo.png';
+import lightLogo from '../../assets/LightLogo.png';
 
 /*Menu Collapse Icon*/
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -58,6 +59,7 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 const Item = ({ title, to, icon, selected, setSelected, isCollapsed, setIsCollapsed }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode, theme.palette.scheme);
+
     return (
         <MenuItem
             active={selected === title}
@@ -90,25 +92,25 @@ const Sidebar = ({selected, setSelected}) => {
             sx={{
                 "& .pro-sidebar-inner": {
                     background: `${colors.primary[300]} !important`,
-                    height: "100vh", 
+                    height: "100vh",
                 },
                 "& .pro-icon-wrapper": {
                     backgroundColor: "transparent !important",
                 },
-                "& .pro-inner-item": {
+                "& .pro-inner-item:not(.active)": {
                     padding: "5px 0px 5px 20px !important",
                     margin: "0px 15px 0px 0px",
-                    color: `${colors.gray[100]} !important`,
+                    color: `${colors.gray[100]}`,
                 },
-                "& .pro-inner-item:not(active):hover": {
-                    fontWeight: 'bold !important',
-                    color: `${colors.gray[100]} !important`,
-                    transition: 'background-color 0.3s ease-in-out',
+                "& .pro-inner-item:not(.active):hover": {
+                     fontWeight: 'bold !important',
+                     color: `${colors.gray[100]} !important`,
+                     transition: 'background-color 0.3s ease-in-out',
                 },
                 "& .pro-menu-item.active": {
-                    color: `${colors.gray[100]} !important`,
-                    backgroundColor: `${colors.splashAccent[500]} !important`,
-                    transition: 'background-color 0.3s ease-in-out',
+                     color: `${colors.gray[900]} !important`,
+                     backgroundColor: `${colors.splashAccent[500]} !important`,
+                     transition: 'background-color 0.3s ease-in-out',
                 },
             }}
         >
@@ -127,11 +129,9 @@ const Sidebar = ({selected, setSelected}) => {
                                 display="flex"
                                 justifyContent="flex-end"
                                 alignItems="center"
-                                ml="15px"
-
-                                
+                                ml="15px"                                
                             >
-                                <IconButton sx={{ "&:hover": { backgroundColor: colors.splashAccent[100] } }} onClick={() => setIsCollapsed(!isCollapsed)}>
+                                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                                     <MenuOutlinedIcon />
                                 </IconButton>
                             </Box>
@@ -141,15 +141,26 @@ const Sidebar = ({selected, setSelected}) => {
                     {!isCollapsed && (
                         <Box mb="25px">
                             <Box display="flex" justifyContent="center" alignItems="center">
-                                <img
-                                    alt="profile-user"
-                                    width="100px"
-                                    height="100px"
-                                    src={logo}
-                                    style={{ cursor: "pointer", borderRadius: "50%" }}
-                                />
+                                {theme.palette.mode === 'dark' ? (
+                                    <img
+                                        alt="profile-user"
+                                        width="100px"
+                                        height="100px"
+                                        src={lightLogo}
+                                        style={{ cursor: "pointer", borderRadius: "50%" }}
+                                    />
+                                ) : (
+                                    <img
+                                        alt="profile-user"
+                                        width="100px"
+                                        height="100px"
+                                        src={darkLogo}
+                                        style={{ cursor: "pointer", borderRadius: "50%" }}
+                                    />
+                                )}
                             </Box>
                         </Box>
+
                     )}
 
                     <Box paddingLeft={isCollapsed ? undefined : "10%"} marginRight="0vw">

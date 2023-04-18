@@ -45,7 +45,7 @@ const DocumentationComponent = () => {
         maxWidth: 852,
     };
 
-    const autoExpand = true;
+    const autoExpand = false;
 
     // subtopic summary styles
     const subtopicSummaryBoxStyle = {
@@ -84,7 +84,7 @@ const DocumentationComponent = () => {
                 The Product Catalog
             </Typography>
             <Typography variant={topicDetailsVariant} sx={topicDetailsStyle}>
-                The product catalog is the one-stop-shop for viewing all of the product in inventory, making inventory adjustments, and adding and removing items from the inventory. It features a variable-length table, sorting and filtering options, and column view controls.
+                The product catalog is the one-stop-shop for viewing all of the product in inventory, making inventory adjustments, adding and removing items from the inventory, and making PutAway adjustments. It features a variable-length table, sorting and filtering options, and column view controls.
             </Typography>
 
             <Box sx={subtopicIndent}>
@@ -110,10 +110,10 @@ const DocumentationComponent = () => {
                     </AccordionSummary>
                     <AccordionDetails sx={subtopicDetailsBoxStyle}>
                         <Typography sx={subtopicDetailsTextStyle} variant={subtopicDetailsTextVariant}>
-                            To proccess an adjustment to an item in the inventory, click the pencil icon in the actions column of the desired item. In the resulting menu, the item's name,
-                            quantity on hand, category, subcategory, price, unit, and par-level can all be adjusted. When the item's information is updated, the values are bundled into a
-                            JSON object and passed to the controller APIf in the body of the message. The server then proccesses the changes in the SQLite database. The API call returns
-                            true if the upadte was successful and false if the update was not successful if, for indtance, the databse file was locked by the server's filesystem. Each API
+                            To proccess an adjustment to an item in the inventory, click the dollar sign icon in the actions column of the desired item. In the resulting menu, the item's
+                            on-handquantity can be adjusted. be adjusted. When the item's quantity is updated, the value is bundled into a
+                            JSON object and passed to the controller API in the body of HTTP request the message. The server then proccesses the changes in the SQLite database. The API call returns
+                            true if the update was successful and false if the update was not successful if, for instance, the databse file was locked by the server's filesystem. Each API
                             also has certain HTTP response status codes, which are documented below.
                         </Typography>
                     </AccordionDetails>
@@ -135,7 +135,29 @@ const DocumentationComponent = () => {
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
+
+                <Accordion defaultExpanded={autoExpand}>
+                    <AccordionSummary sx={subtopicSummaryBoxStyle} expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+                        <Typography sx={subtopicSummaryTextStyle} variant={subtopicSummaryTextVariant}>
+                            Modifying PutAway Entries From the Product Catalog
+                        </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails sx={subtopicDetailsBoxStyle}>
+                        <Typography sx={subtopicDetailsTextStyle} variant={subtopicDetailsTextVariant}>
+                            To modify the PutAway entries for a specific item, click the circular 'i' icon in the actions column. From the resulting menu,
+                            the per-location quantity for a product can be adjusted for all locations where the product has been stored.
+                        </Typography>
+                    </AccordionDetails>
+                </Accordion>
             </Box>
+
+            <Typography variant={topicSummaryVariant} sx={topicSummaryStyle}>
+                Viewing Reports
+            </Typography>
+            <Typography variant={topicDetailsVariant} sx={topicDetailsStyle}>
+                To view reports, click the "reports" button on the sidebar. There, a log can be viewed that shows the actions that a user has taken. The reports and be sorted
+                by type, date, time, etc. These reports are useful for seeing where a putaway adjustment error occurred or monitoring inventory adjustments to prevent internal theft.
+            </Typography>
 
             <Typography variant={topicSummaryVariant} sx={topicSummaryStyle}>
                 Importing a CSV
@@ -147,6 +169,23 @@ const DocumentationComponent = () => {
                 processes an update to that item's information. If an item is added from the CSV that contains a non-UPC length ID, that means that the user did not include a
                 UPC when the item was added to the inventory, so the product ID was randomly generated. As such, if one of these items is in the imported CSV, the controller
                 will add that item with a newly generated ID. It is the responsibility of the user to manage duplicate items for which there is no UPC.
+            </Typography>
+
+            <Typography variant={topicSummaryVariant} sx={topicSummaryStyle}>
+                The Location Manager
+            </Typography>
+            <Typography variant={topicDetailsVariant} sx={topicDetailsStyle}>
+                Breeze Inventory Management System support per-locaiton-inventory management, referred to as "PutAway". The location manager allows a user to add or remove named locations
+                to or from the system. To add a location, simply click the "+ New Location" button and input a location name. Location IDs are automatically assigned to each new location.
+            </Typography>
+
+            <Typography variant={topicSummaryVariant} sx={topicSummaryStyle}>
+                The PutAway Manager
+            </Typography>
+            <Typography variant={topicDetailsVariant} sx={topicDetailsStyle}>
+                To manage an inventory entry in a specific location, locate the desired item by its name or be the location in which it resides by selecting "Find my item" or "Find by Location".
+                If finding by item, in the resulting menu, the per-location quantity for a product can be adjusted for all locations where the product has been stored.
+                If finding by location, in the resulting menu, the per-location quantity for a product can be adjusted for items in the selected location.
             </Typography>
 
             <Typography variant={topicSummaryVariant} sx={topicSummaryStyle}>

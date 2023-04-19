@@ -92,7 +92,7 @@ const ImportCSVComponent = () => {
                         '&:hover': {
                             backgroundColor: colors.addAccent[500],
                         },
-                    }} color="success" onclick="handleSubmit(file)">
+                    }} color="success" onclick={handleSubmit}>
                         Upload
                     </Button>
                 </FormControl>

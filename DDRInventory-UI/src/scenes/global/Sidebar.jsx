@@ -146,7 +146,7 @@ const Sidebar = ({selected, setSelected}) => {
                                         alt="profile-user"
                                         width="100px"
                                         height="100px"
-                                        src={lightLogo}
+                                        src={darkLogo}
                                         style={{ cursor: "pointer", borderRadius: "50%" }}
                                     />
                                 ) : (
@@ -154,7 +154,7 @@ const Sidebar = ({selected, setSelected}) => {
                                         alt="profile-user"
                                         width="100px"
                                         height="100px"
-                                        src={darkLogo}
+                                        src={lightLogo}
                                         style={{ cursor: "pointer", borderRadius: "50%" }}
                                     />
                                 )}

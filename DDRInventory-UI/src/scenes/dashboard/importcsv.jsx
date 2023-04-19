@@ -48,8 +48,18 @@ const ImportCSVComponent = () => {
 
     if (isFinished) {
 
+        //return (
+        //    <div className="ImportCSVComponent">
+        //        <form onSubmit={handleSubmit}>
+        //            <h1>CSV File Upload</h1>
+        //            <input type="file" accept=".csv" onChange={handleChange} />
+        //            <button type="submit" onclick="handleSubmit(file)">Upload</button>
+        //        </form>
+        //    </div>
+        //);
+
         return (
-            <Box
+            <Box 
                 sx={{
                     margin: '20px',
                 }}
@@ -57,45 +67,48 @@ const ImportCSVComponent = () => {
                 <Typography variant="h1" sx={{ marginBottom: '20px' }}>
                     Upload CSV
                 </Typography>
-                <FormControl onSubmit={handleSubmit}>
-                    <Button
-                        variant="contained"
-                        component="label"
-                        startIcon={fileSelected ?
-                            <InsertDriveFileIcon />
-                            : < CloudUploadIcon />
-                        }
-                        sx={{
+                <form onSubmit={handleSubmit}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Button
+                            variant="contained"
+                            component="label"
+                            startIcon={fileSelected ?
+                                <InsertDriveFileIcon />
+                                : < CloudUploadIcon />
+                            }
+                            sx={{
+                                width: '300px',
+                                height: '200px',
+                                color: colors.gray[100],
+                                fontSize: '20px',
+                                backgroundColor: colors.primary[200],
+                                '&:hover': {
+                                    backgroundColor: colors.primary[300],
+                                },
+                            }}
+                        >
+                            {fileSelected ? file.name : 'Choose file'}
+                            <input
+                                id="file-input"
+                                type="file"
+                                accept=".csv"
+                                onChange={handleChange}
+                                style={{ display: 'none' }}
+                            />
+                        </Button>
+                        <Button type="submit" sx={{
+                            marginTop: '10px',
                             width: '300px',
-                            height: '200px',
                             color: colors.gray[100],
-                            fontSize: '20px',
-                            backgroundColor: colors.primary[200],
+                            backgroundColor: colors.addAccent[300],
                             '&:hover': {
-                                backgroundColor: colors.primary[300],
+                                backgroundColor: colors.addAccent[500],
                             },
-                        }}
-                    >
-                        {fileSelected ? file.name : 'Choose file'}
-                        <input
-                            id="file-input"
-                            type="file"
-                            accept=".csv"
-                            onChange={handleChange}
-                            style={{ display: 'none' }}
-                        />
-                    </Button>
-                    <Button type="submit" sx={{
-                        marginTop: '10px',
-                        color: colors.gray[100],
-                        backgroundColor: colors.addAccent[300],
-                        '&:hover': {
-                            backgroundColor: colors.addAccent[500],
-                        },
-                    }} color="success" onclick={handleSubmit}>
-                        Upload
-                    </Button>
-                </FormControl>
+                        }} color="success">
+                            Upload
+                        </Button>
+                    </Box>
+                </form>
             </Box>
         );
 

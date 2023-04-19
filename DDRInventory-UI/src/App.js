@@ -20,11 +20,14 @@ import {
 
 const queryClient = new QueryClient();
 
-/* FOR CONNECTING TO BACK-END SERVER, SHOULD BE CHANGED PER DEVICE (FOR DEPLOYMENT) */
+/* FOR CONNECTING TO LOCAL DEVELOPMENT SERVER */
 /*const target_IPv4 = "localhost"
 const target_port = ":7105"*/
-const target_IPv4 = "18.216.165.46"
+
+/* FOR CONNECTING TO EC2 SERVER */
+const target_IPv4 = "api.breezeims.com"
 const target_port = ":443"
+
 export const target_URL = "https://" + target_IPv4 + target_port
 
 function App() {

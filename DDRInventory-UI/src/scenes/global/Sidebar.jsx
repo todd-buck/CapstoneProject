@@ -82,13 +82,18 @@ const Item = ({ title, to, icon, selected, setSelected, isCollapsed, setIsCollap
 };
 
 
-const Sidebar = ({selected, setSelected}) => {
+const Sidebar = ({ selected, setSelected }) => {
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode, theme.palette.scheme);
     const [isCollapsed, setIsCollapsed] = useState(true);
 
+    const handleInactive = () => {
+        setIsCollapsed(true);
+    };
+
     return (
-        <Box
+        <Box onBlur={handleInactive}
             sx={{
                 "& .pro-sidebar-inner": {
                     background: `${colors.primary[300]} !important`,

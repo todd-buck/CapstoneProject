@@ -66,17 +66,10 @@ const PieChart = () => {
                 radius: '60%',
                 data: data,
                 label: {
-                    borderWidth: 3,
                     color: colors.gray[100],
                     formatter: '{b}: {c} ({d}%)',
                 },
 
-                itemStyle: {
-                    normal: {
-                        borderColor: '#000000',
-                        borderWidth : 1,
-                        }
-                    }
             },
         ],
     };

@@ -4,8 +4,13 @@ import { target_URL } from "../../App.js";
 import {
     useQuery
 } from '@tanstack/react-query';
+import { tokens } from "../../theme";
+import useTheme from "@mui/material/styles/useTheme";
 
 const PieChart = () => {
+
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode, theme.palette.scheme);
 
     const { data, isFetchError, isFetching, refetch } = useQuery({
         queryKey: [
@@ -37,6 +42,9 @@ const PieChart = () => {
         title: {
             text: 'Meat Items On Hand',
             left: 'center',
+            textStyle: {
+                color: colors.gray[100],
+            }
         },
         tooltip: {
             trigger: 'item',
@@ -44,6 +52,9 @@ const PieChart = () => {
         legend: {
             orient: 'vertical',
             left: 'left',
+            textStyle: {
+                color: colors.gray[100],
+            }
         },
         series: [
             {
@@ -51,14 +62,8 @@ const PieChart = () => {
                 type: 'pie',
                 radius: '50%',
                 data: data,
-                emphasis: {
-                    itemStyle: {
-                        shadowBlur: 0,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)',
-                    },
-                },
                 label: {
+                    color: colors.gray[100],
                     formatter: '{b}: {c} ({d}%)',
                 },
             },

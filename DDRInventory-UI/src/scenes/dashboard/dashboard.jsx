@@ -48,6 +48,7 @@ const PieChart = () => {
         },
         tooltip: {
             trigger: 'item',
+            borderWidth: 3,
         },
         legend: {
             orient: 'vertical',
@@ -56,16 +57,26 @@ const PieChart = () => {
                 color: colors.gray[100],
             }
         },
+      
+        borderWidth: 3,
         series: [
             {
                 name: 'Quantity on Hand',
                 type: 'pie',
-                radius: '50%',
+                radius: '60%',
                 data: data,
                 label: {
+                    borderWidth: 3,
                     color: colors.gray[100],
                     formatter: '{b}: {c} ({d}%)',
                 },
+
+                itemStyle: {
+                    normal: {
+                        borderColor: '#000000',
+                        borderWidth : 1,
+                        }
+                    }
             },
         ],
     };

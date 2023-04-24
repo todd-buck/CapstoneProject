@@ -35,10 +35,8 @@ const bgstyle = {
     p: 0,
 };
 
-export default function TransitionsModal() {
-    const [open, setOpen] = React.useState(true);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+export default function TransitionsModal(open, setOpen, handleOpen, handleClose) {
+
 
     return (
         <div>

@@ -7,12 +7,11 @@ import {
 import { tokens } from "../../theme";
 import useTheme from "@mui/material/styles/useTheme";
 import { Typography, Box } from '@mui/material';
-import TransitionsModal from './global/welcomepage.jsx';
+import TransitionsModal from '../global/welcomepage.jsx';
 
 const PieChart = () => {
     const [open, setOpen] = React.useState(true);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode, theme.palette.scheme);
@@ -78,7 +77,7 @@ const PieChart = () => {
 
     return (
         <Box>
-            {open ? <TransitionsModal open={open} setOpen={setopen} handleOpen={handleOpen} handleClose={handleClose} /> : null}
+            {open ? <TransitionsModal open={open} setOpen={setOpen} /> : null}
             <Typography variant="h1" sx={{ textAlign: "center", marginTop: "20px"} }>
                 On Hand: Meat Items
             </Typography>

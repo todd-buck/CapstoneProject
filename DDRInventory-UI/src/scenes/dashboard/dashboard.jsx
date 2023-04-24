@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-query';
 import { tokens } from "../../theme";
 import useTheme from "@mui/material/styles/useTheme";
+import {Typography, Box} from '@mui/material';
 
 const PieChart = () => {
 
@@ -37,30 +38,28 @@ const PieChart = () => {
         }
     });
 
-
     const options = {
-        title: {
-            text: 'Meat Items On Hand',
-            left: 'center',
-            textStyle: {
-                color: colors.gray[100],
-            }
-        },
         tooltip: {
             trigger: 'item',
             borderWidth: 3,
-        },
-        legend: {
-            orient: 'vertical',
-            left: 'left',
+            backgroundColor: colors.primary[300],
             textStyle: {
                 color: colors.gray[100],
-            }
+            },
         },
-      
-        borderWidth: 3,
+        legend: {
+            orient: 'horizontal',
+            top: '75%',
+            textStyle: {
+                color: colors.gray[100],
+            },
+            backgroundColor: colors.primary[200],
+            padding: [10, 10, 10, 10],
+        },
         series: [
             {
+                bottom: '10%',
+                center: ['50%', '40%'],
                 name: 'Quantity on Hand',
                 type: 'pie',
                 radius: '60%',
@@ -69,12 +68,18 @@ const PieChart = () => {
                     color: colors.gray[100],
                     formatter: '{b}: {c} ({d}%)',
                 },
-
             },
         ],
     };
 
-    return <ReactEcharts option={options} />;
+    return (
+        <Box>
+            <Typography variant="h1" sx={{ textAlign: "center", marginTop: "20px"} }>
+                On Hand: Meat Items
+            </Typography>
+            <ReactEcharts option={options} style={{ maxWidth: '1000px', height: '400px', margin: "0 auto" }} />;
+        </Box>    
+    );
 };
 
 export default PieChart;

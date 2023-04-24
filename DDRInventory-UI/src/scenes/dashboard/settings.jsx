@@ -21,7 +21,7 @@ const SettingsComponent = ({ scheme, setScheme }) => {
                 </Typography>
                 <Select value={scheme} onChange={handleChange}>
                     <MenuItem value="default">Default</MenuItem>
-                    <MenuItem value="contrast">Contrast</MenuItem>
+                    {/*<MenuItem value="contrast">Contrast</MenuItem>*/}
                     <MenuItem value="desert">Desert</MenuItem>
                     <MenuItem value="flamingo">Flamingo</MenuItem>
                     <MenuItem value="sea">Sea</MenuItem>

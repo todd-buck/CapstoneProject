@@ -32,7 +32,7 @@ const FAQsComponent = () => {
                 </AccordionSummary>
                 <AccordionDetails sx={answerStyle}>
                     <Typography variant={answerVariant}>
-                        Click the icon in the top right corner, appearing as either a sun or a moon, to toggle between light mode and dark mode. 
+                        Click the icon in the top right corner, a slider appearing as either a sun or a moon, to toggle between light mode and dark mode. 
                     </Typography>
                 </AccordionDetails>
             </Accordion>
@@ -44,22 +44,11 @@ const FAQsComponent = () => {
                 </AccordionSummary>
                 <AccordionDetails sx={answerStyle}>
                     <Typography variant={answerVariant}>
-                        Navigate to the "Add New Product" tab. Enter your item's name, quantity, and price per unit. Click "Add" to update the inventory with the new item.
+                       Access the product catalog, press the "+NEW PRODUCT" button in the top left, enter your item's name, quantity, and price per unit. Click "Add" to update the inventory with the new item.
                     </Typography>
                 </AccordionDetails>
             </Accordion>
-            <Accordion>
-                <AccordionSummary sx={questionStyle} expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
-                    <Typography variant={questionVariant}>
-                        I want to change my name in "My Profile". How would I do that?
-                    </Typography>
-                </AccordionSummary>
-                <AccordionDetails sx={answerStyle}>
-                    <Typography variant={answerVariant}>
-                        To edit your profile, you must first be signed in to your account. Next, click the "Edit" button located below the user's profile area.
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
+            
             {/*<Accordion>*/}
             {/*    <AccordionSummary sx={questionStyle} expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">*/}
             {/*        <Typography variant={questionVariant}>*/}

@@ -7,18 +7,32 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 import Link from '@mui/material/Link';
-import logo from '../../assets/BreezeLogo.png';
+import logo from '../../assets/LightLogo.png';
+import background from '../../assets/DarkBackground.png';
 
 const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
+    transform: 'translate(-60%, -50%)',
+    width: 600,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 0,
+    p: 2,
+};
+
+const bgstyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 500,
+    width: 800,
+    height: 500,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 2,
+    p: 0,
 };
 
 export default function TransitionsModal() {
@@ -35,6 +49,32 @@ export default function TransitionsModal() {
                 onClose={handleClose}
                 closeAfterTransition
                 slots={{ backdrop: Backdrop }}
+                slotProps={{
+                    backdrop: {
+                        timeout: 500,
+                    },
+                }}
+            >
+                <Fade in={open}>
+                    <Box align="center" sx={bgstyle}>
+                        <img
+                            alt="dark-background"
+                            width="100%"
+                            height="100%"
+                            src={background}
+                        />
+                        
+                    </Box>
+                </Fade>
+            </Modal>
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                slots={{ backdrop: Backdrop }}
+                hideBackdrop="true"
                 slotProps={{
                     backdrop: {
                         timeout: 500,
@@ -65,7 +105,7 @@ export default function TransitionsModal() {
                         >
                             Welcome to Breeze!
                         </Box>
-                        <Typography id="transition-modal-description" fontSize="1.0rem" sx={{ mt: 2 }}>
+                        <Typography id="transition-modal-description" fontSize="1.2rem" sx={{ mt: 1 }}>
                             Please feel free to interact with our product, view our <Link href="https://capstoneproject.app/" target="_blank">product portfolio</Link>, and check out our source code <Link href="https://github.com/todd-buck/CapstoneProject" target="_blank">GitHub</Link>.
                         </Typography>
                         <Box align="right" >
@@ -74,6 +114,7 @@ export default function TransitionsModal() {
                     </Box>
                 </Fade>
             </Modal>
+            
         </div>
     );
 }

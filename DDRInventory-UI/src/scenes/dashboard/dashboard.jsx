@@ -81,7 +81,7 @@ const PieChart = () => {
             <Typography variant="h1" sx={{ textAlign: "center", marginTop: "20px"} }>
                 On Hand: Meat Items
             </Typography>
-            <ReactEcharts option={options} style={{ maxWidth: '1000px', height: '400px', margin: "0 auto" }} />;
+            <ReactEcharts option={options} style={{ maxWidth: '1000px', height: '400px', margin: "0 auto" }} />
         </Box>    
     );
 };

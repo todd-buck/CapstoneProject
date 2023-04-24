@@ -77,7 +77,7 @@ const DocumentationComponent = () => {
                 The Dashboard
             </Typography>
             <Typography variant={topicDetailsVariant} sx={topicDetailsStyle}>
-                Under construction
+                The dashboard is interactive. If you hover over a pie chart element it will display a tooltip with the element's description. If you click on a pie chart legend item, it will hide and unhide that item from the pie chart. The percentages of each respective item will adjust based on what is currently displayed.
             </Typography>
 
             <Typography variant={topicSummaryVariant} sx={topicSummaryStyle}>

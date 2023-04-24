@@ -1,9 +1,11 @@
 import UnderConstructionComponent from '../global/underConstruction.jsx'
+import WelcomePageComponent from '../global/welcomepage.jsx'
 
 const DashboardComponent = () => {
 
     return (
-        <UnderConstructionComponent />
+        <WelcomePageComponent />
+        //<UnderConstructionComponent />
     );
 } 
 

@@ -14,7 +14,7 @@ const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: 'translate(-60%, -50%)',
+    transform: 'translate(-50%, -50%)',
     width: 600,
     bgcolor: 'background.paper',
     border: '2px solid #000',
@@ -106,7 +106,7 @@ export default function TransitionsModal() {
                             Welcome to Breeze!
                         </Box>
                         <Typography id="transition-modal-description" fontSize="1.2rem" sx={{ mt: 1 }}>
-                            Please feel free to interact with our product, view our <Link href="https://capstoneproject.app/" target="_blank">product portfolio</Link>, and check out our source code <Link href="https://github.com/todd-buck/CapstoneProject" target="_blank">GitHub</Link>.
+                            Please feel free to interact with our product, view our <Link href="https://capstoneproject.app/" target="_blank">product portfolio</Link>, and check out our source code on <Link href="https://github.com/todd-buck/CapstoneProject" target="_blank">GitHub</Link>.
                         </Typography>
                         <Box align="right" >
                             <Button onClick={handleClose}>Ready to Go!</Button>
